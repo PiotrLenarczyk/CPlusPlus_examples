@@ -14,7 +14,8 @@ int main()
     vector < float > vecTmp( vecCols, 0.0f ); //access row-major order vector instead of single value of vector1D1D
     for ( int y = 0; y < vecRows; y++ )
     {
-        copy( vecVec[ y ].begin(), vecVec[ y ].end(), vecTmp.begin() ); //trivially paralelizable vecRows-times if vecCols.size() > 8000 ( at Intel i7 2660K; i7-5500U -> CUDA 3.5 )
+        //quite simple to parallel vecRows-times; if vecCols > ~8000 ( at Intel i7 2660K; i7-5500U && >= CUDA 3.5 )
+        copy( vecVec[ y ].begin(), vecVec[ y ].end(), vecTmp.begin() ); 
         for ( int x = 0; x < vecCols; x++ )
             cout << "vecVec[" << y << "][" << x << "]: " << vecTmp[ x ] << endl;
     }
