@@ -5,6 +5,13 @@
 #include <string>
 #include <vector>
 #include <fstream>
+//                    //system getrandom():
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <syscall.h>
+#include <errno.h>
+#include <linux/random.h>
 
 using namespace std;
 

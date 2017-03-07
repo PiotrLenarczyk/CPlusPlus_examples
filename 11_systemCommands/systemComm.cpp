@@ -29,7 +29,12 @@ int main()
     }
     else cout << "Unable to open file"; 
     cout << commRead[1] << endl;
-
+    
+    //system ( default datatype: int ) random
+    int resGetRand( -1 );
+    int sysRand[ 10 ] = { 0 };
+    resGetRand = syscall(SYS_getrandom, sysRand, 10, GRND_NONBLOCK);   
+    cout << resGetRand << ": " << sysRand << endl;
     return 0;
 }
 
