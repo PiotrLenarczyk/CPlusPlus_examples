@@ -13,7 +13,7 @@ int main( void )
     unordered_map< float, vector < float > > mapRowBeg; //key-unordered map ( unordered maps are more effective for intact key-major accesses )
     vector < float > tmpData;
     float someRowBeg( 0 );
-    for ( float i = 0; i < 10; i++ )
+    for ( float i = 0; i < 9.5; i++ )
     {
         someRowBeg = ( int( i*i*i*i ) % 70 );        
 //                                           ind  someRowBeginnings
