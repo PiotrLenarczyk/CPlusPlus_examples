@@ -30,17 +30,17 @@ float lookup_sine( float &x )
     return -sine_table[ 90 - y ];
 }
 
-float lookup_cosine( float &x )
-{
-    xCos = x + 90;
-    return lookup_sine( xCos );
-}
-
-float lookup_tan( float &x )
-{
-    return lookup_sine( x ) / lookup_cosine( x );
-}
-
+ float lookup_cosine( float &x )
+ {
+     xCos = x + 90;
+     return lookup_sine( xCos );
+ }
+ 
+ float lookup_tan( float &x )
+ {
+     return lookup_sine( x ) / lookup_cosine( x );
+ }
+ 
 int main()
 {
     init_sine();
@@ -63,7 +63,7 @@ int main()
     for ( int i = 0; i < sin_ref.size(); i++ )
         accDiff += sin_ref[ i ] - sin_resLUT[ i ];
     cout << "accumulated difference for [" << N << "] length sin lookup table: " << accDiff << endl;
-    cout << "mean accuracy for [" << N << "] length sin lookup table: " << 100 * accDiff / 360 << "[%]" << endl;
+    cout << "mean accuracy for [" << N << "] length sin lookup table: " << accDiff / 360 << "[angle]" << endl;
     cout << "=======================\n" << "lookup_sine tune up\n" <<  "=======================\n";
     float tuningConst = accDiff / 360;
     for ( float fi = 0; fi < 360; fi++ )
@@ -75,7 +75,7 @@ int main()
     for ( int i = 0; i < sin_ref.size(); i++ )
         accDiff += sin_ref[ i ] - sin_resLUT[ i ];
     cout << "accumulated difference for [" << N << "] length sin lookup table: " << accDiff << endl;
-    cout << "mean accuracy for [" << N << "] length sin lookup table: " << 100 * accDiff / 360 << "[%]" << endl;
+    cout << "mean accuracy for [" << N << "] length sin lookup table: " << accDiff / 360 << "[angle]" << endl;
     cout << "\nAlso trivial precomputation to global array LUT gives quite good results!\n" << endl;
     
     return 0;
