@@ -21,6 +21,17 @@ int main()
              << rgbColours[ x ][ 0 ] << ", " 
              << rgbColours[ x ][ 1 ] << ", " 
              << rgbColours[ x ][ 2 ] << " ]" << endl;    
-    
+ 
+    int ROW = 2;
+    int COL = 3;
+    float **ptrVal = new float* [ ROW ]; //matrix rowsY
+    for ( int i = 0; i < COL; i++ )
+            ptrVal[ i ] = new float[ COL ];
+    ptrVal[ 0 ][ 1 ] = 11.1f;
+    cout << ptrVal[0][1] << endl;
+    for ( int i = 0; i < COL; i++ )
+            delete[] ptrVal[ i ];
+    delete[] ptrVal;
+             
     return 0;
 }
