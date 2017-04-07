@@ -14,3 +14,6 @@ int main( int argc, char* argv[] )
     
     return 0;
 }
+
+//P.S. note quite useful YMM 256 bits registers used statically.
+
