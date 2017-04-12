@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <future>
 #include <time.h>
+#include <numeric> 
 
 using namespace std;
 
