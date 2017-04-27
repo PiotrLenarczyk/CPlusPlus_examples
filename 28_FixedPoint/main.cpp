@@ -48,6 +48,8 @@ int main( void )
 
     cout << "fxp.epsilon: " << fixedToDouble( 1 ) << endl;
     cout << "fxp.incEpsilon: " << fixedToDouble( f1++ ) << endl;
+    fxp inc = doubleToFixed( 1.0 );
+    cout << "proper incerementation: " << fixedToDouble( f1 ) << " + 1 = " << fixedToDouble( f1 + inc ) << endl;
 
     cout << "fxp.fractional( " << fixedToDouble( f1 ) << " ): " << fixedToDouble( fractionPart( f1 ) ) << endl;
     cout << "fxp.intPart( " << fixedToDouble( f1 ) << " ): " << fixedToDouble( intPart( f1 ) ) << endl;
