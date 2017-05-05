@@ -26,11 +26,11 @@ int main( void )
         cout << "l: " << *i << endl;
     
     vector < float > tmpVec( 10, 1.11f );
-    list< vector< float > > lVec( 10, tmpVec );
+    list< vector< float > > lVec( 10, tmpVec ); tmpVec.erase(tmpVec.begin(), tmpVec.end());
     list< vector< float > >::iterator lVecPtr = lVec.begin();
     cout << "l[0][1]: " << (*lVecPtr)[ 1 ] << endl;
     cout << "l[0][1]: " << (*lVecPtr).at( 1 ) << endl;
+    
 
     return 0;
 }
-//P.S. theretically list< vector< float > > should be more efficient than vector < vector < float > > vecD, in my personal opinion, but I am not sure.
