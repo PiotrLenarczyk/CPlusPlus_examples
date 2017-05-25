@@ -1,0 +1,18 @@
+https://superuser.com/questions/739670/how-to-run-a-bash-script-in-a-daily-basis-on-my-remote-server
+
+You want to use the cron service for this. A quick guide:
+
+    Log in to the server
+    Switch to the user as which you want to run the program/script as
+    Run the command crontab -e
+    You now get an editor. At the end of the line, add:
+
+0 3 * * * /path/to/program_or_script.sh >/dev/null 2>&1
+
+    Save the file
+
+This will run the command every day at 03:00. You can adjust the times accordingly. The >/dev/null 2>&1 will discard any output from the command.
+
+You could replace the /path/to/program_or_script.sh by a one-liner, or you could put your 'code' in a small shell script (start the file with #!/bin/bash and add the 'code' on a new line).
+
+Keep in mind that most cron environments don't have a full shell environment, so you would have to set environment variables or even PATH settings manually (PATH=/usr/bin:/bin etc.)
