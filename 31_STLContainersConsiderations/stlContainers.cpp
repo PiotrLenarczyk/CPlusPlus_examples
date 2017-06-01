@@ -1,6 +1,7 @@
 //STL
 #include <iostream>
 #include <time.h>
+#include <array>
 #include <vector>
 #include <list>
 #include <map>
@@ -9,10 +10,11 @@
 #include <unordered_set>
 #include <algorithm>
 using namespace std;
-unsigned i, no( 8000 );
-float val = 17.31f;
+const unsigned no( 11000 );
+unsigned i;
+const float val = 17.31f;
 clock_t t;
-vector < float > vecPopulate( no, val );
+const vector < float > vecPopulate( no, val );
 /*
  17.31f FLOAT datatype containers comparision:
     -vector
@@ -31,12 +33,32 @@ vector < float > vecPopulate( no, val );
  4) set vs dynamic vector & sort(); populated with rand()
  */ 
 
-
+struct Arr //assummed that struct size is const.
+{
+	float arr [ no ] = {};
+	unsigned size;    //downsizing only!; please note the advantage of vector on array with std::vector::size() function
+    void fillFor( float valInit ){ for ( size_t i = 0; i < size; i++ ) arr[ i ] = valInit; } //the same cost as vector; std::vector::fill()
+    void fillAuto( float valInit ){ for ( auto& i : arr ) i = valInit; } 
+};
 
 
 int main( void )
 {
     cout << endl << endl << "1) static and dynamic containers comparision" << endl;
+    t = clock();
+	Arr A1; A1.fillFor( val );
+    cout << "static struct array for() init. CPU clocks: " << clock() - t << endl;
+    t = clock();
+	Arr A2; A2.fillAuto( val );
+    cout << "static struct array for(auto) init. CPU clocks: " << clock() - t << endl;
+	t = clock();
+    float a [ no ] = {};
+    for ( i = 0; i < no; i++ ) a [ i ] = val;
+    cout << "static C array for init. CPU clocks: " << clock() - t << endl;
+    t = clock();
+    array < float, no > arrStat;
+    arrStat.fill( val );
+    cout << "static array Container CPU clocks: " << clock() - t << endl;
     t = clock();
     vector < float > vecStat( no, val );
     cout << "static vector CPU clocks: " << clock() - t << endl;
