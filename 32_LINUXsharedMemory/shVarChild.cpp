@@ -1,4 +1,3 @@
-/* /usr/local/cuda-8.0/bin/nvcc -arch=sm_35 shVarChild.cpp -o aChild.out && ./aChild.out */
 //STL
 #include <iostream>
 #include <stdio.h>
@@ -13,7 +12,7 @@ struct MySharedData
     float value[ 30 ];
 };
 
-int getSHM( key_t key )
+unsigned getSHM( key_t key )
 {
     cout << endl << endl << "============================" << endl;
     int shmid = shmget( key, sizeof( struct MySharedData ), 0666 );
@@ -39,6 +38,13 @@ int getSHM( key_t key )
         cerr << "shmdt ERROR!";
         return -1;
     }
+    /* destroy shared memory (important!!!) */
+    if ( shmctl( shmid, IPC_RMID, NULL ) < 0 )
+    {
+        perror( "shmctl ERROR!" );
+        return -1;
+    }
+    
     return 0;
 }
 
