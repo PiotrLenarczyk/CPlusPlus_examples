@@ -33,7 +33,7 @@ const vector < float > vecPopulate( no, val );
  4) set vs dynamic vector & sort(); populated with rand()
  */ 
 
-struct Arr //assummed that struct size is const.
+struct ArrStat //assummed that struct size is const. and approximately equal to variable size
 {
 	float arr [ no ] = {};
 	unsigned size;    //downsizing only!; please note the advantage of vector on array with std::vector::size() function
@@ -41,24 +41,48 @@ struct Arr //assummed that struct size is const.
     void fillAuto( float valInit ){ for ( auto& i : arr ) i = valInit; } 
 };
 
+struct Arr //only float array
+{
+	unsigned size; float *at;	//access via Arr.arrPtr[ 3 ] = val;
+	Arr( unsigned sizeIn ) //preffered; or initArr
+	{
+		size = sizeIn; float arr[ sizeIn ]; at = arr;
+	}
+	void initArr( unsigned sizeIn, float valInit )  //or makeArr
+	{
+		size = sizeIn; float arr [ sizeIn ]; at = arr; for ( size_t i = 0; i < sizeIn; i++ ) arr[ i ] = valInit;
+	}
+};
+
+vector < float > vecGlobStat( no, val ); 
+array < float, no > arrGlobStat;
 
 int main( void )
 {
-    cout << endl << endl << "1) static and dynamic containers comparision" << endl;
+	cout << endl << endl << "1) static and dynamic containers comparision" << endl;
     t = clock();
-	Arr A1; A1.fillFor( val );
-    cout << "static struct array for() init. CPU clocks: " << clock() - t << endl;
+	Arr A( no ); //one hop less than std::vector - better fit for shared memory transfers
+	cout << "SIZED STRUCT ARRAY NON INIT CPU clocks: " << clock() - t << endl;
     t = clock();
-	Arr A2; A2.fillAuto( val );
+	ArrStat A1; A1.fillFor( val );
+    cout << "static oversized! struct array for() initialized CPU clocks: " << clock() - t << endl;
+    t = clock();
+	ArrStat A2; A2.fillAuto( val );
     cout << "static struct array for(auto) init. CPU clocks: " << clock() - t << endl;
 	t = clock();
     float a [ no ] = {};
     for ( i = 0; i < no; i++ ) a [ i ] = val;
     cout << "static C array for init. CPU clocks: " << clock() - t << endl;
     t = clock();
+	//not initialized
+    cout << "GLOBAL static array Container CPU clocks: " << clock() - t << endl;
+	t = clock();
     array < float, no > arrStat;
     arrStat.fill( val );
     cout << "static array Container CPU clocks: " << clock() - t << endl;
+    t = clock();
+    //added as global variable - greater prob. for cache hit
+    cout << "GLOBAL static vector CPU clocks: " << clock() - t << endl;
     t = clock();
     vector < float > vecStat( no, val );
     cout << "static vector CPU clocks: " << clock() - t << endl;
