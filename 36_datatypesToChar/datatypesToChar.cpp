@@ -16,12 +16,12 @@ struct Floats
     void loadFloatsToCharArrays( void )
     {  
         for ( unsigned i = 0; i < no; i++ )
-            memcpy( chFloat[ i ], ( unsigned char* )( &f[ i ] ), no );
+            memcpy( chFloat[ i ], ( unsigned char* )( &f[ i ] ), sizeof( float ) );
     }
     void loadCharArraysToFloats()
     {
         for ( unsigned i = 0; i < no; i++ )
-            memcpy( ( unsigned char* )( &f[ i ] ), chFloat[ i ], no );
+            memcpy( ( unsigned char* )( &f[ i ] ), chFloat[ i ], sizeof( float ) );
     }
 };
 
