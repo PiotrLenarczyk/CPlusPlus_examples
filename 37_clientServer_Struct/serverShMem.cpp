@@ -11,7 +11,7 @@ using namespace std;
 
 unsigned i = 0;
 
-void receiveFloat( int &sock, unsigned &no );
+void receiveFloats( int &sock, unsigned &no );
 void receiveStruct( int &sock );
 void error( const char *msg )
 {
@@ -21,20 +21,6 @@ void error( const char *msg )
 
 int main( int argc, char *argv[] )
 {    
-//======== RESERVE SHARED MEMORY
-	/* obtain shared memory container */
-    int shmid = shmget( key, sizeof( Arrays ), IPC_CREAT | 0666 ); if ( shmid < 0 ) 
-		{ cerr << "shmget ERROR!\n"; return -1; }
-    /* attach/map shared memory to our data type */
-    struct Arrays* someData = ( struct Arrays* )  shmat( shmid, NULL, 0 );
-    someData->shmid = shmid;
-	someData->isBeingWritten = 0;
-    for ( i = 0; i < array1Size; i++ )
-        someData->array1[ i ] = i + 0.1f;
-    for ( i = 0; i < array2Size; i++ )
-        someData->array2[ i ] = i + 0.23f;
-    //there must be a client program!
-    
 //======= INITALIZE MULTIPLE CLIENTS SERVER
     int sockfd, newsockfd, portno, pid;
     socklen_t clilen;
@@ -69,7 +55,7 @@ int main( int argc, char *argv[] )
         if ( pid == 0 )  
         {
             close( sockfd );
-//             unsigned noFloats = 4; receiveFloat( newsockfd, noFloats );
+//             unsigned noFloats = 4; receiveFloats( newsockfd, noFloats );
             receiveStruct( newsockfd );
             exit( 0 );
         }
@@ -95,7 +81,7 @@ void receiveStruct( int &sock )
     
     memcpy( &ArrIn, buffStruct, sizeof( ArrIn ) );
     cout << "ArrIn.isBeingWritten: [" << unsigned( ArrIn.isBeingWritten ) << "]" << endl;
-    cout << "ArrIn.shmid: [" << ArrIn.shmid << "]" << endl;
+    cout << "client session ArrIn.shmid: [" << ArrIn.shmid << "]" << endl;
     for ( unsigned i = 0; i < array1Size; i++ )
         cout << "ArrIn.array1[ " << i << " ]: [" << ArrIn.array1[ i ] << "]" << endl;
     for ( unsigned i = 0; i < array2Size; i++ )
@@ -105,7 +91,7 @@ void receiveStruct( int &sock )
         error( "ERROR writing to socket" );
 }
 
-void receiveFloat( int &sock, unsigned &no )
+void receiveFloats( int &sock, unsigned &no )
 {
     int n;
     unsigned buffSize = ( no + 1 ) * sizeof( float );
@@ -129,5 +115,3 @@ void receiveFloat( int &sock, unsigned &no )
     n = write( sock, "I got your message", 18 );
     if ( n < 0 ) error( "ERROR writing to socket" );
 }
-
-

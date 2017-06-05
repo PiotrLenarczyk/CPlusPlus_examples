@@ -11,6 +11,33 @@
 
 using namespace std;
 
+struct Arrays* shMemClient()
+{
+//    ======== RESERVE SHARED MEMORY
+	/* obtain shared memory container */
+    int shmid = shmget( key, sizeof( Arrays ), IPC_CREAT | 0666 ); if ( shmid < 0 ) 
+		{ cerr << "shmget ERROR!\n"; return NULL; }
+    /* attach/map shared memory to our data type */
+    struct Arrays* someData = ( struct Arrays* )  shmat( shmid, NULL, 0 );
+    someData->shmid = shmid;    //current shared memory identification number obtained by key_t key
+	someData->isBeingWritten = 0;
+    for ( unsigned i = 0; i < array1Size; i++ )
+        someData->array1[ i ] = i + 0.1f;
+    for ( unsigned i = 0; i < array2Size; i++ )
+        someData->array2[ i ] = i + 0.23f;
+    return someData;
+}
+
+int destroyShMem( int shmid )  /* destroy used shared memory (important!!!) */
+{
+    if ( shmctl( shmid, IPC_RMID, NULL ) < 0 )
+    {
+        cerr << "shmctl ERROR!\n";
+        return -1;
+    }
+    return 0;
+}
+
 void sendStruct( struct Arrays &Arr, int &n, int &sockfd );
 void sendFloat( float *floatsOut, int &n, int &sockfd );
 
@@ -49,26 +76,35 @@ int main( int argc, char *argv[] )
     serv_addr.sin_port = htons( portno );
     if ( connect( sockfd, ( struct sockaddr * )  &serv_addr, sizeof( serv_addr ) ) < 0 )
         error( "ERROR connecting" );
-
+    
+//=============================================    
 //     float floatsOut[ 4 ];
 //     for ( unsigned i = 0; i < 4; i++ )
 //         floatsOut[ i ] = i + 0.111111f;
 //     sendFloat( floatsOut, n, sockfd );
-    
-    Arrays ArrOut;
-    for ( unsigned i = 0; i < array1Size; i ++ )
-    {
-        ArrOut.isBeingWritten = 0;
-        ArrOut.shmid = 15;
-        ArrOut.array1[ i ] = 0.1f + i;
-    }
-    for ( unsigned i = 0; i < array2Size; i ++ )
-    {
-        ArrOut.array2[ i ] = 0.2f + i;
-    }
-    sendStruct( ArrOut, n, sockfd );
-    
-    
+
+//=============================================    
+//     Arrays ArrOut;
+//     for ( unsigned i = 0; i < array1Size; i ++ )
+//     {
+//         ArrOut.isBeingWritten = 0;
+//         ArrOut.shmid = 15;
+//         ArrOut.array1[ i ] = 0.1f + i;
+//     }
+//     for ( unsigned i = 0; i < array2Size; i ++ )
+//     {
+//         ArrOut.array2[ i ] = 0.2f + i;
+//     }
+//     sendStruct( &ArrOut, n, sockfd );
+
+//=============================================    
+    struct Arrays* someData = shMemClient();
+    sendStruct( *someData, n, sockfd );
+    //  if all local client-operations where performed destroy shared memory
+    if ( destroyShMem( someData->shmid ) != 0 ) { cerr << "shared memory destroy problem!\n"; return -1; }
+//=============================================    
+//=============================================    
+
     char bufferOut[ 255 ];
     bzero( bufferOut, 255 );
     n = read( sockfd, bufferOut, 255 );
