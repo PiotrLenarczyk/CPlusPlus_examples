@@ -36,7 +36,7 @@ int main( void )
     {
         e.seed( clock() + time( NULL ) );
         e.seed( pseudoSeed( e ) + i  );
-        srand( pseudoSeed( e ) + implicate( pseudoSeed( e ), ( int )clock() ) );
+        srand( pseudoSeed( e ) * implicate( pseudoSeed( e ), ( int )clock() ) );
         rand_str( buff, 10 );
         cout << "[" << buff << "]" << endl;
     }
