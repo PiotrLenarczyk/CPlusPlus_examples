@@ -30,13 +30,13 @@ int main( void )
 {
     uniform_int_distribution<> pseudoSeed { -2147483646, 2147483646 };
     default_random_engine e;
-    e.seed( clock() + time( NULL ) );    
-    srand( pseudoSeed( e ) );
+    
     char buff [ 10 ];
     for ( int i = 0; i < 3; i++ )
     {
-        e.seed( clock() );   
-        srand( ( pseudoSeed( e ) + i ) * implicate( i, ( int )clock() ) );
+        e.seed( clock() + time( NULL ) );
+        e.seed( pseudoSeed( e ) + i  );
+        srand( pseudoSeed( e ) + implicate( i, ( int )clock() ) );
         rand_str( buff, 10 );
         cout << "[" << buff << "]" << endl;
     }
