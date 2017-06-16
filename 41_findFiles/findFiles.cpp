@@ -13,8 +13,7 @@ int main( void )
     struct dirent *ent;
     if ( ( dir = opendir ( "/home" ) ) != NULL ) 
     {
-        /* print all the files and directories within directory */
-        while ( ( ent = readdir ( dir ) ) != NULL ) 
+        while ( ( ent = readdir ( dir ) ) != NULL ) /* print all the files and directories within directory */
         {
             printf ( "%s\n", ent->d_name );
         }
@@ -22,8 +21,7 @@ int main( void )
     } 
     else 
     {
-        /* could not open directory */
-        perror ( "" );
+        perror ( "" );/* could not open directory */
         return EXIT_FAILURE;
     }
     
