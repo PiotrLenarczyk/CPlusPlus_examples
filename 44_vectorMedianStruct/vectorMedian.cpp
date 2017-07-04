@@ -8,7 +8,7 @@ struct vecMedian
 {
     vector < float > vec;
     long long int vecMedian = 0;
-    int isVecInRange() //normalize vec; please not that it is trivially paralizable
+    int isVecInRange() //normalize vec; please note that it is trivially paralizable
     {
         for ( size_t i = 0; i < vec.size(); i++ )
             if ( vec[ i ] < -1.0f || vec[ i ] > 1.0f )  //[ -1.0f; +1.0f ] gives best float accuracy and it is slightly faster float range
