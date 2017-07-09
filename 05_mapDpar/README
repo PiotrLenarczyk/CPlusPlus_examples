@@ -1,0 +1,1 @@
+Program contains first attempt for automatic 3D data sorting and organising. As a result it is more efficient to initialize, populate with data and sort ordinary vector.
