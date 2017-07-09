@@ -1,0 +1,7 @@
+Program presents idea of dimensional vector containing of nested vectors of floats. First dimension vector consist of floats in continous memory region, as a result of nesting second dimension level contains pointers to first dimension vectors. It is trivially aplicable for example matrix representation. It is slightly slower than float arrays, but:
+1) it is a containers composite
+2) few useful vector functions ( size(), resize(), erase(), etc. )
+3) much more intuitive than standard vector < float >, woth almost the same efficiency
+4) has built-in [][] operator support
+5) use y, than x for nested loops ( x's are sequentional in memory - as a result these are "CPU cachable" ) 
+6) quite portable
