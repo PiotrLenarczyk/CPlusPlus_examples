@@ -1,0 +1,1 @@
+Program presents great idea from forgotten technology of Digital Signal Processors: Look Up Tables. These vectors holds preprocessed data from early computations. There is no faster approach for computations, especially in normalized manner ( floats within range [ -1.0f, +1.0f ] ).

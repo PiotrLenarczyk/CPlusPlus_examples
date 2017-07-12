@@ -15,7 +15,7 @@ int main()
     //1) static vector is ordered in memory ( values are sequential )
     //2) useful container functions
     //3) proportionate effectiveness
-    vector <double> vec( 500000000 );
+    vector < double > vec( 500000000 );
     for ( size_t i = 0; i < vec.size(); i++ ) vec[ i ] = i;
 //     fastLambdaSqrttVec( vec );
 //     fastLambdaMatFun2Vec( vec );

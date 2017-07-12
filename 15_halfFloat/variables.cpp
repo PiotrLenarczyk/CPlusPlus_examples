@@ -1,15 +1,19 @@
+/*
+https://stackoverflow.com/questions/1659440/32-bit-to-16-bit-floating-point-conversion
+*/
 #include "headers.h"
 
 int main()
 {
 
-    cout << "intiger datatypes: " << endl;
+    cout << "integer datatypes: " << endl;
     cout << "bool: " << sizeof( true ) << endl;
     cout << "char: " << sizeof( char ) << endl;
     cout << "uint8_t: " << sizeof( uint8_t ) << endl;    
     cout << "short int: [" << sizeof( short int ) << "]B   max: " << __SHRT_MAX__ << endl;
     cout << "int: [" << sizeof( int ) << "]B   max: " << __INT32_MAX__ << endl;
     cout << "long int: [" << sizeof( long int ) << "]B     max: " << __LONG_LONG_MAX__ << endl;
+    cout << "long long int: [" << sizeof( long long int ) << "]B     max: " << __LONG_LONG_MAX__ << endl;
     cout << "__int128: " << sizeof( __int128 ) << endl;
     cout << "floating points datatypes: " << endl;
 //     // GPU Half to float: ( only GP108 Pascal architekture!!! values [ -10, +10] )

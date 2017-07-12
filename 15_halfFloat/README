@@ -1,0 +1,1 @@
+Program presents pro-like storage of floats within range [ -1.0f, +1.0f ] in fp16 format.
