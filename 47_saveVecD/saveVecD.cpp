@@ -41,11 +41,19 @@ int main( void )
     unsigned char chFloat1D[ sizeof( float ) * D * N ];
     
     loadFloatsToCharArray();
-    cout << "chArr.size: " << sizeof( chFloat1D ) << endl;
+    cout << "chArr.size: " << sizeof( chFloat ) << endl;
     unsigned x, y, u;
     for ( y = 0; y < D; y++ )
         for ( x = 0; x < N; x++ )
             vecD[ y ][ x ] = 0.0f;
+    unsigned ind1D;
+    for ( y = 0; y < D; y++ )
+        for ( x = 0; x < N; x++ )
+            for ( u = 0; u < sizeof( float ); u++ )
+            {
+                ind1D = ( y * N ) + ( x * sizeof( float ) ) + u;
+                chFloat1D[ ind1D ] = chFloat[ y ][ x ][ u ];
+            }
 
     ofstream outFile;
     outFile.open( "tmp.txt", ofstream::out | ofstream::binary );
