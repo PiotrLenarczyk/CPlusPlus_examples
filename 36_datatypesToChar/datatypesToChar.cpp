@@ -50,6 +50,7 @@ int main( void )
     memcpy( charFloatsExport, ( unsigned char* )( &f ), sizeof( f ) );
     Floats fReconstructed;
     memcpy( &fReconstructed, charFloatsExport, sizeof( f ) );
+    fReconstructed.loadCharArraysToFloats();
     for ( i = 0; i < no; i++ )
         cout << "fReconstructed[" << i << "]" << fReconstructed.f[ i ] << endl;
 
