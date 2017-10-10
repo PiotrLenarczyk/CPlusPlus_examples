@@ -22,7 +22,7 @@ int main( void )
 	uint i = 0;
 	for( ; i < N; i++ )
 	{
-		vecf[ i ] = float( tan( float( i ) ) );
+		vecf[ i ] = i * i;
 	}
 	t2 = std::chrono::high_resolution_clock::now();
 	cout << "vector< float > timing: " << float( std::chrono::duration_cast< std::chrono::nanoseconds >( t2 - t1 ).count() ) / 1E6 << "[ms]" << endl;
@@ -51,7 +51,7 @@ void trigonometricF( vector < float > &vecFIn )
 	uint i = 0;
 	for( ; i < N; i++ )
 	{
-		vecFIn[ i ] = float( tan( float( i ) ) );
+		vecFIn[ i ] = i * i;
 	}
 }
 #pragma GCC pop_options
