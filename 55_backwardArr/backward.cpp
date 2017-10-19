@@ -7,7 +7,7 @@ using namespace std;
 typedef unsigned int uint;
 uint nSteps = 0;
 int i = 0; //for backward-computations there is no possibility to use slightly faster size_t datatype
-const uint N = 1E9 / 2;
+const uint N = 1E8 / 2;
 const uint half = N / 2;
 vector < float > vec( N, 1.0f );
 float arr [ N ];
