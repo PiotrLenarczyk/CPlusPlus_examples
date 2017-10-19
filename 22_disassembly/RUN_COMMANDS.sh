@@ -13,4 +13,4 @@ echo "Program Output:"
 echo "======================="
 ./a.out
 echo "======================="
-
+rm a.out Makefile
