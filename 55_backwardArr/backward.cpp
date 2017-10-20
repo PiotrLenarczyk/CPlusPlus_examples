@@ -11,6 +11,7 @@ const uint N = 1E8 / 2;
 const uint half = N / 2;
 vector < float > vec( N, 1.0f );
 float arr [ N ];
+float *arrPtr [ N ];
 void forwardArr( float *arrIn );
 void backwardArr( float *arrIn );
 
@@ -41,6 +42,20 @@ int main( void )
 	cout << "forward arr: "
               << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;
+              
+    for ( i = 0; i < N; i++ )
+    	arrPtr[ i ] = &arr[ i ];
+    nSteps = 0;
+   	t1 = chrono::high_resolution_clock::now();
+	for ( i = 0; i < N; i++ )
+	{
+		*arrPtr[ i ] = *arrPtr[ i ] * 0.8f;
+		nSteps++;
+	}
+	t2 = chrono::high_resolution_clock::now();
+	cout << "forward preloaded array of Pointers: "
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << " [ms]	nSteps = " << uint( nSteps ) << endl;
     
     nSteps = 0;
     t1 = chrono::high_resolution_clock::now();       
@@ -64,27 +79,39 @@ int main( void )
 	t2 = chrono::high_resolution_clock::now();
 	cout << "backward arr: "
               << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
-              << " [ms]	nSteps = " << uint( nSteps ) << endl;    
+              << " [ms]	nSteps = " << uint( nSteps ) << endl;   
+               
+    nSteps = 0;
+   	t1 = chrono::high_resolution_clock::now();
+	for ( i = N - 1; i > -1; i-- )
+	{
+		*arrPtr[ i ] = *arrPtr[ i ] * 0.8f;
+		nSteps++;
+	}
+	t2 = chrono::high_resolution_clock::now();
+	cout << "backward preloaded array of Pointers: "
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << " [ms]	nSteps = " << uint( nSteps ) << endl;
               
     nSteps = 0;
     t1 = chrono::high_resolution_clock::now();       
 	for ( i = 0; i < half; i++ )			
 	{
 		vec[ i ] = vec[ i ] * 0.8f;
-        vec[ half - i ] = vec[ half - i ] * 0.8f;
+        vec[ N - 1 - i ] = vec[ N - 1 - i ] * 0.8f;
 		nSteps++;
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward-backward vec: "
               << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
-              << " [ms]	nSteps = " << uint( nSteps ) << endl;    
+              << " [ms]	nSteps = " << uint( nSteps ) << endl;
     
     nSteps = 0;
     t1 = chrono::high_resolution_clock::now();       
 	for ( i = 0; i < half; i++ )			
 	{
 		arr[ i ] = arr[ i ] * 0.8f;
-        arr[ half - i ] = arr[ half - i ] * 0.8f;
+        arr[ N - 1 - i ] = arr[ N - 1 - i ] * 0.8f;
 		nSteps++;
 	}
 	t2 = chrono::high_resolution_clock::now();
@@ -114,6 +141,7 @@ int main( void )
 	cout << "forward-backward vector<thread> arr: "
               << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
               << endl;  
+    
               
 	return 0;
 }
