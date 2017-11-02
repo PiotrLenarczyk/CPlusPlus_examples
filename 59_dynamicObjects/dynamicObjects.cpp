@@ -1,3 +1,6 @@
+/*
+	https://www.tutorialspoint.com/cplusplus/cpp_preprocessor.htm
+*/
 #include <iostream>
 #include <vector>
 #define CONCATENATE(a,b) a##b
