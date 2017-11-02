@@ -17,7 +17,7 @@ inline void funInc( vector< T > &vecIn )
 		x++;
 };
 
-int main( void )
+int main( int argc, char* argv[] )
 {	
 	vector < float > vecf32_0( N, 0.0f );
 	vector < float > vecf32_1( N, 0.0f );
@@ -26,7 +26,7 @@ int main( void )
 	cout << "vecf32_0[ 1 ]: " << vecf32_0[ 1 ] << endl;
 	cout << "vecf32_1[ 1 ]: " << vecf32_1[ 1 ] << endl;
 	
-	uint vecsNo = 2;
+	uint vecsNo = atoi( argv[ argc - 1 ] );
 	for ( i = 0; i < vecsNo; i++ )
 	{
 		vector < float > CONCATENATE( vecf32__, i ) ( N, 0.0f );
