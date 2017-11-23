@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <math.h> //modf(); break floating point into intigerand fraction part
 #include <chrono>
 
 using namespace std;
@@ -20,6 +19,27 @@ inline T trivialAccumulate( vector< T > &inVal )
 	for ( auto &x : inVal )
 		result += x;
 	return result;
+};
+
+template < typename T >
+inline T localAccumulate( vector< T >& inVal )
+{
+	long long int llTmp = 0, llint = 0;
+	float f32fract = 0.0f;
+	for ( auto &x : inVal )
+	{
+		llTmp = ( long long int )x;
+		f32fract += float( x ) - float( llTmp ); 
+		llint += llTmp;
+		if ( ( f32fract > 9.9f ) || ( f32fract < -9.9f ) )//minimizing accumulative error
+		{
+			llTmp = ( long long int )llint;
+			llint += llTmp;
+			f32fract -= llTmp;
+		}
+	}
+
+	return f32fract + llint;
 };
 
 
@@ -49,18 +69,15 @@ inline T registersAccumulate( vector< T >& inVal ) //results are wrong - there a
 {	
 	volatile long long int llTmp; 
 	long long int register r15 asm("r14");	//64b integer register declaration
-	asm volatile("rdtsc":"=A"(r15));
-//	cout << "&llTmp: " << &llTmp << endl;
+// 	cout << "&llTmp: " << &llTmp << endl;
 	
 	volatile long long int intPart; 
 	long long int register r14 asm("r15");	//64b integer register declaration
-	asm volatile("rdtsc":"=A"(r14));
-//	cout << "&intPart: " << &intPart << endl;
+// 	cout << "&intPart: " << &intPart << endl;
 	
 	volatile float fraction;
 	float register floatXmm asm( "xmm7" ); //register declaration SMM ( SIMD ) 128bit
-	asm volatile( "rdtsc" : "=A" (floatXmm) ); 
-//	cout << "&fraction: " << &fraction << endl;
+// 	cout << "&fraction: " << &fraction << endl;
 	
 	for ( auto &x : inVal )
 	{
@@ -87,28 +104,35 @@ void printVals( float &result0, float &result1, float result2 )
 
 int main( void )
 {
-	uint N = 1E7;
+	const uint N = 1E7;
 	vector < float > vec1D( N, 0.17f );
-	float result0, result1, result2;
+	float result0, result1, result2, result3;
 	auto t1 = chrono::high_resolution_clock::now();
     result0 = trivialAccumulate( vec1D );
     auto t2 = chrono::high_resolution_clock::now();
     cout << "trivial accumulation took :"
-              << chrono::duration_cast< chrono::nanoseconds >( t2-t1 ).count()
+              << chrono::duration_cast< chrono::nanoseconds >( t2 - t1 ).count()
               << " [ns]\n";
               
     auto t3 = chrono::high_resolution_clock::now();
     result1 = accumulate( vec1D );
 	auto t4 = chrono::high_resolution_clock::now();
     cout << "separate accumulation took :"
-              << chrono::duration_cast< chrono::nanoseconds >( t4-t3 ).count()
+              << chrono::duration_cast< chrono::nanoseconds >( t4 - t3 ).count()
               << " [ns]\n";
               
     auto t5 = chrono::high_resolution_clock::now();
-    result2 = registersAccumulate( vec1D );
-    auto t6 = chrono::high_resolution_clock::now();
+    result2 = localAccumulate( vec1D );
+	auto t6 = chrono::high_resolution_clock::now();
+    cout << "separate local accumulation took :"
+              << chrono::duration_cast< chrono::nanoseconds >( t6 - t5 ).count()
+              << " [ns]\n";              
+              
+    auto t7 = chrono::high_resolution_clock::now();
+    result3 = registersAccumulate( vec1D );
+    auto t8 = chrono::high_resolution_clock::now();
     cout << "registers accumulation took :"
-              << chrono::duration_cast< chrono::nanoseconds >( t6-t5 ).count()
+              << chrono::duration_cast< chrono::nanoseconds >( t8 - t7 ).count()
               << " [ns]\n";
               
 //    printVals( result0, result1, result2 );  //result2 for registers processing is wrong!
