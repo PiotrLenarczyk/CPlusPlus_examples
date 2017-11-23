@@ -4,8 +4,8 @@ using namespace std;
 typedef uint32_t uint;
 size_t i = 0;
 
-void printBits( size_t const size, void const * const ptr );
-int compareValsBits( size_t sizeA, void * ptrA, size_t sizeB, void * ptrB );
+void printBits( void const * const ptr, size_t const size );
+int compareValsBits( void * ptrA, size_t sizeA, void * ptrB,  size_t sizeB );
 
 
 int main( void )
@@ -13,11 +13,11 @@ int main( void )
 	uint a = 15;
 	uint b = 16;
 
-	printBits( sizeof( a ), &a );
+	printBits( &a, sizeof( a ) );
 
-	printBits( sizeof( b ), &b );
+	printBits( &b, sizeof( b ) );
 	
-	compareValsBits( sizeof( a ), &a, sizeof( b ), &b );
+	compareValsBits( &a, sizeof( a ), &b, sizeof( b ) );
 	return 0;
 }
 
