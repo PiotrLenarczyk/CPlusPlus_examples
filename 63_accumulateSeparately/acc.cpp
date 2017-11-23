@@ -22,28 +22,26 @@ inline T trivialAccumulate( vector< T > &inVal )
 	return result;
 };
 
+
 template < typename T >
 inline T accumulate( vector< T >& inVal )
 {
-	floatSeparate fS = { 0.0f, 0 };	float res;
-	long long int llTmp;		
+	long long int llTmp;
+	floatSeparate fS = { 0.0f, 0 };	
 	for ( auto &x : inVal )
 	{
 		llTmp = ( long long int )x;
 		fS.fraction += float( x ) - float( llTmp ); 
 		fS.intPart += llTmp;
-		if ( fS.fraction > 99.9f ) //minimizing accumulative error
+		if ( ( fS.fraction > 9.9f ) || ( fS.fraction < -9.9f ) )//minimizing accumulative error
 		{
 			llTmp = ( long long int )fS.intPart;
 			fS.intPart += llTmp;
 			fS.fraction -= llTmp;
 		}
 	}
-	res = fS.fraction; 
-	res += fS.intPart;
-	 
 
-	return res;
+	return fS.fraction + fS.intPart;
 };
 
 template < typename T >
@@ -118,5 +116,5 @@ int main( void )
 	return 0;
 }
 
-//P.S. please note usage only for very long arrays!
+//P.S. please note usage only for very long arrays holding large floating points numbers!
 
