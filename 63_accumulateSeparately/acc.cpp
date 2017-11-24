@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include <climits> 
 
 using namespace std;
 typedef uint32_t uint;
@@ -24,24 +25,25 @@ inline T trivialAccumulate( vector< T > &inVal )
 template < typename T >
 inline T localAccumulate( vector< T >& inVal )
 {
-	long long int llTmp = 0, llint = 0;
+	long long int llArr[ 3 ] = { 0, 0, 0 }; //[0] - tmp LL; [1] - accumulator; [2] - positive overflow counter
 	float f32fract = 0.0f;
 	for ( auto &x : inVal )
 	{
-		llTmp = ( long long int )x;
-		f32fract += float( x ) - float( llTmp ); 
-		llint += llTmp;
-		if ( ( f32fract > 9.9f ) || ( f32fract < -9.9f ) )//minimizing accumulative error
+		llArr[ 0 ] = ( long long int )x;
+		f32fract += float( x ) - float( llArr[ 0 ] ); 
+        if ( llArr[ 0 ] + llArr[ 1 ] > LLONG_MAX ) //long long int positive overflow only
+            llArr[ 2 ]++;
+		llArr[ 1 ] += llArr[ 0 ];
+		if ( ( f32fract > 9.9f ) || ( f32fract < -9.9f ) )//minimizing accumulative error - both positive and negative
 		{
-			llTmp = ( long long int )llint;
-			llint += llTmp;
-			f32fract -= llTmp;
+			llArr[ 0 ] = ( long long int )f32fract;
+			llArr[ 1 ] += llArr[ 0 ];
+			f32fract -= llArr[ 0 ];
 		}
 	}
 
-	return f32fract + llint;
+	return f32fract + llArr[ 1 ] + ( LLONG_MAX * llArr[ 2 ] );
 };
-
 
 template < typename T >
 inline T accumulate( vector< T >& inVal )
