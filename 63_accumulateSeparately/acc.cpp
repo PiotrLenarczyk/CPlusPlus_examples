@@ -27,17 +27,17 @@ inline T trivialAccumulate( vector< T > &inVal )
 template < typename T >
 inline T localAccumulate( vector< T >& inVal )
 {
-    uint lloverflow = 0;                 //positive overflow counter
-	long long int llArr[ 3 ] = { 0, 0 }; //[0] - tmp LL; [1] - accumulator; 
+    uint lloverflow = 0;                                       //positive overflow counter
+	long long int llArr[ 3 ] = { 0, 0 };                       //[0] - tmp LL; [1] - accumulator; 
 	float f32fract = 0.0f;
 	for ( auto &x : inVal )
 	{
 		llArr[ 0 ] = ( long long int )x;
 		f32fract += float( x ) - float( llArr[ 0 ] ); 
-        if ( llArr[ 0 ] + llArr[ 1 ] > LLONG_MAX ) //long long int positive overflow only
+        if ( llArr[ 0 ] + llArr[ 1 ] > LLONG_MAX )            //long long int positive overflow only
             lloverflow++;
 		llArr[ 1 ] += llArr[ 0 ];
-		if ( ( f32fract > 9.9f ) || ( f32fract < -9.9f ) )//minimizing accumulative error - both positive and negative
+		if ( ( f32fract > 9.9f ) || ( f32fract < -9.9f ) )    //minimizing cumulative error - both positive and negative
 		{
 			llArr[ 0 ] = ( long long int )f32fract;
 			llArr[ 1 ] += llArr[ 0 ];
@@ -70,18 +70,18 @@ inline T accumulate( vector< T >& inVal )
 };
 
 template < typename T >
-inline T registersAccumulate( vector< T >& inVal ) //results are wrong - there are hazards.
+inline T registersAccumulate( vector< T >& inVal )  //results are wrong - there are hazards.
 {	
 	volatile long long int llTmp; 
-	long long int register r15 asm("r14");	//64b integer register declaration
+	long long int register r15 asm("r14");	        //64b integer register declaration
 // 	cout << "&llTmp: " << &llTmp << endl;
 	
 	volatile long long int intPart; 
-	long long int register r14 asm("r15");	//64b integer register declaration
+	long long int register r14 asm("r15");	        //64b integer register declaration
 // 	cout << "&intPart: " << &intPart << endl;
 	
 	volatile float fraction;
-	float register floatXmm asm( "xmm7" ); //register declaration SMM 128bit
+	float register floatXmm asm( "xmm7" );          //register declaration SMM 128bit
 // 	cout << "&fraction: " << &fraction << endl;
 	
 	for ( auto &x : inVal )
@@ -106,13 +106,14 @@ uint printVals( float &result0, float &result1, float &result2, float &result3 )
     cout << "separate acc = " << result1 << endl;
     cout << "local separate acc = " << result2 << endl;
 	cout << "registers acc = " << result3 << endl;
+    cout << "trivial and local separate error: " << result2 - result0 << endl;
     return 0;
 };
 
 int main( void )
 {  
 	const uint N = 1E7;
-	vector < float > vec1D( N, 0.17f );
+	vector < float > vec1D( N, 0.17f ); //size of vector vec1D for 1E9 size is ~4GB
 	float result0, result1, result2, result3;
 	auto t1 = chrono::high_resolution_clock::now();
     result0 = trivialAccumulate( vec1D );
@@ -142,7 +143,8 @@ int main( void )
               << chrono::duration_cast< chrono::nanoseconds >( t8 - t7 ).count()
               << " [ns]\n";
               
-    return 0;// printVals( result0, result1, result2, result3 );  //registers processing is wrong!
+//     printVals( result0, result1, result2, result3 );  //registers processing provides wrong results!
+    return 0; 
 }
 
 //P.S. please note usage only for very long arrays holding large floating points numbers!
