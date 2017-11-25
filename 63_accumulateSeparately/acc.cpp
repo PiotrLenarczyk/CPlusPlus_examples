@@ -19,20 +19,22 @@ inline T trivialAccumulate( vector< T > &inVal )
 	T result = 0;
 	for ( auto &x : inVal )
 		result += x;
+    
 	return result;
 };
 
 template < typename T >
 inline T localAccumulate( vector< T >& inVal )
 {
-	long long int llArr[ 3 ] = { 0, 0, 0 }; //[0] - tmp LL; [1] - accumulator; [2] - positive overflow counter
+    uint lloverflow = 0;                 //positive overflow counter
+	long long int llArr[ 3 ] = { 0, 0 }; //[0] - tmp LL; [1] - accumulator; 
 	float f32fract = 0.0f;
 	for ( auto &x : inVal )
 	{
 		llArr[ 0 ] = ( long long int )x;
 		f32fract += float( x ) - float( llArr[ 0 ] ); 
         if ( llArr[ 0 ] + llArr[ 1 ] > LLONG_MAX ) //long long int positive overflow only
-            llArr[ 2 ]++;
+            lloverflow++;
 		llArr[ 1 ] += llArr[ 0 ];
 		if ( ( f32fract > 9.9f ) || ( f32fract < -9.9f ) )//minimizing accumulative error - both positive and negative
 		{
@@ -42,7 +44,7 @@ inline T localAccumulate( vector< T >& inVal )
 		}
 	}
 
-	return f32fract + llArr[ 1 ] + ( LLONG_MAX * llArr[ 2 ] );
+	return f32fract + float( llArr[ 1 ] + ( LLONG_MAX * lloverflow ) );
 };
 
 template < typename T >
@@ -55,15 +57,15 @@ inline T accumulate( vector< T >& inVal )
 		llTmp = ( long long int )x;
 		fS.fraction += float( x ) - float( llTmp ); 
 		fS.intPart += llTmp;
-		if ( ( fS.fraction > 9.9f ) || ( fS.fraction < -9.9f ) )//minimizing accumulative error
+		if ( ( fS.fraction > 9.9f ) || ( fS.fraction < -9.9f ) )
 		{
-			llTmp = ( long long int )fS.intPart;
+			llTmp = ( long long int )fS.fraction;
 			fS.intPart += llTmp;
 			fS.fraction -= llTmp;
 		}
 	}
 
-	return fS.fraction + fS.intPart;
+	return fS.fraction + ( float )fS.intPart;
 };
 
 template < typename T >
@@ -78,7 +80,7 @@ inline T registersAccumulate( vector< T >& inVal ) //results are wrong - there a
 // 	cout << "&intPart: " << &intPart << endl;
 	
 	volatile float fraction;
-	float register floatXmm asm( "xmm7" ); //register declaration SMM ( SIMD ) 128bit
+	float register floatXmm asm( "xmm7" ); //register declaration SMM 128bit
 // 	cout << "&fraction: " << &fraction << endl;
 	
 	for ( auto &x : inVal )
@@ -88,24 +90,26 @@ inline T registersAccumulate( vector< T >& inVal ) //results are wrong - there a
 		intPart += llTmp;
 		if ( fraction > 99.9f )
 		{
-			llTmp = ( long long int )intPart;
+			llTmp = ( long long int )fraction;
 			intPart += llTmp;
 			fraction -= llTmp;
 		}
 	}
 	
-	return fraction + intPart;
+	return fraction + ( float )intPart;
 };
 
-void printVals( float &result0, float &result1, float result2 )
+uint printVals( float &result0, float &result1, float &result2, float &result3 )
 {
     cout << "trivial acc = " << result0 << endl;
     cout << "separate acc = " << result1 << endl;
-	cout << "registers acc = " << result2 << endl;
+    cout << "local separate acc = " << result2 << endl;
+	cout << "registers acc = " << result3 << endl;
+    return 0;
 };
 
 int main( void )
-{
+{  
 	const uint N = 1E7;
 	vector < float > vec1D( N, 0.17f );
 	float result0, result1, result2, result3;
@@ -137,10 +141,7 @@ int main( void )
               << chrono::duration_cast< chrono::nanoseconds >( t8 - t7 ).count()
               << " [ns]\n";
               
-//    printVals( result0, result1, result2 );  //result2 for registers processing is wrong!
-
-	return 0;
+    return 0;// printVals( result0, result1, result2, result3 );  //registers processing is wrong!
 }
 
 //P.S. please note usage only for very long arrays holding large floating points numbers!
-
