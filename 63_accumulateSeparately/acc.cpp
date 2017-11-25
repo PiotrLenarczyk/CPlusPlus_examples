@@ -2,6 +2,7 @@
 #include <vector>
 #include <chrono>
 #include <climits> 
+#include <cfloat>
 
 using namespace std;
 typedef uint32_t uint;
@@ -44,7 +45,7 @@ inline T localAccumulate( vector< T >& inVal )
 		}
 	}
 
-	return f32fract + float( llArr[ 1 ] + ( LLONG_MAX * lloverflow ) );
+	return f32fract + ( float )( llArr[ 1 ] ) + ( float )( ( LLONG_MAX * lloverflow ) );
 };
 
 template < typename T >
