@@ -5,9 +5,9 @@ typedef uint32_t uint; //median expected unsigned ( unsigned int ); It is not tr
 size_t i = 0;
 
 template < typename T >
-inline void func( T& inVal )
+inline T func( T& inVal )
 {
-	inVal++;
+	return inVal++;
 };
 
 int main( void )
