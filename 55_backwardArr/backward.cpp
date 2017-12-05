@@ -27,7 +27,7 @@ int main( void )
 	}
 	auto t2 = chrono::high_resolution_clock::now();
 	cout << "forward vec: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;
    
      
@@ -40,7 +40,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward arr: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;
               
     for ( i = 0; i < N; i++ )
@@ -54,7 +54,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward preloaded array of Pointers: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;
     
     nSteps = 0;
@@ -66,7 +66,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "backward vec: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;            
               
     nSteps = 0;
@@ -78,7 +78,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "backward arr: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;   
                
     nSteps = 0;
@@ -90,7 +90,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "backward preloaded array of Pointers: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;
               
     nSteps = 0;
@@ -103,7 +103,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward-backward vec: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;
     
     nSteps = 0;
@@ -116,7 +116,7 @@ int main( void )
 	}
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward-backward arr: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
               << " [ms]	nSteps = " << uint( nSteps ) << endl;  
             
     t1 = chrono::high_resolution_clock::now();   
@@ -127,8 +127,8 @@ int main( void )
     asm("nop");
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward-backward threads arr: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
-              << endl;  
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
+              << "[ms]" << endl;  
     
     vector < std::thread > vecThread;       
     t1 = chrono::high_resolution_clock::now();   
@@ -139,8 +139,8 @@ int main( void )
     asm("nop");
 	t2 = chrono::high_resolution_clock::now();
 	cout << "forward-backward vector<thread> arr: "
-              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) / 1000000
-              << endl;  
+              << float( chrono::duration_cast<chrono::nanoseconds>(t2-t1).count() ) * 1000000
+              << "[ms]" << endl;  
     
               
 	return 0;
