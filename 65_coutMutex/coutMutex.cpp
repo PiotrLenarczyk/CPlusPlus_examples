@@ -9,21 +9,21 @@ size_t i = 0;
 int b[ 6 ] = { 11, 22, 33, 44, 55, 66 };
 
 mutex cout_mutex;
-void coutmHcpy( int in );	//arguments passed only by hardcopy
-void coutmPtr( int *in );	//arguments passed by memory-coalesced-access pointers
+void coutmHcpy( uint localThNo, int in );	//arguments passed only by hardcopy
+void coutmPtr( uint localThNo, int *in );	//arguments passed by memory-coalesced-access pointers
 
 int main( void )
 {
 	const uint N = 4;
 	vector < thread > vecTh( 0 );
 	for ( i = 0; i < N; i++ )
-		vecTh.push_back( thread( coutmHcpy, i ) ); 
+		vecTh.push_back( thread( coutmHcpy, i, i ) ); 
 	for ( i = 0; i < vecTh.size(); i++ )	
 		vecTh[ i ].join();
 	vecTh.clear();
 
 	for ( i = 0; i < N; i++ )
-		vecTh.push_back( thread( coutmPtr, &b[ i ] ) ); 
+		vecTh.push_back( thread( coutmPtr, i, &b[ i ] ) ); 
 	for ( i = 0; i < vecTh.size(); i++ )
 		vecTh[ i ].join();
 	vecTh.clear();
@@ -31,19 +31,19 @@ int main( void )
 	return 0;
 }; //end of main()
 
-void coutmHcpy( int in )
+void coutmHcpy( uint localThNo, int in )
 {
 	thread::id thName = this_thread::get_id();
 	cout_mutex.lock();
-		cout << "th[" << thName << "] : ( " << in << " )\t\t;//freed\n";
+		cout << "th[" << thName << "][" << localThNo << "] : ( " << in << " )\t\t;//freed\n";
 	cout_mutex.unlock();
 };
 
-void coutmPtr( int *in )
+void coutmPtr( uint localThNo, int *in )
 {
 	thread::id thName = this_thread::get_id();
 	cout_mutex.lock();
-		cout << "th[" << thName << "] : ( " << *in << " )\t\t;//freed\n";
+		cout << "th[" << thName << "][" << localThNo << "] : ( " << *in << " )\t\t;//freed\n";
 	cout_mutex.unlock();
 };
 
