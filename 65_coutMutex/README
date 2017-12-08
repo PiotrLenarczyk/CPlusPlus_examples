@@ -1,1 +1,1 @@
-Program presents a simplified way to use mutexed console.
+Program presents a simplified way to use mutexed console and coalesced memory access.
