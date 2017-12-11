@@ -42,6 +42,7 @@ int main( void )
 	for ( i = 0; i < vecTh.size(); i++ )
 		vecTh[ i ].join();
 	vecTh.clear();
+    cout << "B[0]: " << B[ 0 ] << endl;
 
 	return 0;
 }; //end of main()
