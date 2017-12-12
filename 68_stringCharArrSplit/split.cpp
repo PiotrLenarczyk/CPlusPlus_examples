@@ -7,7 +7,10 @@ size_t i = 0;
 
 int main( void )
 {
-	string s = "start 1 2"; 
+while ( 1 )
+{
+	string s;// = "start 1 2"; 
+	getline( cin, s );
 	char separators[] = "  \n"; 	//separator[0]=" "; [1]=" ";[2]="\n"
 	uint sepN = 3;					//number of separators
 	uint arrN = 100;				//max string size
@@ -24,6 +27,6 @@ int main( void )
 		i++;
 	};
 	printf( "original : %s\nt[0] : %s\nt[1] : %s\nt[2] : %s\n", s.c_str(), t[ 0 ], t[ 1 ], t[ 2 ] );
-	
+}	
 	return 0;
 }

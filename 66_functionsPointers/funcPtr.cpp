@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <string.h>
+#include <typeinfo>
 
 using namespace std;
 typedef uint32_t uint;
@@ -14,25 +15,13 @@ inline int printC( void ){ printf( "function C\n" ); return 0; };
 inline int printArg( int* in, int in2 ){ printf( "function Arg1=%i; Arg2=%i\n", *in, in2 ); return 0; };
 
 void printString( void ) {printf( "void func\n" );};
-
+void printString2( char* ptr, uint size ) {printf( "void func str: \n" );};
 int main( void )
 {
-	string s = "start 1 2";
-	char c[100]; strcpy( c, s.c_str());
-	char t1[100]; strcpy( t1, s.c_str());
-	char t2[100]; strcpy( t2, s.c_str());
-	char* cPtr = 0; char separators[] = "  \n";
-	cPtr = strtok( c, separators );
-	i = 0;
-	while ( cPtr != NULL )
-	{
-		if ( i == 0 ) strcpy( c, cPtr );
-		if ( i == 1 ) strcpy( t1, cPtr );
-		if ( i == 2 ) strcpy( t2, cPtr );
-		cPtr = strtok( NULL, separators );
-		i++;
-	};
-	printf( "c[%s], t1[%s], t2[%s]\n", c, t1, t2 );
+
+	//auto fPtr = &printString2;
+	void ( *fPtr )( char*, uint )  = &printString2;
+    cout << "fPtr: " << typeid( fPtr ).name() << endl;
 return 0;
 	map < string, void ( * )() > mapStr
     {
