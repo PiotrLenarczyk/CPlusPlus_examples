@@ -6,7 +6,7 @@ using namespace std;
 typedef uint32_t uint;
 size_t i = 0;
 
-template < typename FuncName > inline void useFunc( FuncName funcName ){ funcName(); };
+template < typename FuncPtr > inline void useFunc( FuncPtr funcName ){ funcName(); };
 inline int printA( void ){ printf( "function A\n" ); return 0; };
 inline int printB( void ){ printf( "function B\n" ); return 0; };
 inline int printC( void ){ printf( "function C\n" ); return 0; };
