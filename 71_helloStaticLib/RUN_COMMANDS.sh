@@ -1,8 +1,7 @@
 #!/bin/bash
 #https://ryanstutorials.net/bash-scripting-tutorial/bash-functions.php
 findDeleteRecursively()
-{
-	find `pwd` -name '*.o' -exec rm -rf {} \; 		&& 
+{	find `pwd` -name '*.o' -exec rm -rf {} \; 		&& 
 	find `pwd` -name '*.out' -exec rm -rf {} \;		&&
 	find `pwd` -name '*.a' -exec rm -rf {} \;		
 };
@@ -15,10 +14,9 @@ findDeleteRecursively;
 # LIB compile
 ####
 	cd libStuff/ &&	g++ $GCC_FLAGS $OBJ_FLAGS helloLib.cpp -o ../helloLib.o && cd .. &&
-	ar cr libhello.a helloLib.o			&&
-	ranlib libhello.a					&&
-	echo "lib demangle:"				&&
-	nm -C libhello.a					&&
+	ar crs libhello.a helloLib.o			&&
+	echo "lib demangle:"				    &&
+	nm -C libhello.a					    &&
 	
 ####
 # Main prog compile
@@ -30,6 +28,7 @@ g++ $GCC_FLAGS $OBJ_FLAGS empty.cpp -L. -lhello -o empty.o &&
 ####
 g++ $GCC_FLAGS -v helloLib.o empty.o -o a.out &&
 touch a.out && ./a.out	&&
+gdb -tui a.out  &&
 
 
 

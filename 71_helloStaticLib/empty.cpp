@@ -10,9 +10,11 @@ typedef uint32_t uint;
 size_t i = 0;
 
 //Library header file basicly:
+//####
 int helloLib( void );
 int helloPrint( char* arrIn, uint sizeArrIn );
-int helloPrint( string arrIn );
+int helloPrint( string &arrIn );
+//####
 
 int main( void )
 {

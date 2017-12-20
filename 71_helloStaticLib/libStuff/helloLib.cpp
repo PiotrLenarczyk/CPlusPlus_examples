@@ -17,7 +17,7 @@ int helloPrint( char* arrIn, uint sizeArrIn )
 	return 0;
 };
 
-int helloPrint( string arrIn )
+int helloPrint( string &arrIn )
 {	printf( "%s\n", arrIn.c_str() );
 	return 0;
 };
