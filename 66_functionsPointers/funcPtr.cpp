@@ -15,10 +15,10 @@ inline int printC( void ){ printf( "function C\n" ); return 0; };
 inline int printArg( int* in, int in2 ){ printf( "function Arg1=%i; Arg2=%i\n", *in, in2 ); return 0; };
 
 void printString( void ) {printf( "void func\n" );};
-void printString2( char* ptr, uint size ) {printf( "void func str: \n" );};
+int printString2( char* ptr ) {printf( "void func str: %s\n", ptr ); return 0;};
 int main( void )
 {
-
+/*
 	//auto fPtr = &printString2;
 	void ( *fPtr )( char*, uint )  = &printString2;
     cout << "fPtr: " << typeid( fPtr ).name() << endl;
@@ -32,9 +32,23 @@ return 0;
    
 //1st method - template with function pointer typename
 	useFunc( &printA );
+*/
 //2nd method - typedef function pointer
-    typedef int ( *FunctionTdf )();  
-    FunctionTdf ptr; ( ptr = &printB )();     //ptr = &printA; ptr();
+
+	auto fPtr = &printString2;
+	string funcPtrName =  typeid( fPtr ).name();
+    cout << "fPtr: " << funcPtrName << endl;
+
+	typedef int ( *FunIntCharPtr )( char* );
+	FunIntCharPtr cPtr = &printString2;
+
+return 0;
+    typedef int ( *Int_VoidTdf )();  
+//    Int_VoidTdf ptr; ( ptr = &printB )();     //ptr = &printA; ptr();
+	typedef int ( *Int_PtrIntTdf )( int* );
+	typedef int ( *Int_PtrIntTdf )( int* );
+
+return 0;
 //3rd method - map strings of functions name to functions pointers
     char str[] = "printC";
     map < string, int ( * )() > mapFuncsWithoutArgs

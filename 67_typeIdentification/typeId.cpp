@@ -25,7 +25,7 @@ int main( void )
 	auto fPtr = &printArg;
     cout << "fPtr: " << typeid( fPtr ).name() << endl;
     int k = -1; int* iPtr = &k;
-    cout << "i: " << typeid( k  ).name() << "\n" << "iPtr: " << typeid( iPtr ).name() << endl;
+    cout << "i: " << typeid( k ).name() << "\n" << "iPtr: " << typeid( iPtr ).name() << endl;
 	returnStruct s = printFunc();
     cout << s.retVal << ", "<< s.retStatus << endl;
     
