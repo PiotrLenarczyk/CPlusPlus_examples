@@ -34,5 +34,7 @@ int main( void )
     cout << "list vec max size: " << listVec.max_size() << endl;
     cout << "first list vecor element: " << ((vector< float >)(*lVecPtr)).at( 0 ) << endl;
     
+    cout << vecInit.max_size() << endl;
+    
     return 0;
 }
