@@ -17,6 +17,7 @@ struct thData
 //	data header
 	vector < float > data;				//data population should be coalesced
 	uint64_t normData = 0;
+	uint8_t   normDataOverflowCount = 0;
 };
 struct thData thDataArr[ nThreads ];	//each thread data struct must be populated separately
 pthread_mutex_t printMutex;				//each thread printf
