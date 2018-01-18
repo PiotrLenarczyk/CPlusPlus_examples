@@ -9,8 +9,9 @@
 #include <set>
 #include <unordered_set>
 #include <algorithm>
+#include <stack>
 using namespace std;
-const unsigned no( 11000 );
+const unsigned no( 1100 );
 unsigned i;
 const float val = 17.31f;
 clock_t t;
@@ -27,6 +28,7 @@ const vector < float > vecPopulate( no, val );
     -multiset
     -unordered_set
     -unordered_multiset
+	-stack
  1) static and dynamic containers comparision
  2) global and local containers - GLOBALS ARE POPULATED AT STARTUP
  3) nested with static vector < float >
@@ -86,12 +88,24 @@ int main( void )
     t = clock();
     vector < float > vecStat( no, val );
     cout << "static vector CPU clocks: " << clock() - t << endl;
-    t = clock();
+	t = clock();
+	vector < float > vecStatPopulate; vecStatPopulate.resize( no );
+	for ( i = 0; i < no; i++ )
+		vecStatPopulate[ i ] = val;
+    cout << "static resize&populate vector CPU clocks: " << clock() - t << "\t!!! quite efficient container isage !!!" << endl;
+	t = clock();
     vector < float > vecDyn;
     for ( i = 0; i < no; i++ )
         vecDyn.push_back( val );
-    cout << "dynamic vector CPU clocks: " << clock() - t << endl;
-    t = clock();
+    cout << "dynamic vector push_back CPU clocks: " << clock() - t << endl;
+    float vTmp;t = clock();
+	for ( i = 0; i < no; i++ )
+	{
+		vTmp = vecDyn.back();
+		vecDyn.pop_back();
+	}
+	cout << "dynamic vector pop_back CPU clocks: " << clock() - t << "\t!!! vector read to destroy !!!" << endl;
+	t = clock();
     list < float > lisStat( no, val );
     cout << "static list CPU clocks: " << clock() - t << endl;
     t = clock();
@@ -139,7 +153,20 @@ int main( void )
     for ( i = 0; i < no; i++ )
         un_mset.insert( val );
     cout << "dynamic unordered_multiset CPU clocks: " << clock() - t << endl;
+    t = clock();
+	stack< float > fStack;
+    for ( i = 0; i < no; i++ )
+        fStack.push( val );
+    cout << "dynamic push on stack CPU clocks: " << clock() - t << endl;
+	float fTmp; t = clock();
+    while( !fStack.empty() )
+    {
+		fTmp = fStack.top();
+		fStack.pop();
+	}
+    cout << "serial pop from stack CPU clocks: " << clock() - t << endl;
     
+
     cout << endl << endl << "3) nested with static vector < float >" << endl;
     t = clock();
     vector < vector < float > > vecStat3( no, vecPopulate );
