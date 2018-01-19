@@ -1,5 +1,4 @@
 #include <iostream>
-#include <typeinfo>
 
 using namespace std;
 typedef uint32_t uint;
