@@ -29,7 +29,7 @@ void binaryStream( void )
 	vector< float > vec( N );
 	FILE *fileWritePtr; char fileName[] = "floatNorm.txt";
 	fileWritePtr = fopen( fileName, "w" );
-	for ( i = 0; i < N; i++ )		//it is lossy stream ( float looses precision ) - use memcpy char stream instead
+	for ( i = 0; i < N; i++ )
 	{
 		vec[ i ] = 0.1f + float( i );
 		memcpy( &cpBuf[ 0 ], &vec[ i ], cpSize );
