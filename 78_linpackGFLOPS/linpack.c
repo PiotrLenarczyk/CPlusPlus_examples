@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 #include <float.h>
@@ -75,8 +76,9 @@ void main(void)
     //while (1)
     for ( int iTmp = 0; iTmp < 1; iTmp++ )
         {
-        //printf("Enter array size (q to quit) [200]:  ");
-        //fgets(buf,79,stdin);
+//       printf("Enter array size (q to quit) [200]:  ");
+//        fgets(buf,79,stdin);
+		strcpy( buf, "200" );
         if (buf[0]=='q' || buf[0]=='Q')
             break;
         if (buf[0]=='\0' || buf[0]=='\n')
