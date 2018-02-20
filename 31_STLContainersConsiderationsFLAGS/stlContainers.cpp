@@ -1,17 +1,19 @@
 //STL
+#include <string.h>
 #include <iostream>
 #include <time.h>
 #include <array>
 #include <vector>
 #include <list>
 #include <map>
+#include <tuple>
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
 #include <algorithm>
 #include <stack>
 using namespace std;
-const unsigned no( 1100 );
+const unsigned no( 11000 );
 unsigned i;
 const float val = 17.31f;
 clock_t t;
@@ -33,6 +35,7 @@ const vector < float > vecPopulate( no, val );
  2) global and local containers - GLOBALS ARE POPULATED AT STARTUP
  3) nested with static vector < float >
  4) set vs dynamic vector & sort(); populated with rand()
+ 5) string keys, float pairs find: array of tuples and unordered map 
  */ 
 
 struct ArrStat //assummed that struct size is const. and approximately equal to variable size
@@ -61,6 +64,7 @@ array < float, no > arrGlobStat;
 
 int main( void )
 {
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	cout << endl << endl << "1) static and dynamic containers comparision" << endl;
     t = clock();
 	Arr A( no ); //one hop less than std::vector - better fit for shared memory transfers
@@ -92,7 +96,7 @@ int main( void )
 	vector < float > vecStatPopulate; vecStatPopulate.resize( no );
 	for ( i = 0; i < no; i++ )
 		vecStatPopulate[ i ] = val;
-    cout << "static resize&populate vector CPU clocks: " << clock() - t << "\t!!! quite efficient container isage !!!" << endl;
+    cout << "static resize&populate vector CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
 	t = clock();
     vector < float > vecDyn;
     for ( i = 0; i < no; i++ )
@@ -134,6 +138,11 @@ int main( void )
         un_mmapDyn.insert( make_pair( i, val ) );
     cout << "dynamic unordered_multimap CPU clocks: " << clock() - t << endl;
     t = clock();
+	array < tuple< unsigned, float >, no > arrTuple;
+	for ( i = 0; i < no; i++ )
+        arrTuple[ i ] = make_tuple( uint( i ), val );
+	cout << "static array of tuples CPU clocks: " << clock() - t << "\t!!! costly key find ( consider chapter 5 )!!!" << endl;
+    t = clock();
     set< float > s;
     for ( i = 0; i < no; i++ )
         s.insert( val );
@@ -166,7 +175,7 @@ int main( void )
 	}
     cout << "serial pop from stack CPU clocks: " << clock() - t << endl;
     
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     cout << endl << endl << "3) nested with static vector < float >" << endl;
     t = clock();
     vector < vector < float > > vecStat3( no, vecPopulate );
@@ -215,6 +224,7 @@ int main( void )
         mset3.insert( vecPopulate );
     cout << "dynamic nested multiset CPU clocks: " << clock() - t << endl;
     
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
     cout << endl << endl << "4) rand values: map vs dynamic vector & sort()" << endl;
     t = clock();
     vector < float > vecDyn4;
@@ -239,5 +249,37 @@ int main( void )
         mapDyn4.insert( make_pair( static_cast <float> (rand()) / static_cast <float> (RAND_MAX), val ) );
     cout << "rand dynamic map CPU clocks: " << clock() - t << endl;
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    cout << endl << endl << "5) string keys, float pairs find: array of tuples and unordered map " << endl;
+    t = clock();
+	array < tuple< string, float >, no > arrTup;
+	for ( i = 0; i < no - 1; i++ )
+        arrTup[ i ] = make_tuple( "some text", float( i ) );
+    arrTup[ no - 1 ] = make_tuple( "some key", no );
+	cout << "static array of tuples CPU clocks: " << clock() - t << endl;
+	t = clock();
+	uint res = -1;
+	for ( i = 0; i < no; i++ )
+	{	if ( strcmp( get< 0 >( arrTup[ i ] ).c_str(), "some key" ) == 0 )
+		{	res = i;
+			break;
+		};
+	};
+	cout << "find key static array of tuples CPU clocks: " << clock() - t << endl;
+	t = clock();
+	unordered_map< string, float > un_mmapDynFind;
+	for ( i = 0; i < no - 1; i++ )
+		un_mmapDynFind.insert( make_pair( "some text", float( i ) ) );
+	un_mmapDynFind.insert( make_pair( "some key", no ) );
+	cout << "dynamic unordered_multimap CPU clocks: " << clock() - t << endl;
+	t = clock();
+	float tmp = un_mmapDynFind[ "some key" ];
+	cout << "find key dynamic unordered_map CPU clocks: " << clock() - t << endl;
+
     return 0;
-}
+}; //end of main
+
+//Post Scriptum: personally I do use vector container - there are only a few % efficiency gap with array container and 
+//it is much more flexible. For any abstract data accesses the unordered_map makes the job - for sequentional acces it
+//could be replaced with less costly vector of strings and separate vector permutation pattern - without programmers struct
+//additional unnecessary pointer this is the fastest approach for sequentional traditional CPU computations.
