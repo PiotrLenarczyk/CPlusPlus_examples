@@ -6,7 +6,6 @@
 #include <time.h> //clock()
 #include <stdlib.h> //system
 #include <sstream>
-#include <QVector>
 
 using namespace std;
 

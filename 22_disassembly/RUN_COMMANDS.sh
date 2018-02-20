@@ -2,15 +2,14 @@
 #also one can run: 
 #qmake && make && ./a.out
 rm a.out
-qmake
-make -j `nproc`
-make clean
+GCC_FLAGS='-mtune=native -march=native -std=c++11 -Ofast -pipe';
+touch a.out && rm a.out && clear && g++ -o a.out $GCC_FLAGS addDisassembly.cpp
 clear 
 echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-readelf -d -V a.out
+readelf -dV a.out
 echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 echo "Program Output:"
 echo "======================="
 ./a.out
 echo "======================="
-rm a.out Makefile
+rm a.out

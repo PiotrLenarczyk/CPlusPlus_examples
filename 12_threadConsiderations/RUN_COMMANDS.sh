@@ -1,9 +1,5 @@
 #!/bin/bash
-#also one can run: 
-#qmake && make && ./a.out
+GCC_FLAGS='-mtune=native -march=native -std=c++11 -Ofast -pipe';
+LIBS='-lpthread'
+touch a.out && rm a.out && clear && g++ -o a.out $GCC_FLAGS cpuThreads.cpp $LIBS&& ./a.out 
 rm a.out
-qmake
-make -j `nproc`
-make clean
-clear 
-./a.out

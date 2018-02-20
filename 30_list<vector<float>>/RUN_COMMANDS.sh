@@ -1,3 +1,4 @@
 #!/bin/bash
-touch a.out && rm a.out
-qmake && make -j`nproc` && make clean && clear && ./a.out
+GCC_FLAGS='-mtune=native -march=native -std=c++11 -Ofast -pipe';
+touch a.out && rm a.out && clear && g++ -o a.out $GCC_FLAGS listExample.cpp && ./a.out 
+rm a.out
