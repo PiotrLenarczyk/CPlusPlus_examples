@@ -281,5 +281,5 @@ int main( void )
 
 //Post Scriptum: personally I do use vector container - there are only a few % efficiency gap with array container and 
 //it is much more flexible. For any abstract data accesses the unordered_map makes the job - for sequentional acces it
-//could be replaced with less costly vector of strings and separate vector permutation pattern - without programmers struct
-//additional unnecessary pointer this is the fastest approach for sequentional traditional CPU computations.
+//could be replaced with less costly vector of strings and separate vector permutation pattern ( order of another vector )
+//- without programmers struct additional pointer this is the fastest approach for traditional CPU computations.
