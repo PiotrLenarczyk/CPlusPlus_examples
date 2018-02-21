@@ -3,7 +3,7 @@ using namespace std;
 typedef uint32_t uint;
 size_t i = 0;
 
-void foo( const int &in, int* out );
+__attribute__((always_inline)) static inline void foo( const int &in, int* out );
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,7 +25,7 @@ int main( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-void foo( const int &in, int* out )
+static inline void foo( const int &in, int* out )
 {	cout << "in: " << in << endl;	//read-only!
 	const int* inPtr = &in;
 	cout << "*in: " << inPtr << endl;

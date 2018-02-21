@@ -1,14 +1,17 @@
 #include <iostream>
-
 using namespace std;
 typedef uint32_t uint;
 size_t i = 0;
 
+__attribute__((always_inline)) static inline 
+void foo( void )
+{
+};
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
-{
-	
+{	foo();
 	
 	return 0;
 };//end of main()
