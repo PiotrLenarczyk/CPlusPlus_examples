@@ -24,7 +24,7 @@ int main( void )
 
 void printBits( size_t const size, void const * const ptr )
 {
-	printf( "tmpVal = %#08x (%i) \n", * ( uint* )ptr, * ( uint* )ptr );
+	printf( "hexVal = %#08x; decVal = %i \n", * ( uint* )ptr, * ( uint* )ptr );
 	
     unsigned char *b = ( unsigned char* ) ptr;
     unsigned char byte;
