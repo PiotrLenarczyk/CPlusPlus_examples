@@ -3,8 +3,7 @@ using namespace std;
 typedef uint32_t uint;
 uint i = 0;
 
-__attribute__((always_inline)) static inline 
-const void foo( void )
+void foo( void )
 {
 };
 
