@@ -7,7 +7,7 @@ using namespace std;
 typedef uint32_t uint;
 uint i = 0;
 
-#define N 2000000
+#define N 20000
 #define N_loops 400
 int t1, t2, t3, t4, t5, t6, t7;
 int a[ N ] = { 4, 7, };
