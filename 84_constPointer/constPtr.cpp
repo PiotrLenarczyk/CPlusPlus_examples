@@ -83,7 +83,7 @@ int main( void )
 		 << "function bar() without compiler directives : " << float( t2 ) / CLOCKS_PER_SEC << "[s]\n"
 		 << "function car() without compiler directives and consts : " << float( t3 ) / CLOCKS_PER_SEC << "[s]\n"
 		 << "direct computations 1 : " << float( t4 ) / CLOCKS_PER_SEC << "[s]\n"
-		 << "direct computations 2 : " << float( t5 ) / CLOCKS_PER_SEC << "[s]\n\n"
+		 << "direct computations 2 : " << float( t5 ) / CLOCKS_PER_SEC << "[s]\n"
 		 << "without compiler directives slow down : " << 100.0f * ( 1.0f - ( float( t1 ) / float( t2 ) ) ) << "[%]\n"
 		 << "without compiler directives and consts slow down : " << 100.0f * ( 1.0f - ( float( t1 ) / float( t3 ) ) ) << "[%]\n"
 		 << "direct computations 1 slow down : " << 100.0f * ( 1.0f - ( float( t1 ) / float( t4 ) ) ) << "[%]\n"
