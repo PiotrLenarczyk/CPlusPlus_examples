@@ -128,5 +128,5 @@ int main( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-//Post Scriptum: results for C arrays are almost the same on modern traditional x86-64. 
-//Only theoretically applicable for optimized code for armhv7, and microcontrollers ( MCU's ).
+//Post Scriptum: results for C arrays are almost the same on modern uArchs. 
+
