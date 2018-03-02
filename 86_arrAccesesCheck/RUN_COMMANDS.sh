@@ -1,6 +1,9 @@
 #!/bin/bash
 LIBS=''
 clear
+echo "====";echo "WITHOUT OPTIMISATIONS"; echo "===="
+GCC_FLAGS='-mtune=native -march=native -std=c++11 -pipe';
+touch a.out && rm a.out && g++ -o a.out $GCC_FLAGS arrAcc.cpp $LIBS && ./a.out 
 echo "====";echo "-O1"; echo "===="
 GCC_FLAGS='-mtune=native -march=native -O1 -std=c++11 -pipe';
 touch a.out && rm a.out && g++ -o a.out $GCC_FLAGS arrAcc.cpp $LIBS && ./a.out 
