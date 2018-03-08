@@ -4,8 +4,8 @@
 using namespace std;
 typedef uint32_t uint;
 uint i = 0, t = 0;
-const uint mltFact = 16;
-const uint N = mltFact * 1024 * 1024;	  
+#define mltFact  0.05
+const uint N = mltFact * 1024 * 1024 * 1024;	  
 const uint X = 6;						//try other values
 const uint Y = N / X;
 
@@ -87,6 +87,6 @@ int main( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void printT( const char *name, uint t )
-{	if ( t < 50 ){ printf( "\tERROR: [%s]\n", name ); return; };
-	printf( "%s[%u] : %02f[GBps]; %02f[s]; %i periods\n", name, N, ( float( mltFact ) * 4.0f ) / ( 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), float( t ) / float( CLOCKS_PER_SEC ), t );
+{	if ( t < 1000 ){ printf( "\tERROR: [%s]\n", name ); return; };
+	printf( "%s[%u] : %02f[GBps]; %02f[s]; %i periods\n", name, N, ( float( mltFact ) * 4.0f ) / ( float( t ) / float( CLOCKS_PER_SEC ) ), float( t ) / float( CLOCKS_PER_SEC ), t );
 };
