@@ -8,7 +8,7 @@ const uint64_t N = 2147483648;	// 2GiB memory array ( 2*1024*1024*1024 )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
-{	//char* arr[ N ] = { 0 };	//ERROR: too big array ( dpends on motherboard memory driver )
+{	//char* arr[ N ] = { 0 };	//ERROR: too big array ( depends on motherboard memory hardware driver )
 	char *arr = ( char* )calloc( N, 1 );
 	t = clock();
 	for ( i = 0; i < N; i++ )
