@@ -17,7 +17,7 @@ int main( void )
 //	register unsigned char AL_REG asm("%al");		
 	//accessRMW();
 	//accessWrite();
-	accessRead();
+	//accessRead();
 
 	return 0;
 };//end of main()
@@ -27,7 +27,6 @@ int main( void )
 void accessWrite( void )
 {	//char* arr[ N ] = { 0 };	//ERROR: too big array ( depends on motherboard memory hardware driver )
 	char *arr = ( char* )calloc( N, sizeof( char ) );
-	int *arrInt = ( int* )calloc( N, sizeof( int ) );
 
 	t = clock();
 	for ( i = 0; i < N; i++ )
@@ -53,7 +52,9 @@ void accessWrite( void )
 	t = clock() - t;
 	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
+	delete( arr );
 //	======
+	int *arrInt = ( int* )calloc( N, sizeof( int ) );
 //	======	
 	t = clock();
 	for ( i = 0; i < N; i++ )
@@ -79,27 +80,17 @@ void accessWrite( void )
 	t = clock() - t;
 	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
-	delete( arr );
 	delete( arrInt );
 };
 
 void accessRead( void )
 {	char *arr = ( char* )calloc( N, sizeof( char ) );
-	int *arrInt = ( int* )calloc( N, sizeof( int ) );
-	
 	typedef char CharRegister; //long long datatype declaration
 	volatile CharRegister alReg;
 	CharRegister register al asm( "al" ); //declaration of using 64bit register (CPU: x64, x86 )
 	alReg = 0; 
 	cout << "alReg: " << alReg << endl;
 	cout << "&alReg: " << &alReg << endl; //register-type address
-	
-	typedef int IntRegister; //long long datatype declaration
-	volatile IntRegister eaxReg;
-	IntRegister register eax asm( "eax" ); //declaration of using 64bit register (CPU: x64, x86 )
-	eaxReg = 0; 
-	cout << "eaxReg: " << eaxReg << endl;
-	cout << "&eaxReg: " << &eaxReg << endl; //register-type address
 
 	t = clock();
 	for ( i = 0; i < N; i++ )
@@ -125,7 +116,15 @@ void accessRead( void )
 	t = clock() - t;
 	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
+	delete( arr );
 //	======
+	int *arrInt = ( int* )calloc( N, sizeof( int ) );
+	typedef int IntRegister; //long long datatype declaration
+	volatile IntRegister eaxReg;
+	IntRegister register eax asm( "eax" ); //declaration of using 64bit register (CPU: x64, x86 )
+	eaxReg = 0; 
+	cout << "eaxReg: " << eaxReg << endl;
+	cout << "&eaxReg: " << &eaxReg << endl; //register-type address
 //	======	
 	t = clock();
 	for ( i = 0; i < N; i++ )
@@ -151,13 +150,11 @@ void accessRead( void )
 	t = clock() - t;
 	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
-	delete( arr );
 	delete( arrInt );
 };
 
 void accessRMW( void )
 {	char *arr = ( char* )calloc( N, sizeof( char ) );
-	int *arrInt = ( int* )calloc( N, sizeof( int ) );
 
 	t = clock();
 	for ( i = 0; i < N; i++ )
@@ -183,7 +180,9 @@ void accessRMW( void )
 	t = clock() - t;
 	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
+	delete( arr );
 //	======
+	int *arrInt = ( int* )calloc( N, sizeof( int ) );
 //	======	
 	t = clock();
 	for ( i = 0; i < N; i++ )
@@ -209,6 +208,5 @@ void accessRMW( void )
 	t = clock() - t;
 	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
-	delete( arr );
 	delete( arrInt );
 };
