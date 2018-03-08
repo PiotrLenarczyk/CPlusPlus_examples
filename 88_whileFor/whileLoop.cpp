@@ -35,7 +35,7 @@ void accessWrite( void )
 	for ( i = 0; i < N; i++ )
 		arr[ i ] = 14;
 	t = clock() - t;
-	printf( "[char] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = 0;
@@ -44,7 +44,7 @@ void accessWrite( void )
 		i ++;
 	}
 	t = clock() - t;
-	printf( "[char] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = N - 1;
@@ -53,7 +53,7 @@ void accessWrite( void )
 		i --;
 	}
 	t = clock() - t;
-	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	delete( arr );
 //	======
@@ -63,7 +63,7 @@ void accessWrite( void )
 	for ( i = 0; i < N; i++ )
 		arrInt[ i ] = 14;
 	t = clock() - t;
-	printf( "[int] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = 0;
@@ -72,7 +72,7 @@ void accessWrite( void )
 		i ++;
 	}
 	t = clock() - t;
-	printf( "[int] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = N - 1;
@@ -81,7 +81,7 @@ void accessWrite( void )
 		i --;
 	}
 	t = clock() - t;
-	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
 	delete( arrInt );
 };
@@ -99,7 +99,7 @@ void accessRead( void )
 	for ( i = 0; i < N; i++ )
 		alReg = arr[ i ];
 	t = clock() - t;
-	printf( "[char] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = 0;
@@ -108,7 +108,7 @@ void accessRead( void )
 		i ++;
 	}
 	t = clock() - t;
-	printf( "[char] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = N - 1;
@@ -117,7 +117,7 @@ void accessRead( void )
 		i --;
 	}
 	t = clock() - t;
-	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	delete( arr );
 //	======
@@ -133,7 +133,7 @@ void accessRead( void )
 	for ( i = 0; i < N; i++ )
 		eaxReg = arrInt[ i ];
 	t = clock() - t;
-	printf( "[int] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = 0;
@@ -142,7 +142,7 @@ void accessRead( void )
 		i ++;
 	}
 	t = clock() - t;
-	printf( "[int] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = N - 1;
@@ -151,7 +151,7 @@ void accessRead( void )
 		i --;
 	}
 	t = clock() - t;
-	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
 	delete( arrInt );
 };
@@ -163,7 +163,7 @@ void accessRMW( void )
 	for ( i = 0; i < N; i++ )
 		arr[ i ] += 14;
 	t = clock() - t;
-	printf( "[char] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = 0;
@@ -172,7 +172,7 @@ void accessRMW( void )
 		i ++;
 	}
 	t = clock() - t;
-	printf( "[char] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = N - 1;
@@ -181,7 +181,7 @@ void accessRMW( void )
 		i --;
 	}
 	t = clock() - t;
-	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[char] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	delete( arr );
 //	======
@@ -191,7 +191,7 @@ void accessRMW( void )
 	for ( i = 0; i < N; i++ )
 		arrInt[ i ] += 14;
 	t = clock() - t;
-	printf( "[int] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] for loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = 0;
@@ -200,7 +200,7 @@ void accessRMW( void )
 		i ++;
 	}
 	t = clock() - t;
-	printf( "[int] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] while forward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 //	======
 	t = clock();
 	i = N - 1;
@@ -209,7 +209,7 @@ void accessRMW( void )
 		i --;
 	}
 	t = clock() - t;
-	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( 1024.0f * 1024.0f * 1024.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
+	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
 	delete( arrInt );
 };
