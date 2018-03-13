@@ -75,6 +75,7 @@ int main( void )
 	printT( "heap/dynamic arr2D", clock() - t );
 	for ( uint y = 0; y < Y; y++ )	
 		delete( dynArr2D[ y ] );
+	delete( dynArr2D );
 //======================================================================
 	array< float, N > arrCont;
 	t = clock();
