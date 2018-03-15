@@ -96,7 +96,13 @@ int main( void )
 	vector < float > vecStatPopulate; vecStatPopulate.resize( no );
 	for ( i = 0; i < no; i++ )
 		vecStatPopulate[ i ] = val;
-    cout << "static resize&populate vector CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
+    cout << "static resize&populate vector CPU clocks: " << clock() - t << endl;
+	t = clock();
+	t = clock();
+	vector < float > vecStatReserve; vecStatReserve.reserve( no );
+	for ( i = 0; i < no; i++ )
+		vecStatReserve[ i ] = val;
+    cout << "static reserve&populate vector CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
 	t = clock();
     vector < float > vecDyn;
     for ( i = 0; i < no; i++ )
