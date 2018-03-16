@@ -98,11 +98,18 @@ int main( void )
 		vecStatPopulate[ i ] = val;
     cout << "static resize&populate vector CPU clocks: " << clock() - t << endl;
 	t = clock();
-	t = clock();
 	vector < float > vecStatReserve; vecStatReserve.reserve( no );
 	for ( i = 0; i < no; i++ )
 		vecStatReserve[ i ] = val;
-    cout << "static reserve&populate vector CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
+    cout << "static reserve&populate vector CPU clocks: " << clock() - t << endl;
+	t = clock();
+	vector < float > vecWhileStatReserve; vecWhileStatReserve.reserve( no );
+	float* fPtr = &vecWhileStatReserve[ 0 ];
+	i = 0; while( i < no )
+	{	fPtr[ i ] = val;
+		i++;
+	}
+    cout << "static reserve&populate vector; while loop CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
 	t = clock();
     vector < float > vecDyn;
     for ( i = 0; i < no; i++ )
