@@ -21,13 +21,15 @@ void benchLoop( uint64_t inN );
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
-{//	SINGLE CORE ACCESSES - MOST OF TRADITIONAL uARCH'S HAS MEMORY BOTTLENECKS:
+{//	SINGLE CORE ACCESSES - MOST OF TRADITIONAL uARCH'S HAVE MEMORY BOTTLENECKS:
 //	register unsigned char AL_REG asm("%al");		
 	//accessRMW();
 	//accessWrite();
 	//accessRead();
-	benchLoop( 1 * GB );
-
+	j = GB / 2lu;while( j < 10lu * GB )
+	{ 	benchLoop( j );
+		j += 3 * GB;
+	};
 	
 	return 0;
 };//end of main()
@@ -238,10 +240,11 @@ void benchLoop( uint64_t inN )
 		t2 = clock() - t2;
 //		printout
 		if ( ( t1 < 500 ) || ( t2 < 500 ) )
-		{	printf( "ERROR!\n" );
+		{	delete( arr );
+			printf( "ERROR!\n" );
 			return;
 		};
 		printf( "for loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t1 );
-		printf( "while loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t2 );
+		printf( "while loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t2 ) / float( CLOCKS_PER_SEC ) ), t2 );
 	delete( arr );
 };

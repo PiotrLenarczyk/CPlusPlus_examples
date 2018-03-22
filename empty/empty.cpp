@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+typedef unsigned char byte;
 typedef uint32_t uint;
 uint i = 0;
 
