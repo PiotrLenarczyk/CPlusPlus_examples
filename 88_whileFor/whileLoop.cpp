@@ -5,12 +5,17 @@ https://stackoverflow.com/questions/19895038/how-can-i-read-value-from-register-
 #include <iostream>
 using namespace std;
 typedef uint32_t uint;
-uint i = 0, t = 0, t1, t2;
-const uint64_t N = 1*1024*1024*1024;//1073741824;	// 1GiB-char/4GB-int memory array ( 1*1024*1024*1024 )
-
+typedef unsigned char byte;
+uint t = 0, t1, t2;
+#define MB 1024lu*1024lu
+#define GB 1024lu*MB
+uint64_t N = 1 * GB;
+uint64_t i = 0;
+uint64_t j = 0;
 void accessRMW( void );
 void accessWrite( void );
 void accessRead( void );
+void benchLoop( uint64_t inN );
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -21,24 +26,8 @@ int main( void )
 	//accessRMW();
 	//accessWrite();
 	//accessRead();
-	char* arr = ( char* )malloc( N * sizeof( char ) );
-		printf( "====\n1GB RMW array comparision:\n====\n" );
-//		while loop
-		t1 = clock();
-		for ( i = 0; i < N; i++ )
-			arr[ i ] += arr[ i ];
-		t1 = clock() - t1;
-//		for loop
-		t2 = clock();
-		i = 0; while( i < N )
-		{	arr[ i ] += arr[ i ];
-			i++;
-		};
-		t2 = clock() - t2;
-//		printout
-		printf( "for loop elasped: %02f[s]; %i[periods]\n", float( t1 ) / float( CLOCKS_PER_SEC ), t1 );
-		printf( "while loop elasped: %02f[s]; %i[periods]\n", float( t2 ) / float( CLOCKS_PER_SEC ), t2 );
-	delete( arr );
+	benchLoop( 1 * GB );
+
 	
 	return 0;
 };//end of main()
@@ -230,4 +219,29 @@ void accessRMW( void )
 	printf( "[int] while backward loop elapsed : %02f[GBps]; %i[periods]\n", float( N ) / ( float( N ) * 4.0f * float( t ) / float( CLOCKS_PER_SEC ) ), t );
 	
 	delete( arrInt );
+};
+
+void benchLoop( uint64_t inN )
+{	byte* arr = ( byte* )malloc( inN );
+		printf( "====\n%02f[GB] RMW array comparision:\n====\n", float( inN ) / float( GB ) );
+//		while loop
+		t1 = clock();
+		for ( i = 0; i < inN; i++ )
+			arr[ i ] += arr[ i ];
+		t1 = clock() - t1;
+//		for loop
+		t2 = clock();
+		i = 0; while( i < inN )
+		{	arr[ i ] += arr[ i ];
+			i++;
+		};
+		t2 = clock() - t2;
+//		printout
+		if ( ( t1 < 500 ) || ( t2 < 500 ) )
+		{	printf( "ERROR!\n" );
+			return;
+		};
+		printf( "for loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t1 );
+		printf( "while loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t2 );
+	delete( arr );
 };
