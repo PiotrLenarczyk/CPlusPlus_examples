@@ -1,0 +1,1 @@
+Program presents trivial usage of  pthread. Please do measure practical overhead to pthreads and other single-core parallelism alternatives.
