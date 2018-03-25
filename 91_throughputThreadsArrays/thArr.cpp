@@ -6,8 +6,9 @@ using namespace std;
 typedef unsigned char byte;
 typedef uint32_t uint;
 #define GB 1024lu*1024lu*1024lu
-#define nThreads 2
-uint i = 0, noN = 1, N = noN * GB;
+#define nThreads 3
+long unsigned int i = 0;
+uint noN = 1, N = noN * GB;
 uint t[ nThreads ]; float tSum = 0; 
 void* foo( void* in );
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -15,11 +16,9 @@ void* foo( void* in );
 int main( void )
 {	vector< pthread_t > vecTh( nThreads );
 //	create threads within main thread
-	uint ind;
 	i=0;while( i < nThreads )
-	{	ind = i;
-		pthread_create( &vecTh[ i ], NULL, foo, ( void* )&ind );
-		i++;
+	{	pthread_create( &vecTh[ i ], NULL, foo, ( void* )i );
+		i += 1;
 	};
 //	sync threads execution
 	i=0;while( i < nThreads )
@@ -44,7 +43,7 @@ int main( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void* foo( void* in )
-{	uint no = *( uint* )in;
+{	uint no = ( uint )in;
 	uint iFoo;
 	byte* arr = ( byte* )malloc( N );
 	t[ no ] = clock();
@@ -53,6 +52,7 @@ void* foo( void* in )
 			iFoo++;
 		};
 	t[ no ] = clock() - t[ no ];
+	printf( "thread[%i] has ended\n", no );
 	delete( arr );
 };
-//Post Scriptum: in author opinion optimal RAM configuration is single plate of small amount of RAM (2GB/4GB).
+//Post Scriptum: in author opinion optimal RAM configuration is single plate (1GB/2GB/4GB).
