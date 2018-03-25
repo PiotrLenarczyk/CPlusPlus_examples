@@ -55,4 +55,4 @@ void* foo( void* in )
 	printf( "thread[%i] has ended\n", no );
 	delete( arr );
 };
-//Post Scriptum: in author opinion optimal RAM configuration is single plate (1GB/2GB/4GB).
+
