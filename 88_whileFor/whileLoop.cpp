@@ -15,7 +15,9 @@ uint64_t j = 0;
 void accessRMW( void );
 void accessWrite( void );
 void accessRead( void );
-void benchLoop( uint64_t inN );
+void* benchLoop( uint64_t inN );
+void benchLoop2( uint64_t inN );
+void benchLoop3( uint64_t inN );
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,10 +28,21 @@ int main( void )
 	//accessRMW();
 	//accessWrite();
 	//accessRead();
-	j = GB / 2lu;while( j < 10lu * GB )
-	{ 	benchLoop( j );
-		j += 3 * GB;
-	};
+//	First benchmark - LINEAR
+	//j = GB / 2lu;while( j < 1lu * GB )
+	//{ 	benchLoop( j );
+		//j += 3 * GB;
+	//};
+//	Second benchmark - 4B
+	//j = GB / 2lu;while( j < 1lu * GB )
+	//{ 	benchLoop2( j );
+		//j += 3 * GB;
+	//};
+//	Third benchmark - two arrays 4B
+	//j = GB / 2lu;while( j < 1lu * GB )
+	//{ 	benchLoop3( j );
+		//j += 3 * GB;
+	//};
 	
 	return 0;
 };//end of main()
@@ -223,19 +236,20 @@ void accessRMW( void )
 	delete( arrInt );
 };
 
-void benchLoop( uint64_t inN )
+void* benchLoop( uint64_t inN )
 {	byte* arr = ( byte* )malloc( inN );
 		printf( "====\n%02f[GB] RMW array comparision:\n====\n", float( inN ) / float( GB ) );
 //		while loop
 		t1 = clock();
 		for ( i = 0; i < inN; i++ )
-			arr[ i ] += arr[ i ];
+		{	arr[ i + 0 ] += arr[ i + 0 ];
+		};
 		t1 = clock() - t1;
 //		for loop
 		t2 = clock();
 		i = 0; while( i < inN )
-		{	arr[ i ] += arr[ i ];
-			i++;
+		{	arr[ i + 0 ] += arr[ i + 0 ];
+			i += 1;
 		};
 		t2 = clock() - t2;
 //		printout
@@ -247,4 +261,74 @@ void benchLoop( uint64_t inN )
 		printf( "for loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t1 );
 		printf( "while loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t2 ) / float( CLOCKS_PER_SEC ) ), t2 );
 	delete( arr );
+};
+
+void benchLoop2( uint64_t inN )
+{	byte* arr = ( byte* )malloc( inN );
+		printf( "====\n%02f[GB] RMW array comparision:\n====\n", float( inN ) / float( GB ) );
+//		while loop
+		t1 = clock();
+		for ( i = 0; i < inN; i+=4 )
+		{	arr[ i + 0 ] += arr[ i + 0 ];
+			arr[ i + 1 ] += arr[ i + 1 ];
+			arr[ i + 2 ] += arr[ i + 2 ];
+			arr[ i + 3 ] += arr[ i + 3 ];
+		};
+		t1 = clock() - t1;
+//		for loop
+		t2 = clock();
+		i = 0; while( i < inN )
+		{	arr[ i + 0 ] += arr[ i + 0 ];
+			arr[ i + 1 ] += arr[ i + 1 ];
+			arr[ i + 2 ] += arr[ i + 2 ];
+			arr[ i + 3 ] += arr[ i + 3 ];
+			i += 4;
+		};
+		t2 = clock() - t2;
+//		printout
+		if ( ( t1 < 500 ) || ( t2 < 500 ) )
+		{	delete( arr );
+			printf( "ERROR!\n" );
+			return;
+		};
+		printf( "for loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t1 );
+		printf( "while loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t2 ) / float( CLOCKS_PER_SEC ) ), t2 );
+	delete( arr );
+};
+
+void benchLoop3( uint64_t inN )
+{	byte* arr = ( byte* )malloc( inN );
+	byte* arr2 = ( byte* )malloc( inN );
+	byte tmp = 0x1C;
+		printf( "====\n%02f[GB] RMW array comparision:\n====\n", float( inN ) / float( GB ) );
+//		while loop
+		t1 = clock();
+		for ( i = 0; i < inN; i+=4 )
+		{	arr2[ i + 0 ] = arr[ i + 0 ] + tmp;
+			arr2[ i + 1 ] = arr[ i + 1 ] + tmp;
+			arr2[ i + 2 ] = arr[ i + 2 ] + tmp;
+			arr2[ i + 3 ] = arr[ i + 3 ] + tmp;
+		};
+		t1 = clock() - t1;
+//		for loop
+		t2 = clock();
+		i = 0; while( i < inN )
+		{	arr2[ i + 0 ] = arr[ i + 0 ] + tmp;
+			arr2[ i + 1 ] = arr[ i + 1 ] + tmp;
+			arr2[ i + 2 ] = arr[ i + 2 ] + tmp;
+			arr2[ i + 3 ] = arr[ i + 3 ] + tmp;
+			i += 4;
+		};
+		t2 = clock() - t2;
+//		printout
+		if ( ( t1 < 500 ) || ( t2 < 500 ) )
+		{	delete( arr );
+			delete( arr2 );
+			printf( "ERROR!\n" );
+			return;
+		};
+		printf( "for loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t1 ) / float( CLOCKS_PER_SEC ) ), t1 );
+		printf( "while loop: %02f[GBps]; %i[periods]\n", ( float( inN ) / float( GB ) ) / ( float( t2 ) / float( CLOCKS_PER_SEC ) ), t2 );
+	delete( arr );
+	delete( arr2 );
 };

@@ -11,7 +11,7 @@ const uint fooNoArgs = 2;
 void* foo( void* in )
 {	uint arrIn[ fooNoArgs ];
 	uint k=0;while( k < fooNoArgs )
-	{	arrIn[ i ] = *( ( uint* )in + i );
+	{	arrIn[ k ] = *( ( uint* )in + i );
 		k++;
 	};
 	return nullptr;

@@ -1,6 +1,6 @@
 #!/bin/bash
-GCC_FLAGS='-mtune=native -march=native -std=c++11 -Ofast -pipe';
-LIBS=''
+GCC_FLAGS='-mtune=native -march=native -std=c++11 -Ofast -pipe ';
+LIBS='-pthread -fpermissive'
 clear
 echo "====";echo "-O1"; echo "===="
 GCC_FLAGS='-mtune=native -march=native -O1 -std=c++11 -pipe';
@@ -20,4 +20,6 @@ touch a.out && rm a.out && g++ -o a.out $GCC_FLAGS whileLoop.cpp $LIBS && ./a.ou
 echo "====";echo "WITHOUT OPTIMISATIONS"; echo "===="
 GCC_FLAGS='-mtune=native -march=native -std=c++11 -pipe';
 touch a.out && rm a.out && g++ -o a.out $GCC_FLAGS whileLoop.cpp $LIBS && ./a.out 
+GCC_FLAGS='-mtune=native -march=native -O3 -std=c++11 -pipe';
+touch a.out && rm a.out && g++ -o a.out $GCC_FLAGS whileLoop.cpp $LIBS && sudo perf stat -B -e cache-references,cache-misses -r 5 ./a.out
 touch a.out && rm a.out
