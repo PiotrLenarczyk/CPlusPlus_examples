@@ -37,7 +37,6 @@ int main( void )
 				noN,
 				( noN * nThreads ) / ( tSum / float( CLOCKS_PER_SEC ) ), 
 				tSum );
-				
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,4 +54,3 @@ void* foo( void* in )
 	printf( "thread[%i] has ended\n", no );
 	delete( arr );
 };
-
