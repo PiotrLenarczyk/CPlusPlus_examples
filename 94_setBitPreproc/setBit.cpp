@@ -15,22 +15,22 @@ uint i = 0, bitNumber;
 
 void foo( void )
 {	i = 0x0u; bitNumber = 31u;
-	i = SET_BIT( i, bitNumber );
+	( uint )SET_BIT( i, bitNumber );
 	printf( "0x%X\n", i );
 	printf( "bit[%u] : %i\n", bitNumber, ( uint )BIT_VAL( i, bitNumber ) );
 	
-	i = RESET_BIT( i, bitNumber );
+	( uint )RESET_BIT( i, bitNumber );
 	printf( "0x%X\n", i );
 	printf( "bit[%u] : %i\n", bitNumber, ( uint )BIT_VAL( i, bitNumber ) );
 	
 	puts( "====" );
 	i = 0x0u; bitNumber = 31u;
 	i <<= bitNumber;
-	i = SET_BIT( i, bitNumber );
+	( uint )SET_BIT( i, bitNumber );
 	printf( "0x%X\n", i );
 	printf( "bit[%u] : %i\n", bitNumber, ( uint )BIT_VAL( i, bitNumber ) );
 	
-	i = RESET_BIT( i, bitNumber );
+	( uint )RESET_BIT( i, bitNumber );
 	printf( "0x%X\n", i );
 	printf( "bit[%u] : %i\n", bitNumber, ( uint )BIT_VAL( i, bitNumber ) );
 };
