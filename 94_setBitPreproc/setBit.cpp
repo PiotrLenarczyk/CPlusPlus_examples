@@ -30,7 +30,6 @@ uint i = 0x0u, a = 0x0u, bitNumber;
 												? VARIABLE |= 0x1u << bitNo 						\
 												: VARIABLE = VARIABLE;								\
 								 }
-
 #define RESET_BIT_( VARIABLE, bitNo ) { VARIABLE = ( ( ( VARIABLE >> bitNo ) & 0x1u ) != 0x0u )		\
 												? VARIABLE &= ~( 0x1u << bitNo )					\
 												: VARIABLE = VARIABLE;								\
