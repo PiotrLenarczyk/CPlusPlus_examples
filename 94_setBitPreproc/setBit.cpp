@@ -1,3 +1,4 @@
+//https://stackoverflow.com/questions/1872220/is-it-possible-to-iterate-over-arguments-in-variadic-macros
 #include <stdio.h>
 using namespace std;
 typedef unsigned char byte;
