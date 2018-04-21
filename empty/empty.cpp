@@ -1,12 +1,12 @@
-#include <iostream>
+#include <stdio.h> 
 using namespace std;
 typedef unsigned char byte;
-typedef uint32_t uint;
+typedef __uint32_t uint;
 uint i = 0;
 
 void foo( void )
 {
-};
+};//foo()
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
