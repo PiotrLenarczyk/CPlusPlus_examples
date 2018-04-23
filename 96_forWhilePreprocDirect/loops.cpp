@@ -44,6 +44,7 @@ jump:{	arr[ i ] += arr[ i ];
 		i+=1;
 	};
     dur[ 2 ] =  duration_cast< duration< float > >( high_resolution_clock::now() - t ).count()* 1E9;
+
 //	//preprocessor FOR_EACH macro
 	t = chrono::high_resolution_clock::now();
 	__FE1( RMW_, arr, 0, 1, 2, 4, 5, 6, 7 );
@@ -62,13 +63,14 @@ jump:{	arr[ i ] += arr[ i ];
     dur[ 4 ] =  duration_cast< duration< float > >( high_resolution_clock::now() - t ).count()* 1E9;
     
 //	summation
-    printf( "goto loop : %19.2f[Bps]\n", float( N ) / dur[ 0 ] );
-    printf( "for loop : %20.2f[Bps]\n", float( N ) / dur[ 1 ] );
-	printf( "while loop : %18.2f[Bps]\n", float( N ) / dur[ 2 ] );
-	printf( "macro loop : %18.2f[Bps]\n", float( N ) / dur[ 3 ] );
-	printf( "direct instructions : %9.2f[Bps]\n", float( N ) / dur[ 4 ] );
+    printf( "goto loop : %19.2f[Bpns]\n", float( N ) / dur[ 0 ] );
+    printf( "for loop : %20.2f[Bpns]\n", float( N ) / dur[ 1 ] );
+	printf( "while loop : %18.2f[Bpns]\n", float( N ) / dur[ 2 ] );
+	printf( "macro loop : %18.2f[Bpns]\n", float( N ) / dur[ 3 ] );
+	printf( "direct instructions : %9.2f[Bpns]\n", float( N ) / dur[ 4 ] );
 	
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
