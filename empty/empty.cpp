@@ -2,7 +2,7 @@
 using namespace std;
 typedef unsigned char byte;
 typedef __uint32_t uint;
-uint i = 0;
+uint i = 0x0;
 
 void foo( void )
 {
