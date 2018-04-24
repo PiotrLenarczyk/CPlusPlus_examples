@@ -19,4 +19,3 @@ int main( void )
 int foo( uint *in )
 {	printf( "*(uint*)(%p) : 0x%X\n", in, *in );
 };
-
