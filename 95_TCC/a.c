@@ -1,7 +1,7 @@
 #!/usr/bin/tcc -run -lX11 -L/usr/X11R6/lib
 #include <stdio.h>
-typedef unsigned int uint;
-uint i = 0x11;
+typedef __uint32_t uint;
+const uint i = 0x11;
 
 int foo( uint *in );
 //==================================================
@@ -9,7 +9,9 @@ int foo( uint *in );
 //==================================================
 int main( void )
 {	printf( "Hi!:\n" );
+	printf( "*0x%.8X : 0x%.8X\n", &i, i );
 	foo( &i );
+	
 	return 0;
 };//end of main()
 //==================================================
@@ -17,5 +19,6 @@ int main( void )
 //==================================================
 
 int foo( uint *in )
-{	printf( "*(uint*)(%p) : 0x%X\n", in, *in );
+{	*in = 0x3;
+	return printf( "*(uint*)(%p) : 0x%.8X\n", in, *in );
 };
