@@ -61,7 +61,7 @@ struct Arr //only float array
 
 vector < float > vecGlobStat( no, val ); 
 array < float, no > arrGlobStat;
-
+float cArr[ no ];
 int main( void )
 {
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,6 +79,19 @@ int main( void )
     float a [ no ] = {};
     for ( i = 0; i < no; i++ ) a [ i ] = val;
     cout << "static C array for init. CPU clocks: " << clock() - t << endl;
+    t = clock();
+	i=0;while( i < no )
+	{	cArr[ i ] = val;
+		i+=1;
+	};
+	cout << "GLOBAL C array; CPU clocks: " << clock() - t << endl;
+    t = clock();
+    float* cPtr = &cArr[ 0 ];
+	i=0;while( i < no )
+	{	*cPtr++ = val;
+		i+=1;
+	};
+	cout << "GLOBAL C array via *ptr++; CPU clocks: " << clock() - t << endl;
     t = clock();
 	//not initialized
     cout << "GLOBAL static array Container CPU clocks: " << clock() - t << endl;
@@ -109,7 +122,15 @@ int main( void )
 	{	fPtr[ i ] = val;
 		i++;
 	}
-    cout << "static reserve&populate vector; while loop CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
+    cout << "static reserve&populate vector; while loop CPU clocks: " << clock() - t << endl;
+    t = clock();
+    vector < float > vecWhileStatReserve2; vecWhileStatReserve2.reserve( no );
+	float* fPtr2 = &vecWhileStatReserve2[ 0 ];
+	i = 0; while( i < no )
+	{	*fPtr2++ = val;
+		i++;
+	}
+    cout << "static reserve&populate vector via *ptr++; while loop CPU clocks: " << clock() - t << "\t!!! quite efficient container usage !!!" << endl;
 	t = clock();
     vector < float > vecDyn;
     for ( i = 0; i < no; i++ )
@@ -292,7 +313,4 @@ int main( void )
     return 0;
 }; //end of main
 
-//Post Scriptum: personally I do use vector container - there are only a few % efficiency gap with array container and 
-//it is much more flexible. For any abstract data accesses the unordered_map makes the job - for sequentional acces it
-//could be replaced with less costly vector of strings and separate vector permutation pattern ( order of another vector )
-//- without programmers struct additional pointer this is the fastest approach for traditional CPU computations.
+//Post Scriptum: 1D C arrays, accessed by separate pointer are fastest. The problem comes with resizing - it is more convenient to use vectors instead.

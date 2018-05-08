@@ -29,7 +29,7 @@ jump:{	arr[ i ] += arr[ i ];
 			goto jump;
 		};
 	};
-    elapsed[ 0 ] =  duration_cast< duration< float > >( high_resolution_clock::now() - t ).count()* 1E9;
+    elapsed[ 0 ] =  duration_cast< duration< double > >( high_resolution_clock::now() - t ).count()* 1E9;
 	
 //	//for loop
 	t = chrono::high_resolution_clock::now();
