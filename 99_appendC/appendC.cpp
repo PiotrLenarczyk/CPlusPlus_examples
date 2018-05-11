@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <cstring>
+#include <string>
 #include <stdlib.h>
 using namespace std;
 typedef unsigned char byte;
@@ -18,19 +19,27 @@ typedef struct
 	uint size( void )
 	{	return endPtr - dataPtr;
 	};
-	void prepend( const void* const strIn ) //costly (background hardcopy)!
-	{	return;
+	void relloc( uint size )	//background hardcopy!
+	{	//malloc
+		//copy + update(dataPtr, endPtr, strSize)
+		//freeOld
+		return;
+	};
+	void prepend( const void* const strIn ) //background hardcopy!
+	{	//malloc
+		//prependCopy + update(dataPtr, endPtr, strSize)
+		//freeOld
+		return;
 	};
 	
 	
 	
-	
-	
 	void append( const void* const strIn )
-	{	char* strInPtr = ( char* )strIn; uint sizeIn = strlen( strInPtr );
-		if ( strlen( dataPtr ) + strlen( strInPtr ) < strSize - 1 )
-		{	uint i=0;while( i < sizeIn )
-			{	dataPtr[ size() + i ] = strInPtr[ i ];
+	{	char* strInPtr = ( char* )strIn; 
+		uint sizeIn = strlen( strInPtr ), currSize = size(), i=0x0;
+		if ( currSize + sizeIn < strSize - 1 )
+		{	while( i < sizeIn )
+			{	dataPtr[ currSize + i ] = strInPtr[ i ];
 				i+=1;
 			}; endPtr += sizeIn;
 		}else
@@ -50,9 +59,13 @@ typedef struct
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
 {	char buf[] = "SomeText";
+	const char* buff2 = " other!";
+	string theString = "C++11";
 	STRING str;str.mallocStr( 0x100 );
 		str.append( "aa" ); 
 		str.append( buf );
+		str.append( buff2 );
+		str.append( theString.c_str() );
 		printf( "[%s]\n", str.dataPtr );
 		printf( "%u\n", str.size() );
 	str.freeStr();
@@ -63,4 +76,4 @@ int main( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-//Post Scriptum: no sizeof() usage!;
+//Post Scriptum: no sizeof() feature - str.size()!;
