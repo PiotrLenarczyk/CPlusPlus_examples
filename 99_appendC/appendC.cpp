@@ -19,7 +19,7 @@ typedef struct
 	uint size( void )
 	{	return endPtr - dataPtr;
 	};
-	void relloc( uint size )	//background hardcopy!
+	void rellocStr( uint size )	//background hardcopy!
 	{	//malloc
 		//copy + update(dataPtr, endPtr, strSize)
 		//freeOld
