@@ -26,7 +26,7 @@ typedef struct
 	void resizeStr( uint newSize )	//costly background hardcopy! only enlarging
 	{	uint i = 0x0, currSize = size();
 		if ( newSize < currSize )
-		{	printf( "====\n\tERROR : lossless resize!\n====\n" );
+		{	printf( "====\n\tERROR : lossy resize!\n====\n" );
 			fatalStr();
 			return;
 		};
