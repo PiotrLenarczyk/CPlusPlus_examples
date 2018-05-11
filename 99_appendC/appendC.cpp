@@ -1,6 +1,6 @@
 #include <stdio.h> 
 #include <cstring>
-#include <string>
+#include <string>		//not needed - just for example
 #include <stdlib.h>
 using namespace std;
 typedef unsigned char byte;
@@ -13,19 +13,20 @@ typedef struct
 	uint strSize;
 	void mallocStr( uint size )
 	{	dataPtr = ( char* )malloc( size );
-		endPtr = dataPtr;
+		dataPtr[ size - 1 ] = '\0';
+		endPtr = dataPtr; 
 		strSize = size;
 	};
 	uint size( void )
 	{	return endPtr - dataPtr;
 	};
-	void rellocStr( uint size )	//background hardcopy!
+	void rellocStr( uint size )	//costly background hardcopy!
 	{	//malloc
 		//copy + update(dataPtr, endPtr, strSize)
 		//freeOld
 		return;
 	};
-	void prepend( const void* const strIn ) //background hardcopy!
+	void prepend( const void* const strIn ) //costly background hardcopy!
 	{	//malloc
 		//prependCopy + update(dataPtr, endPtr, strSize)
 		//freeOld
@@ -60,14 +61,14 @@ typedef struct
 int main( void )
 {	char buf[] = "SomeText";
 	const char* buff2 = " other!";
-	string theString = "C++11";
+	string theString = " C++11";
 	STRING str;str.mallocStr( 0x100 );
 		str.append( "aa" ); 
 		str.append( buf );
 		str.append( buff2 );
 		str.append( theString.c_str() );
-		printf( "[%s]\n", str.dataPtr );
-		printf( "%u\n", str.size() );
+		str.append( " array." );
+		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
 	str.freeStr();
 
 	
