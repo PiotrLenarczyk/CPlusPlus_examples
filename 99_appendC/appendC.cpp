@@ -44,7 +44,11 @@ typedef struct
 				i+=1;
 			}; endPtr += sizeIn;
 		}else
-		{	printf( "\tERROR : STRING full!\n" );
+		{	printf( "\tERROR : STRING full - provided costly hardcopy!\n" );
+			
+			//rellocStr()
+			//copy
+			
 		};
 	};
 	void freeStr( void )
