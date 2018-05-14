@@ -1,6 +1,6 @@
 #!/bin/bash
-GCC_OPT='-mtune=native -march=native -std=c++11 -Os -pipe'
-GCC_FLAGS='-fmax-errors=3'
+GCC_OPT='-mtune=native -march=native -std=c++11 -Ofast -pipe'
+GCC_FLAGS='-fmax-errors=3 -fverbose-asm'
 LIBS=''
 touch a.out && rm a.out && clear 
 echo "================================================================";
