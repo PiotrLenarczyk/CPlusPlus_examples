@@ -10,6 +10,7 @@ uint i = 0x0;
 typedef struct 
 {	char* dataPtr = NULL;
 	char* endPtr = NULL;
+	char tmpBuf[ 0x15 ];
 	uint strSize = 0x0;
 //======================================================================
 	void mallocStr( uint size )
@@ -25,12 +26,12 @@ typedef struct
 //======================================================================
 	void resizeStr( uint newSize )	//costly background hardcopy!
 	{	uint i = 0x0, currSize = size();
-		char* newDataPtr = ( char* )malloc( newSize );
 		if ( newSize > currSize  )
-		{	while ( i < currSize )
+		{	char* newDataPtr = ( char* )malloc( newSize );
+			while ( i < currSize )
 			{	newDataPtr[ i ] = dataPtr[ i ];
 				i+=1;
-			}; 
+			};
 			free( dataPtr );
 			dataPtr = newDataPtr; newDataPtr = NULL;
 			dataPtr[ newSize - 1 ] = '\0';
@@ -38,13 +39,14 @@ typedef struct
 			strSize = newSize;
 		};
 		if ( newSize <= currSize  )	//lossy resize
-		{	while ( i < newSize )
+		{	char* newDataPtr = ( char* )malloc( newSize );
+			while ( i < newSize  )
 			{	newDataPtr[ i ] = dataPtr[ i ];
 				i+=1;
 			}; 
 			free( dataPtr );
 			dataPtr = newDataPtr; newDataPtr = NULL;
-			dataPtr[ newSize - 1 ] = '\0';
+			//dataPtr[ newSize - 1 ] = '\0';
 			endPtr = dataPtr + newSize;
 			strSize = newSize;
 		};
@@ -85,10 +87,20 @@ typedef struct
 			{	dataPtr[ currSize + i ] = strInPtr[ i ];
 				i+=1;
 			}; endPtr += sizeIn;
-			printf( "====\n\tERROR : STRING full - provided costly hardcopy!\n====\n" );		
-		};
-		strInPtr = NULL;
+			printf( "====\n\tERROR : STRING full - provided costly hardcopy!!! \n\t\t\"%s\"\n====\n", strInPtr );		
+		}; strInPtr = NULL;
 	};
+	void append( char& in ) 	{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void append( uint64_t& in ) { sprintf( tmpBuf, "%lu", in ); append( tmpBuf ); };
+	void append( uint32_t& in ) { sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void append( uint16_t& in ) { sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void append( uint8_t& in ) 	{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void append( int64_t& in ) 	{ sprintf( tmpBuf, "%li", in ); append( tmpBuf ); };
+	void append( int32_t& in ) 	{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void append( int16_t& in ) 	{ sprintf( tmpBuf, "%i", in );	append( tmpBuf ); };
+	void append( int8_t& in ) 	{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void append( float& in ) 	{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
+	void append( double& in ) 	{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
 //======================================================================
 	void freeStr( void )
 	{	free( dataPtr ); dataPtr = NULL;
@@ -117,6 +129,7 @@ int main( void )
 {	char buf[] = "SomeText";
 	const char* buff2 = " other!";
 	string theString = " C++11";
+	float theFloat = 1.13f;
 	STRING str;str.mallocStr( 0x20 );
 		str.append( "aa" ); 
 		str.append( buf );
@@ -132,10 +145,22 @@ int main( void )
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
 		str.append( "_StringOverflow" );
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
-		str.resizeStr( 0x10 ); //lossy resize
+		str.resizeStr( 0x8 ); //lossy resize
+		str.resizeStr( 0x80 );
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
+		str.append( "_float( " ); str.append( theFloat ); str.append( "f )" );
+		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
+		STRING tmpStr; tmpStr.mallocStr( 0xD );
+			tmpStr.append( "STRING_OBJECT" );
+		str.append( tmpStr.dataPtr );
+		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
+		tmpStr.freeStr();
+		
+		
+//+= operator overloading for append()
+		
 	str.freeStr();
-	
+
 	puts( "====" );
 	uint a = 15;
 	char b[ 5 ]; b[ 4 ] = '\0';
@@ -150,4 +175,4 @@ int main( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-//Post Scriptum: no sizeof() feature - str.size()!;
+//Post Scriptum: no sizeof() feature : STRING_OBJECT.size(), instead!;
