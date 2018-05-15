@@ -141,7 +141,7 @@ int main( void )
 	char b[ 5 ]; b[ 4 ] = '\0';
 	copy_n( &b[ 0 ], &a, sizeof( a ) );
 		printf( "0x%X :", a ); i=0;while( i < 4 ) { printf( "0x%X ", b[ i ] & 0xFF ); i+=1; }; puts( "" );
-	copy_n( &b[ 0 ], "aa23", sizeof( a ) );
+	copy_n( &b[ 0 ], "aa23", 4 );
 		printf( "0x%X : %s\n", a, b );
 	puts( "====" );
 	
