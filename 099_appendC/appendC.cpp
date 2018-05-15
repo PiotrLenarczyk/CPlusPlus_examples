@@ -23,26 +23,34 @@ typedef struct
 	{	return uint( endPtr - dataPtr );
 	};
 //======================================================================
-	void resizeStr( uint newSize )	//costly background hardcopy! only enlarging
+	void resizeStr( uint newSize )	//costly background hardcopy!
 	{	uint i = 0x0, currSize = size();
-		if ( newSize < currSize )
-		{	printf( "====\n\tERROR : lossy resize!\n====\n" );
-			fatalStr();
-			return;
-		};
 		char* newDataPtr = ( char* )malloc( newSize );
-		while ( i < currSize )
-		{	newDataPtr[ i ] = dataPtr[ i ];
-			i+=1;
-		}; 
-		free( dataPtr );
-		dataPtr = newDataPtr; newDataPtr = NULL;
-		dataPtr[ newSize - 1 ] = '\0';
-		endPtr = dataPtr + currSize;
-		strSize = newSize;
+		if ( newSize > currSize  )
+		{	while ( i < currSize )
+			{	newDataPtr[ i ] = dataPtr[ i ];
+				i+=1;
+			}; 
+			free( dataPtr );
+			dataPtr = newDataPtr; newDataPtr = NULL;
+			dataPtr[ newSize - 1 ] = '\0';
+			endPtr = dataPtr + currSize;
+			strSize = newSize;
+		};
+		if ( newSize <= currSize  )	//lossy resize
+		{	while ( i < newSize )
+			{	newDataPtr[ i ] = dataPtr[ i ];
+				i+=1;
+			}; 
+			free( dataPtr );
+			dataPtr = newDataPtr; newDataPtr = NULL;
+			dataPtr[ newSize - 1 ] = '\0';
+			endPtr = dataPtr + newSize;
+			strSize = newSize;
+		};
 	};
 //======================================================================
-	void prepend( const void* const strIn ) //costly background hardcopy!
+	void prepend( const void* strIn ) //costly background hardcopy!
 	{	char* strInPtr = ( char* )strIn; 
 		uint sizeIn = strlen( strInPtr ), currSize = size(), 
 			 newSize = currSize + sizeIn, i=0x0;
@@ -62,7 +70,7 @@ typedef struct
 		strSize = newSize;
 	};
 //======================================================================
-	void append( const void* const strIn )
+	void append( const void* strIn )
 	{	char* strInPtr = ( char* )strIn; 
 		uint sizeIn = strlen( strInPtr ), currSize = size(), i=0x0;
 		if ( currSize + sizeIn < strSize - 1 )
@@ -72,7 +80,7 @@ typedef struct
 			}; endPtr += sizeIn;
 		}else
 		{	uint newSize = currSize + sizeIn;
-			resizeStr( newSize );
+			resizeStr( newSize );		 //costly background hardcopy!
 			i=0x0;while( i < sizeIn )
 			{	dataPtr[ currSize + i ] = strInPtr[ i ];
 				i+=1;
@@ -87,12 +95,21 @@ typedef struct
 		strSize = 0x0;
 		endPtr = NULL;
 	};
-//======================================================================
-	void fatalStr( void )
-	{	printf( "====\n\tERROR : Program corruption! STRING_OBJECT.free();\n====\n" );
-		freeStr();
-	};
 } STRING;
+
+void copy( const void* dest, const void* src )
+{	char* out = ( char* )dest;
+	char* in = ( char* )src;
+	while( *out++ = *in++ );
+};
+
+void copy_n( void const* dest,  void const* src, uint n )
+{	char* out = ( char* )dest;
+	char* in = ( char* )src;
+	while( n-- )
+	{	*out++ = *in++;
+	};
+};
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,8 +132,18 @@ int main( void )
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
 		str.append( "_StringOverflow" );
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
-		//str.resizeStr( 0x10 ); //lossy resize
+		str.resizeStr( 0x10 ); //lossy resize
+		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
 	str.freeStr();
+	
+	puts( "====" );
+	uint a = 15;
+	char b[ 5 ]; b[ 4 ] = '\0';
+	copy_n( &b[ 0 ], &a, sizeof( a ) );
+		printf( "0x%X :", a ); i=0;while( i < 4 ) { printf( "0x%X ", b[ i ] & 0xFF ); i+=1; }; puts( "" );
+	copy_n( &b[ 0 ], "aa23", sizeof( a ) );
+		printf( "0x%X : %s\n", a, b );
+	puts( "====" );
 	
 	return 0;
 };//end of main()
