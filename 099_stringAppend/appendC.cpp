@@ -90,17 +90,42 @@ typedef struct
 			printf( "====\n\tERROR : STRING full - provided costly hardcopy!!! \n\t\t\"%s\"\n====\n", strInPtr );		
 		}; strInPtr = NULL;
 	};
-	void append( char& in ) 	{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
-	void append( uint64_t& in ) { sprintf( tmpBuf, "%lu", in ); append( tmpBuf ); };
-	void append( uint32_t& in ) { sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
-	void append( uint16_t& in ) { sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
-	void append( uint8_t& in ) 	{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
-	void append( int64_t& in ) 	{ sprintf( tmpBuf, "%li", in ); append( tmpBuf ); };
-	void append( int32_t& in ) 	{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
-	void append( int16_t& in ) 	{ sprintf( tmpBuf, "%i", in );	append( tmpBuf ); };
-	void append( int8_t& in ) 	{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
-	void append( float& in ) 	{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
-	void append( double& in ) 	{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
+////====	APPEND ALIASES:
+	void append( unsigned char in ) { sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void append( char in ) 			{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void append( uint64_t in )		{ sprintf( tmpBuf, "%lu", in ); append( tmpBuf ); };
+	void append( uint32_t in ) 		{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void append( uint16_t in ) 		{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void append( int64_t in ) 		{ sprintf( tmpBuf, "%li", in ); append( tmpBuf ); };
+	void append( int32_t in ) 		{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void append( int16_t in ) 		{ sprintf( tmpBuf, "%i", in );	append( tmpBuf ); };
+	void append( int8_t in ) 		{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void append( float in ) 		{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };	
+	void append( double in ) 		{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
+	void operator += ( const void* strIn )	{ append( strIn ); };
+	void operator += ( unsigned char in )	{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void operator += ( char in )			{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void operator += ( uint64_t in )		{ sprintf( tmpBuf, "%lu", in ); 	append( tmpBuf ); };
+	void operator += ( uint32_t in )		{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void operator += ( uint16_t in )		{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void operator += ( int64_t in )			{ sprintf( tmpBuf, "%li", in ); 	append( tmpBuf ); };
+	void operator += ( int32_t in )			{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void operator += ( int16_t in )			{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void operator += ( int8_t in )			{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void operator += ( float in )			{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
+	void operator += ( double in )			{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
+	void operator << ( const void* strIn )	{ append( strIn ); };
+	void operator << ( unsigned char in )	{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void operator << ( char in )			{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
+	void operator << ( uint64_t in )		{ sprintf( tmpBuf, "%lu", in ); 	append( tmpBuf ); };
+	void operator << ( uint32_t in )		{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void operator << ( uint16_t in )		{ sprintf( tmpBuf, "%u", in ); 	append( tmpBuf ); };
+	void operator << ( int64_t in )			{ sprintf( tmpBuf, "%li", in ); 	append( tmpBuf ); };
+	void operator << ( int32_t in )			{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void operator << ( int16_t in )			{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void operator << ( int8_t in )			{ sprintf( tmpBuf, "%i", in ); 	append( tmpBuf ); };
+	void operator << ( float in )			{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
+	void operator << ( double in )			{ sprintf( tmpBuf, "%f", in ); 	append( tmpBuf ); };
 //======================================================================
 	void freeStr( void )
 	{	free( dataPtr ); dataPtr = NULL;
@@ -150,15 +175,16 @@ int main( void )
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
 		str.append( "_float( " ); str.append( theFloat ); str.append( "f )" );
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
-		STRING tmpStr; tmpStr.mallocStr( 0xD );
+		STRING tmpStr; tmpStr.mallocStr( 0xF );
 			tmpStr.append( "STRING_OBJECT" );
 		str.append( tmpStr.dataPtr );
 		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
+		byte space = ' ';
+		str += space;
+		str << 1.0;
+		str << 'f';
+		printf( "[%s].size() : %u\n", str.dataPtr, str.size() );
 		tmpStr.freeStr();
-		
-		
-//+= operator overloading for append()
-		
 	str.freeStr();
 
 	puts( "====" );
