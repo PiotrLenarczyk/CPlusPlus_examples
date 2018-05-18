@@ -1,6 +1,6 @@
 #!/bin/bash
 GCC_OPT='-mtune=native -march=native -std=c++11 -Ofast -pipe'
-GCC_FLAGS='-fmax-errors=3 -fverbose-asm'
+GCC_FLAGS='-fmax-errors=3 ' #-fverbose-asm
 LIBS=''
 touch a.out && rm a.out && clear 
 echo "================================================================";
@@ -24,6 +24,7 @@ echo "================================================================";
 g++ -o a.out $GCC_OPT $GCC_FLAGS compilation.cpp $LIBS && ./a.out
 echo "================================================================";
 stat --printf "foo() source size: %s\n" func.cpp 
-stat --printf "foo() machineCode size: %s\n" func.s 
+stat --printf "foo() LINUX machineCode size: %s\n" func.s 
+INS=`cat func.o | wc -l`;echo "instructions no : $INS";
 echo "================================================================";
 rm func.o func.s a.out
