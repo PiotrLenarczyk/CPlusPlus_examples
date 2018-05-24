@@ -10,7 +10,7 @@ typedef __uint32_t uint;
 uint i = 0x0;
 
 #define CLOCKS_PER_SEC  ( __uint64_t )1000000
-extern __inline__ unsigned long long time( void )
+extern __inline__ __uint64_t time( void )
 {   uint hi, lo;
     __asm__ __volatile__ ( "rdtsc" : "=a"( lo ), "=d"( hi ) );
     return ( ( __uint64_t )lo ) | ( ( ( __uint64_t )hi ) << 32 );
