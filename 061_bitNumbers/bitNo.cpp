@@ -4,8 +4,8 @@ using namespace std;
 typedef uint32_t uint;
 size_t i = 0;
 
-void printBits( void const * const ptr, size_t const size );
-int compareValsBits( void * ptrA, size_t sizeA, void * ptrB,  size_t sizeB );
+void printBits( const void * const ptr, size_t const size );
+int compareValsBits( const void * ptrA, size_t sizeA, const void * ptrB, size_t sizeB );
 
 
 int main( void )
@@ -22,7 +22,7 @@ int main( void )
 }
 
 
-void printBits( size_t const size, void const * const ptr )
+void printBits( void const * const ptr, size_t const size )
 {
 	printf( "hexVal = %#08x; decVal = %i \n", * ( uint* )ptr, * ( uint* )ptr );
 	
@@ -46,7 +46,7 @@ void printBits( size_t const size, void const * const ptr )
     puts(""); puts("");
 };
 
-int compareValsBits( size_t sizeA, void * ptrA, size_t sizeB, void * ptrB )
+int compareValsBits( const void * ptrA, size_t sizeA, const void * ptrB, size_t sizeB )
 {
 	if ( sizeA != sizeB )
 		return -1;
