@@ -182,14 +182,35 @@ typedef struct //last character of ALLOCATED SPACE is always '\0'!
 
 void copy( const void* dest, const void* src )
 {	char* out = ( char* )dest;
-	char* in = ( char* )src;
+	char* in  = ( char* )src;
 	while( *out++ = *in++ );
 };
 
 void copy_n( void const* dest,  void const* src, uint n )
 {	char* out = ( char* )dest;
-	char* in = ( char* )src;
+	char* in  = ( char* )src;
 	while( n-- )
+	{	*out++ = *in++;
+	};
+};
+
+void copy_4B( void const* dest,  void const* src, uint n )
+{	if( n % 4 != 0 ) return;
+	n /= 4;
+	uint* out = ( uint* )dest;
+	uint* in  = ( uint* )src;
+	while( n -- )
+	{	*out++ = *in++;
+	};
+};
+
+void copy_4096B( void const* dest,  void const* src, uint n ) //ideal for MACRO kernel
+{	if( n % 4096 != 0 ) return; //not necessary
+	struct TMP { byte tmp[ 4096 ]; };
+	n /= 4096;
+	TMP* out = ( TMP* )dest;
+	TMP* in  = ( TMP* )src;
+	while( n -- )
 	{	*out++ = *in++;
 	};
 };
@@ -266,6 +287,8 @@ int main( void )
 	copy_n( &b[ 0 ], &a, sizeof( a ) );
 		printf( "0x%X :", a ); byte i=0;while( i < 4 ) { printf( "0x%X ", b[ i ] & 0xFF ); i+=1; }; puts( "" );
 	copy_n( &b[ 0 ], "aa23", 4 );
+		printf( "0x%X : %s\n", a, b );
+	copy_4B( &b[ 0 ], "aa23", 4 );
 		printf( "0x%X : %s\n", a, b );
 	puts( "====" );
 	
