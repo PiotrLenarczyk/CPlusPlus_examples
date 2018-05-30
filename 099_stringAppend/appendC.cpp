@@ -199,7 +199,7 @@ void copy_4B( void const* dest,  void const* src, uint n )
 	n /= 4;
 	uint* out = ( uint* )dest;
 	uint* in  = ( uint* )src;
-	while( n -- )
+	while( n-- )
 	{	*out++ = *in++;
 	};
 };
@@ -210,7 +210,7 @@ void copy_4096B( void const* dest,  void const* src, uint n ) //ideal for MACRO 
 	n /= 4096;
 	TMP* out = ( TMP* )dest;
 	TMP* in  = ( TMP* )src;
-	while( n -- )
+	while( n-- )
 	{	*out++ = *in++;
 	};
 };
