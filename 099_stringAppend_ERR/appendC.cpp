@@ -121,9 +121,13 @@ typedef struct //last character of ALLOCATED SPACE is always '\0'!
 			printf( "====\n\tERROR : STRING full - provided costly hardcopy!!! \n\t\t\"%s\"\n====\n", strInPtr );		
 		}; strInPtr = NULL;
 	};
-	void append( char* in, ... )
-	{
-		puts( "append printf prototype!" );
+	void append( const char* printfFormat, ... )
+	{	va_list vargs;
+		va_start( vargs, printfFormat );
+		printf( "====\n%s\n====\n", printfFormat );
+			//sprintf( tmpBuf, printfFormat, vargs );
+			//append( tmpBuf );
+		va_end(vargs);
 	};
 ////====	APPEND ALIASES:
 	void append( unsigned char in ) { sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
@@ -229,8 +233,9 @@ int main( void )
 	//string a2(0x100);
 	float theFloat = 1.13f;
 	STRING str;str.mallocSTRING( 0x20 );
-		int iTmp = 15;
-		str.append( "i : %i\n", iTmp );
+		int iTmp = 17;
+		str.append( "i : %d", iTmp );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
 		//str.append( "aa" ); 
 		//str.append( buf );
 		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
