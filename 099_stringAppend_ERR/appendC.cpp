@@ -2,6 +2,7 @@
 #include <stdio.h> 		//printf()
 #include <string.h>		//strlen()
 #include <string>		//not needed - just for example
+#include <stdarg.h>		//append( printf-style )
 using namespace std;
 typedef unsigned char byte;
 typedef uint32_t uint;
@@ -120,6 +121,10 @@ typedef struct //last character of ALLOCATED SPACE is always '\0'!
 			printf( "====\n\tERROR : STRING full - provided costly hardcopy!!! \n\t\t\"%s\"\n====\n", strInPtr );		
 		}; strInPtr = NULL;
 	};
+	void append( char* in, ... )
+	{
+		puts( "append printf prototype!" );
+	};
 ////====	APPEND ALIASES:
 	void append( unsigned char in ) { sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
 	void append( char in ) 			{ sprintf( tmpBuf, "%c", in ); 	append( tmpBuf ); };
@@ -224,73 +229,75 @@ int main( void )
 	//string a2(0x100);
 	float theFloat = 1.13f;
 	STRING str;str.mallocSTRING( 0x20 );
-		str.append( "aa" ); 
-		str.append( buf );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		str.append( buff2 );
-		str.append( theString.c_str() );
-		str.append( " array." );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		printf( "&str : %p\n", str.dataPtr );
-		str.resizeStr( 0x30 );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		printf( "&str : %p\n", str.dataPtr );
-		str.prepend( "prependPattern_" );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		str.append( "_StringOverflow" );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		str.resizeStr( 0x9 ); //lossy resize
-		str.resizeStr( 0x80 );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		str.append( "_float( " ); str.append( theFloat ); str.append( "f )" );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		STRING tmpStr; tmpStr.mallocSTRING( 0xF );
-			tmpStr.append( "STRING_OBJECT" );
-		str.append( tmpStr.dataPtr );
-		tmpStr.freeStr();
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		byte space = ' ';
-		str += space;
-		str << 1.0;
-		str << 'f';
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		printf( "%c\n", str( 1 ) );
-		printf( "%c\n", str[ 1 ] );
-		printf( "[%s].size() : %lu\n", str( 0, 19 ), strlen( str( 0, 19 ) ) ); //get 20 char's 
-		str.resizeStr( 0x9 ); str.set( 0x31 );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		str.set( 0x42 );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		str.set( '\"' );
-		printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
-		printf( "\n====\tstr.resizeStr( 0x100 );\n" ); str.resizeStr( 0x100 );
-		printf( "STRING_OBJECT* relocations str.dataPtr=%p : &str=%p\n", str.dataPtr, &str ); //comment & operator overload function
-		printf( "STRING_OBJECT* true value : %p\n", &str.dataPtr );	
-		printf( "\'active\' chars size- str.size() : %lu\n", str.size() );
-		printf( "allocated chars space - str.strSize : %lu\n", str.strSize );
-		printf( "STRING_OBJECT \'used memory\' - str.sizeofSTRING() : %lu\n", str.sizeofSTRING() );
-		printf( "sizeof(STRING_OBJECT) : %lu \t(not recommended - lack of allocated chars space)\n", sizeof( str ) );
-		printf( "====\n" );
-		printf( "\n====\tstr.freeStr();\n" ); str.freeStr();
-		printf( "STRING_OBJECT* relocations str.dataPtr=%p : &str=%p\n", str.dataPtr, &str ); //comment & operator overload function
-		printf( "STRING_OBJECT* true value : %p\n", &str.dataPtr );	
-		printf( "\'active\' chars size- str.size() : %lu\n", str.size() );
-		printf( "allocated chars space - str.strSize : %lu\n", str.strSize );
-		printf( "STRING_OBJECT \'used memory\' - str.sizeofSTRING() : %lu\n", str.sizeofSTRING() );
-		printf( "sizeof(STRING_OBJECT) : %lu\n", sizeof( str ) );
-		printf( "====\n" );		
+		int iTmp = 15;
+		str.append( "i : %i\n", iTmp );
+		//str.append( "aa" ); 
+		//str.append( buf );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//str.append( buff2 );
+		//str.append( theString.c_str() );
+		//str.append( " array." );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//printf( "&str : %p\n", str.dataPtr );
+		//str.resizeStr( 0x30 );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//printf( "&str : %p\n", str.dataPtr );
+		//str.prepend( "prependPattern_" );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//str.append( "_StringOverflow" );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//str.resizeStr( 0x9 ); //lossy resize
+		//str.resizeStr( 0x80 );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//str.append( "_float( " ); str.append( theFloat ); str.append( "f )" );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//STRING tmpStr; tmpStr.mallocSTRING( 0xF );
+			//tmpStr.append( "STRING_OBJECT" );
+		//str.append( tmpStr.dataPtr );
+		//tmpStr.freeStr();
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//byte space = ' ';
+		//str += space;
+		//str << 1.0;
+		//str << 'f';
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//printf( "%c\n", str( 1 ) );
+		//printf( "%c\n", str[ 1 ] );
+		//printf( "[%s].size() : %lu\n", str( 0, 19 ), strlen( str( 0, 19 ) ) ); //get 20 char's 
+		//str.resizeStr( 0x9 ); str.set( 0x31 );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//str.set( 0x42 );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//str.set( '\"' );
+		//printf( "[%s].size() : %lu\n", str.dataPtr, str.size() );
+		//printf( "\n====\tstr.resizeStr( 0x100 );\n" ); str.resizeStr( 0x100 );
+		//printf( "STRING_OBJECT* relocations str.dataPtr=%p : &str=%p\n", str.dataPtr, &str ); //comment & operator overload function
+		//printf( "STRING_OBJECT* true value : %p\n", &str.dataPtr );	
+		//printf( "\'active\' chars size- str.size() : %lu\n", str.size() );
+		//printf( "allocated chars space - str.strSize : %lu\n", str.strSize );
+		//printf( "STRING_OBJECT \'used memory\' - str.sizeofSTRING() : %lu\n", str.sizeofSTRING() );
+		//printf( "sizeof(STRING_OBJECT) : %lu \t(not recommended - lack of allocated chars space)\n", sizeof( str ) );
+		//printf( "====\n" );
+		//printf( "\n====\tstr.freeStr();\n" ); str.freeStr();
+		//printf( "STRING_OBJECT* relocations str.dataPtr=%p : &str=%p\n", str.dataPtr, &str ); //comment & operator overload function
+		//printf( "STRING_OBJECT* true value : %p\n", &str.dataPtr );	
+		//printf( "\'active\' chars size- str.size() : %lu\n", str.size() );
+		//printf( "allocated chars space - str.strSize : %lu\n", str.strSize );
+		//printf( "STRING_OBJECT \'used memory\' - str.sizeofSTRING() : %lu\n", str.sizeofSTRING() );
+		//printf( "sizeof(STRING_OBJECT) : %lu\n", sizeof( str ) );
+		//printf( "====\n" );		
 	str.freeStr();
 
-	puts( "====" );
-	uint a = 15;
-	char b[ 5 ]; b[ 4 ] = '\0';
-	copy_n( &b[ 0 ], &a, sizeof( a ) );
-		printf( "0x%X :", a ); byte i=0;while( i < 4 ) { printf( "0x%X ", b[ i ] & 0xFF ); i+=1; }; puts( "" );
-	copy_n( &b[ 0 ], "aa23", 4 );
-		printf( "0x%X : %s\n", a, b );
-	copy_4B( &b[ 0 ], "aa23", 4 );
-		printf( "0x%X : %s\n", a, b );
-	puts( "====" );
+	//puts( "====" );
+	//uint a = 15;
+	//char b[ 5 ]; b[ 4 ] = '\0';
+	//copy_n( &b[ 0 ], &a, sizeof( a ) );
+		//printf( "0x%X :", a ); byte i=0;while( i < 4 ) { printf( "0x%X ", b[ i ] & 0xFF ); i+=1; }; puts( "" );
+	//copy_n( &b[ 0 ], "aa23", 4 );
+		//printf( "0x%X : %s\n", a, b );
+	//copy_4B( &b[ 0 ], "aa23", 4 );
+		//printf( "0x%X : %s\n", a, b );
+	//puts( "====" );
 	
 	return 0;
 };//end of main()
