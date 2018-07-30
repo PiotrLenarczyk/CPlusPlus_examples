@@ -37,7 +37,6 @@ typedef struct //last character of ALLOCATED SPACE is always '\0'!
 			i+=1;
 		}; dataPtr[ strSize - 1 ] = '\0';
 		endPtr = dataPtr;
-		//endPtr = dataPtr + strSize - 1;
 	};
 	void clear( void )
 	{	reset();
