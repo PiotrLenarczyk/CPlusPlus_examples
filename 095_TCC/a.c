@@ -9,7 +9,7 @@ int foo( uint *in );
 //==================================================
 int main( void )
 {	printf( "Hi!:\n" );
-	printf( "*0x%.8X : 0x%.8X\n", &i, i );
+	printf( "*%p : 0x%.8X\n", &i, i );
 	foo( &i );
 	
 	return 0;

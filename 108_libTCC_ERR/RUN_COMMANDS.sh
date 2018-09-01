@@ -8,8 +8,14 @@ CHECK_INSTALL()
 		echo "[$PKG_NAME] : installed"
 	fi
 };
-
 CHECK_INSTALL "tcc" 
 CHECK_INSTALL "libtcc-dev"
 CHECK_INSTALL "libx11-dev"
-./a.c
+
+#=====
+GCC_OPT='-mtune=native -march=native -Ofast -pipe'
+GCC_FLAGS='-fmax-errors=3'
+INC='-I/usr/local/lib/tcc/include'
+LIBS='-ltcc -ldl'
+touch a.out && rm a.out && clear && gcc -o a.out $GCC_OPT $GCC_FLAGS empty.c $INC $LIBS && ./a.out
+rm a.out
