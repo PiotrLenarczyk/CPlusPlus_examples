@@ -1,6 +1,4 @@
-R"(
 //====	libTCC stuff here:
-#include <stdio.h>
 #define DEF 15
 int add(int a, int b) 
 {	return a + b; 
@@ -12,4 +10,3 @@ int foobar(int n)
     return 1;
 };
 //====
-)"

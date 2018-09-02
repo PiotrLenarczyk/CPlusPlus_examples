@@ -17,5 +17,5 @@ GCC_OPT='-mtune=native -march=native -Ofast -pipe'
 GCC_FLAGS='-fmax-errors=3'
 INC='-I/usr/local/lib/tcc/include'
 LIBS='-ltcc -ldl'
-touch a.out && rm a.out && clear && gcc -o a.out $GCC_OPT $GCC_FLAGS empty.c $INC $LIBS && ./a.out
+touch a.out && rm a.out && clear && gcc -o a.out $GCC_OPT $GCC_FLAGS empty.c $INC $LIBS && ./a.out externProg.c
 rm a.out
