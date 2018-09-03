@@ -5,6 +5,12 @@
 #include "libtcc.h"
 #include <unistd.h>	//sleep
 #include <time.h> //program timeout
+#include <signal.h>	//break program signal handle
+int ret; //system commands return value
+void exitHandler( int signalIn )
+{	printf( "\nProgram terminated.\n" );
+	exit( EXIT_SUCCESS );
+};
 
 //char* my_prog =
 	//#include "externProg.c"	//externProg.c : /y7/R"( /*program body here*/ )"
@@ -28,9 +34,10 @@ int readFile( char *fileName )
 	int c = 0x0, n = 0x0, currentChecksum = 0x0;
 	long f_size = 0x0;
 	FILE *file = fopen( fileName, "r" );
-		if ( file == NULL ) return 0x0; //could not open file
+		if ( file == NULL ) { printf( "====\n\tCould not open file!\n====\n" ); return 0x0; }
 		fseek( file, 0, SEEK_END );
 		f_size = ftell( file );
+		if ( f_size > ( long )PROG_SIZE ){ printf( "====\n\tFile too big!\n====\n" ); return 0x0; }
 		fseek( file, 0, SEEK_SET );
 		code = malloc( f_size );
 			while (( c = fgetc( file )) != EOF )
@@ -44,14 +51,13 @@ int readFile( char *fileName )
 	return currentChecksum;
 };
 
-int ret; //system commands return value
 clock_t t; //timeout marker
 void cof( void ); //compilation-on-the-fly
 //======================================================================
 //======================================================================
 int main(int argc, char **argv)
 {	if ( argc == 1 ){ printf( "No source file provided!\n" ); return 0; }
-	t = clock();
+	t = clock(); signal( SIGINT, exitHandler );
 	while( 1 )
 	{	if ( previousFileChecksum != readFile( argv[ argc - 1 ] ) )
 		{	ret = system( "clear" );
@@ -82,8 +88,8 @@ void cof( void )
 	tcc_add_symbol( s, "foo", foo );
 	mem = malloc( tcc_relocate( s, NULL ) );
 	tcc_relocate(s, mem);
-	foobar_func = tcc_get_symbol( s, "foobar" );
+	foobar_func = tcc_get_symbol( s, "main" );
 	tcc_delete( s );
-	printf( "foobar returned: %d\n", foobar_func( 32 ) );
+	printf( "External prog returned: %d\n", foobar_func( 32 ) );
 	free( mem );
 };
