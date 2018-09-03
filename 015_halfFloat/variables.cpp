@@ -16,7 +16,7 @@ int main()
     cout << "long long int: [" << sizeof( long long int ) << "]B     max: " << __LONG_LONG_MAX__ << endl;
     cout << "__int128: " << sizeof( __int128 ) << endl;
     cout << "floating points datatypes: " << endl;
-//     // GPU Half to float: ( only GP108 Pascal architekture!!! values [ -10, +10] )
+//     // GPU Half to float: ( only GP108 Pascal architekture!!! values [ -0.99, +0.99] )
 //     float f = ((h&0x8000)<<16) | (((h&0x7c00)+0x1C000)<<13) | ((h&0x03FF)<<13); 
 //     float f=0.22;
 //     // GPU Float to half:
