@@ -1,4 +1,3 @@
-#include <stdarg.h>
 #include <stdio.h>
 
 typedef unsigned char 			u8;
@@ -35,6 +34,7 @@ typedef unsigned long			u64;
           29,  28,  27,  26,  25,  24,  23,  22,  21,  20, 	\
           19,  18,  17,  16,  15,  14,  13,  12,  11,  10, 	\
            9,   8,   7,   6,   5,   4,   3,   2,   1,   0
+//==============================================================================================
 #define STRINGIZE( arg )							#arg
 #define CONCATENATE( arg1, arg2 ) 					arg1##arg2
 #define FE_CUMMULATIVE_1( macroName, x, ... ) 		macroName( x )
@@ -82,6 +82,8 @@ typedef unsigned long			u64;
 //--------------------------------------------------------------------------------------------
 #define	bsetN32( addr, ... )	*( ( u32* )( addr ) ) |= ( 0x0 FOR_EACH_CUMMUlATIVE( _BOR, __VA_ARGS__ ) );
 #define	bresN32( addr, ... )	*( ( u32* )( addr ) ) &= ( 0xFFFFFFFF FOR_EACH_CUMMUlATIVE( _BANDNOT, __VA_ARGS__ ) );
+#define	borN32( ... )			( u32 )( 0x0 FOR_EACH_CUMMUlATIVE( _BOR, __VA_ARGS__ ) )
+#define	bandNotN32( ... )		( u32 )( 0xFFFFFFFF FOR_EACH_CUMMUlATIVE( _BANDNOT, __VA_ARGS__ ) )
 //==============================================================================================
 
 void printBits( size_t const size, void const * const ptr )
@@ -199,7 +201,7 @@ int main( void )
 	n = bsetN32( &n, 1, 2, 24, 25, 26, 28 );
 	compareValsBits( sizeof( n ), &n, sizeof( m ), &m );
 	
-	n = bresN32( &n, 2, 25 );
+	m = borN32( 2, 25 );
 	compareValsBits( sizeof( n ), &n, sizeof( m ), &m );
 	
 	return 0x0;
