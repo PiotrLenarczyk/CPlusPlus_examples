@@ -1,5 +1,5 @@
 #!/bin/bash
-GCC_OPT='-mtune=native -march=native -std=c++11 -Ofast -pipe'
+GCC_OPT='-g -mtune=native -march=native -std=c++11 -Ofast -pipe'
 GCC_FLAGS='-fmax-errors=3 ' #-fverbose-asm
 LIBS=''
 touch a.out && rm a.out && clear 
@@ -18,6 +18,11 @@ echo "assembled foo():";
 echo "================================================================";
 g++ -o func.s -c $GCC_OPT $GCC_FLAGS func.cpp $LIBS
 hexdump func.s
+echo "================================================================";
+echo "assembled2 foo():";
+echo "================================================================";
+g++ -o func.s -c $GCC_OPT $GCC_FLAGS func.cpp $LIBS
+objdump -S func.s
 echo "================================================================";
 echo "run main():"
 echo "================================================================";
