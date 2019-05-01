@@ -7,7 +7,8 @@ uint i = 0x0;
 //======================================================================
 //function types
 enum: int 	
-{	CONTROL = 0x1, 
+{	//NULL
+	CONTROL = 0x1, 
 	PROCESS, 
 	SEND, 
 	RECEIVE,
@@ -44,6 +45,22 @@ typedef struct
 				funcPtr( funcOut, funcIn ); 
 			};
 }FUNCTION;
+
+//example communication IO data
+typedef struct
+{	uint 	outputAddr;
+	uint 	inputAddr;
+	uint 	size;
+	byte 	data[ 1024 ];
+	void 	load( uint inputSize, void* input )	
+			{	uint i; i = 0x0;
+				byte* tmp1; tmp1 = ( byte* )input;
+				while( inputSize-- )
+					data[ i++ ] = *tmp1++;
+				data[ i ] = 0x0; //always NULL terminated
+			};
+} IO_DATA_EXAMPLE;
+#define IO_DATA_EXAMPLE_SIZE	( sizeof( IO_DATA_EXAMPLE ) )
 //======================================================================
 //generic functions made in one fashion: void (*)(IO*,IO*)
 void FOO( IO* out, IO* in )
@@ -78,6 +95,15 @@ int main( void )
 	{	allFuncs[ i ].run();
 		i++;
 	};
+	
+	//example protocol buffer
+	char sendMessage[] = "Text to be send.";
+		IO_DATA_EXAMPLE IO_send = { 0x1, 0x0, IO_DATA_EXAMPLE_SIZE, 0x0 };
+		IO_send.load( sizeof( sendMessage ), sendMessage );
+	printf( "%s\n", IO_send.data );
+	OUT = { IO_DATA_EXAMPLE_SIZE, ( void* )&IO_send };
+	//example communication function
+	FUNCTION baz = { "baz", SEND, 0, &OUT, &EMPTY, &FOO }; 
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
