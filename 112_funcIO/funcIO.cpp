@@ -46,7 +46,7 @@ typedef struct
 			};
 }FUNCTION;
 
-//example communication IO data
+//example communication IO data struct
 typedef struct
 {	uint 	outputAddr;
 	uint 	inputAddr;
