@@ -122,10 +122,23 @@ format:
     va_end( lst );
 };
 
+int seed;
+void srand( int setSeed )
+{	seed = setSeed;
+};
+
+#define RAND_A 1103515245		//glibc
+#define	RAND_C 12345			//glibc
+#define RAND_M ( 0x1 << 0x1F )	//glibc
+int rand( void )
+{	return seed = ( (RAND_A * seed) + RAND_C ) % RAND_M;
+};
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
 {	
+
 	char buf[ 0x32 ], itoaBuf[ 0x32 ], *iPtr;
 	float a = 14.1f;
 	unsigned b = a;
@@ -136,6 +149,8 @@ int main( void )
 	sprintf( &buf[ strlen( buf ) ], "%s%s", "string", " second" );
 	sprintf( &buf[ strlen( buf ) ], "tekst:%i:%u:%s[%.4f]%c end!%", -1, 0x211, "string ", &a, 'H' );
 	
+	srand( 0x11223344 );
+	i = rand();
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
