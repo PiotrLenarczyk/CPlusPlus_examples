@@ -127,11 +127,12 @@ void srand( int setSeed )
 {	seed = setSeed;
 };
 
-#define RAND_A 1103515245		//glibc
-#define	RAND_C 12345			//glibc
-#define RAND_M ( 0x1 << 0x1F )	//glibc
-int rand( void )	//linear congruential generator
-{	return seed = ( (RAND_A * seed) + RAND_C ) % RAND_M;
+int rand( void ) //linear congruential generator
+{	
+	#define RAND_A 1103515245		//glibc
+	#define	RAND_C 12345			//glibc
+	#define RAND_M 0x80000000		//glibc
+	return seed = ( (RAND_A * seed) + RAND_C ) % RAND_M;
 };
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
