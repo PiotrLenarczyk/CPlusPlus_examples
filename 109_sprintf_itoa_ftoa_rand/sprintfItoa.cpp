@@ -130,7 +130,7 @@ void srand( int setSeed )
 #define RAND_A 1103515245		//glibc
 #define	RAND_C 12345			//glibc
 #define RAND_M ( 0x1 << 0x1F )	//glibc
-int rand( void )
+int rand( void )	//linear congruential generator
 {	return seed = ( (RAND_A * seed) + RAND_C ) % RAND_M;
 };
 
