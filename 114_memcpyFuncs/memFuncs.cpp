@@ -140,7 +140,7 @@ void* memchr( void *ptr, int value, unsigned int num )
 };
 
 #define ALIGN_ADDR( addr, alignment )				\
-			addr += alignment - (addr % alignment);	\
+			addr += alignment - (addr % alignment);
 				
 void foo( void )
 {	
