@@ -33,8 +33,9 @@ int memcmp( void *ptr1, void *ptr2, unsigned int num )
 		memPtr_i1++;
 		memPtr_i2++;
 	};
-	num -= (num >> 2) << 0x2; //reduce num of int number
-	if ( (num >> 0x2) > 0x1 ) //if (mem_noInts > 1)
+	mem_noInts = num >> 2; //divide by 4
+	num -= mem_noInts << 0x2; //reduce num of int number
+	if ( mem_noInts > 0x1 ) //if (mem_noInts > 1)
 	{	--memPtr_i1;
 		--memPtr_i2;
 	};
@@ -66,17 +67,13 @@ void* memset( void *ptr, int value, unsigned int num )
 		*memPtr_i1++ = mem_valueInt;
 	mem_noInts = num >> 0x2;
 	num -= mem_noInts << 0x2;	//reduce num of ints size number
-	if ( ( num == 0x0 ) && ( mem_noInts == 0x1 ))	return (void*)memPtr_i1;
-	if ( ( num == 0x0 ) && ( mem_noInts > 0x1 ))	return (void*)--memPtr_i1;
 	if ( mem_noInts > 0x1 ) 	//if (mem_noInts > 1)
 		memPtr_i1--;
 	//byte memory set with value of unaligned rest
 	memPtr_c1 = (unsigned char *)memPtr_i1;
 	while( num-- )
 		*memPtr_c1++ = (unsigned char)value;
-	if ( ((unsigned int)memPtr_c1 + 2) > (unsigned int)memPtr_i1 ) //byte set > 1
-		return --memPtr_c1;
-	return memPtr_c1;
+	return ptr;
 };
 
 void* memcpy( void *destinationPtr, void *sourcePtr, unsigned int num )
@@ -87,9 +84,7 @@ void* memcpy( void *destinationPtr, void *sourcePtr, unsigned int num )
 		*memPtr_iDst++ = *memPtr_iSrc++;
 	mem_noInts = num >> 0x2;
 	num -= mem_noInts << 0x2;	//reduce num of ints size number
-	if ( ( num == 0x0 ) && ( mem_noInts == 0x1 ))	return (void*)memPtr_iDst;
-	if ( ( num == 0x0 ) && ( mem_noInts > 0x1 ))	return (void*)--memPtr_iDst;
-	if ( (num >> 0x2) > 0x1 ) 	//if (mem_noInts > 1)
+	if ( mem_noInts > 0x1 ) 	//if (mem_noInts > 1)
 	{	memPtr_iDst--;
 		memPtr_iSrc--;
 	};
@@ -98,9 +93,7 @@ void* memcpy( void *destinationPtr, void *sourcePtr, unsigned int num )
 	memPtr_cDst = (unsigned char *)memPtr_iDst;
 	while( num-- )
 		*memPtr_cDst++ = *memPtr_cSrc++;
-	if ( ((unsigned int)memPtr_cDst + 2) > (unsigned int)memPtr_iDst ) //byte set > 1
-		return --memPtr_cDst;
-	return memPtr_cDst;
+	return destinationPtr;
 };
 
 //=======================================================================================
@@ -122,8 +115,6 @@ void* memmove( void *destinationPtr, void *sourcePtr, unsigned int num )
 		*memPtr_iDst++ = *memPtr_iSrc++;
 	mem_noInts = num >> 0x2;
 	num -= mem_noInts << 0x2;	//reduce num of ints size number
-	if ( ( num == 0x0 ) && ( mem_noInts == 0x1 ))	return (void*)memPtr_iDst;
-	if ( ( num == 0x0 ) && ( mem_noInts > 0x1 ))	return (void*)--memPtr_iDst;
 	if ( (num >> 0x2) > 0x1 ) 	//if (mem_noInts > 1)
 	{	memPtr_iDst--;
 		memPtr_iSrc--;
@@ -133,9 +124,7 @@ void* memmove( void *destinationPtr, void *sourcePtr, unsigned int num )
 	memPtr_cDst = (unsigned char *)memPtr_iDst;
 	while( num-- )
 		*memPtr_cDst++ = *memPtr_cSrc++;
-	if ( ((unsigned int)memPtr_cDst + 2) > (unsigned int)memPtr_iDst ) //byte set > 1
-		return --memPtr_cDst;
-	return memPtr_cDst;
+	return destinationPtr;
 };
 
 //=======================================================================================
@@ -154,7 +143,8 @@ void* memchr( void *ptr, int value, unsigned int num )
 			addr += alignment - (addr % alignment);	\
 				
 void foo( void )
-{	char * pch;
+{	
+	char * pch;
 	char str4[] = "Example string";
 	pch = (char*) memchr (str4, 'p', sizeof(str4));
 	if (pch!=NULL)
