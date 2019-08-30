@@ -16,6 +16,7 @@ unsigned char 	*memPtr_cSrc, *memPtr_cDst, *memPtr_buf,
 #define memPtr_c1	memPtr_cDst
 #define memPtr_c2	memPtr_cSrc
 #define mem_i		mem_valueInt
+#define CHARACTER_MASK	0xFFFFFF00
 int memcmp( void *ptr1, void *ptr2, unsigned int num )
 {	memPtr_i1 = (unsigned int*)ptr1;
 	memPtr_i2 = (unsigned int*)ptr2;
@@ -52,7 +53,6 @@ int memcmp( void *ptr1, void *ptr2, unsigned int num )
 	return 0;
 };
 
-#define CHARACTER_MASK	0xFFFFFF00
 void* memset( void *ptr, int value, unsigned int num )
 {	memPtr_i1 = (unsigned int*)ptr;
 	mem_noInts = num >> 0x2;
@@ -96,7 +96,6 @@ void* memcpy( void *destinationPtr, void *sourcePtr, unsigned int num )
 	return destinationPtr;
 };
 
-//=======================================================================================
 void* memmove( void *destinationPtr, void *sourcePtr, unsigned int num )
 {	if ( num > MEMMOVE_BUFSIZE )	//num<MEMMOVE_BUFSIZE
 		return (void*)-1;
@@ -108,7 +107,7 @@ void* memmove( void *destinationPtr, void *sourcePtr, unsigned int num )
 	//get data into memmove buffer
 	while( mem_noInts-- )
 		*memPtr_buf++ = *memPtr_cSrc++;
-	//copuy into dst from buffer via intPtr
+	//copy into dst from buffer via intPtr
 	memPtr_iSrc = (unsigned int *)mem_buf;
 	mem_noInts = num >> 0x2; //divide by 4
 	while( mem_noInts-- )
@@ -127,7 +126,6 @@ void* memmove( void *destinationPtr, void *sourcePtr, unsigned int num )
 	return destinationPtr;
 };
 
-//=======================================================================================
 void* memchr( void *ptr, int value, unsigned int num )
 {	memPtr_cSrc = (unsigned char *)ptr;
 	mem_noInts = num;
@@ -139,9 +137,12 @@ void* memchr( void *ptr, int value, unsigned int num )
 	return (void*)--memPtr_cSrc;
 };
 
-#define ALIGN_ADDR( addr, alignment )				\
+#define ALIGN_UP_ADDR( addr, alignment )			\
 			addr += alignment - (addr % alignment);
-				
+
+#define ALIGN_DOWN_ADDR( addr, alignment )			\
+			addr -= (addr % alignment);
+						
 void foo( void )
 {	
 	char * pch;
@@ -173,13 +174,22 @@ void foo( void )
 	else if (n<0) printf ("'%s' is less than '%s'.\n",buffer1,buffer2);
 	else printf ("'%s' is the same as '%s'.\n",buffer1,buffer2);
 	
-	int addr = 0x7;
-	ALIGN_ADDR( addr, 0x4 );
-	printf( "addr : %d\n", addr );
+	int addr = 0x7, addrAligned;
+	addrAligned = addr;
+	ALIGN_UP_ADDR( addrAligned, 0x4 );
+	printf( "addr[%d] align up : %d\n", addr, addrAligned );
+	addrAligned = addr;
+	ALIGN_DOWN_ADDR( addrAligned, 0x4 );
+	printf( "addr[%d] align down : %d\n", addr, addrAligned );
 	
 	addr = 0x3;
-	ALIGN_ADDR( addr, 0x4 );
-	printf( "addr : %d\n", addr );
+	addrAligned = addr;
+	ALIGN_UP_ADDR( addrAligned, 0x4 );
+	printf( "addr[%d] align up : %d\n", addr, addrAligned );
+	addrAligned = addr;
+	ALIGN_DOWN_ADDR( addrAligned, 0x4 );
+	printf( "addr[%d] align down : %d\n", addr, addrAligned );
+	
 };//foo()
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
