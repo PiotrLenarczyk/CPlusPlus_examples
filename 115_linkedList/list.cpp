@@ -27,7 +27,7 @@ void foo( void )
 {	Variable_TypeDef *vPtr;
 	vPtr = (Variable_TypeDef*)myVariables;
 	vPtr[ 0 ] = { 1, 0.1f };	//1.1f
-	vPtr[ 1 ] = { 0, -0.7f }; 	//0.3f
+	vPtr[ 1 ] = { 1, -0.7f }; 	//0.3f
 	vPtr[ 2 ] = { 3, 0.14f };	//3.14f
 	vPtr[ 3 ] = { 2, 0.72f };	//2.72f
 
