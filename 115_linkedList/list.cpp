@@ -5,7 +5,7 @@ typedef __uint32_t uint;
 typedef unsigned char byte;
 uint i = 0x0;
 
-#define SO_MANY_VARIABLES 	0x400	//1024B/8 = 128 variables
+#define SO_MANY_VARIABLES 	0x400	
 #define SIZE( ptr )			( int )(sizeof( ptr ) / \
 							( sizeof( ptr[ 0 ] ) ))
 #define SPACE_LEFT( ptr )	(int)( SO_MANY_VARIABLES - SIZE( ptr ) )
@@ -30,10 +30,10 @@ void foo( void )
 	vPtr[ 1 ] = { 0, -0.7f }; 	//0.3f
 	vPtr[ 2 ] = { 3, 0.14f };	//3.14f
 	vPtr[ 3 ] = { 2, 0.72f };	//2.72f
-	
+
 	int lSize; 
 	LinkedList_TypeDef l[ SO_MANY_VARIABLES / 
-						  (sizeof( Variable_TypeDef * )) ] = 
+						  (sizeof( Variable_TypeDef )) ] = 
 	{	{ &vPtr[ 0 ], &vPtr[ 1 ] },	//first list item
 		{ &vPtr[ 1 ], &vPtr[ 3 ] },	//second list item
 	};
