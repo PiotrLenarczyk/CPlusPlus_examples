@@ -13,15 +13,41 @@ uint i = 0x0;
 									(int)SO_MANY_VARIABLES )			\
 							{ puts( "LIST SIZE HANDLER" ); while( 1 ); };
 unsigned char myVariables[ SO_MANY_VARIABLES ];
+
+//====
+//typedef struct
+//{	unsigned short intPart;		//2B assumed; constant precision error
+	//__fp16 floatPart;	//2B assumed; 
+						//constant precision error 2E-10 {-0.9(9); +0.9(9)};
+						//overflow and underflow protection +-128
+//} VariableHalf_TypeDef;
+//...
+//====
+
 typedef struct
-{	int intPart;	//4B assumed
-	float floatPart;//4B assumed
+{	int intPart;		//4B assumed; constant precision error
+	float floatPart;	//4B assumed; 
+						//constant precision error 2E-23 {-0.9(9); +0.9(9)};
+						//overflow and underflow protection +-32768
 } Variable_TypeDef;
 
 typedef struct
 {	Variable_TypeDef *previousPtr;
 	Variable_TypeDef *nextPtr;
 } LinkedList_TypeDef;
+
+typedef struct
+{	long intPart;		//8B assumed
+	double floatPart;	//8B assumed
+						//constant precision error 2E-52 {-0.9(9); +0.9(9)};
+						//overflow and underflow protection +-someBigNumber
+} VariableLong_TypeDef;
+
+typedef struct
+{	VariableLong_TypeDef *previousPtr;
+	VariableLong_TypeDef *nextPtr;
+} LinkedListLong_TypeDef;
+
 
 void foo( void )
 {	Variable_TypeDef *vPtr;
@@ -52,7 +78,7 @@ void foo( void )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
 {	foo();
-	
+
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
