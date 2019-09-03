@@ -28,7 +28,8 @@ void* baz( void* in )
 };
 
 //=============== FUNCNAMES	============================================
-unsigned char funcNames[][ 0x20 ] = 
+#define MAX_FUNCNAME_SIZE	0x20
+unsigned char funcNames[][ MAX_FUNCNAME_SIZE ] = 
 {	"void* dummy( void* in )",	//DUMMY_NO
 	"void* foo( void* in )",	//FOO_NO
 	"void* bar( void* in )",	//BAR_NO
