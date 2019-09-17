@@ -7,13 +7,9 @@ uint i = 0x0;
 #define N 10
 float arr[ N ];
 
+static inline 
 int cmpf( const void* a, const void* b )
-{	if ( *( float* )a == *( float* )b )
-		return 0;
-	if ( *( float* )a < *( float* )b )
-		return -1;
-	else
-		return 1;
+{	return ( *( float* )a - *( float * )b );
 };//cmpf
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
