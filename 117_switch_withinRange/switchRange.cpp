@@ -4,8 +4,18 @@ using namespace std;
 
 
 //======================================================================
+#define	GENERATED			\
+ranges.start[ 0 ] = 0x0;	ranges.end[ 0 ] = 0x7FF40;	 \
+ranges.start[ 1 ] = 0x7FF40;	ranges.end[ 1 ] = 0xFFE80;	 \
+ranges.start[ 2 ] = 0xFFE80;	ranges.end[ 2 ] = 0x17FDC0;	 \
+ranges.start[ 3 ] = 0x17FDC0;	ranges.end[ 3 ] = 0x1FFD00;	 \
+
+#define BUCKETS_NO	4
+
+
+
 #define VARNAME				"i"
-#define	BUCKETS_NO			0x3
+//#define	BUCKETS_NO			0x3
 #define MIN 				0x0
 #define	MAX 				0x100
 #define	ALL_BUCKETS_NO		( BUCKETS_NO + 1 )
@@ -31,7 +41,7 @@ void generateSwitchBuckets( const void *const varName,
 };
 
 //======================================================================
-#define rangesCount	0x3
+#define rangesCount	0x4
 typedef struct
 {	unsigned start[ rangesCount ];
 	unsigned end[ rangesCount ];
@@ -65,13 +75,16 @@ void randomize( Ranges_TypeDef *in )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
-{	generateSwitchBuckets( 	VARNAME,
-							MIN,
-							MAX
-							);	
+{	
+	//generateSwitchBuckets( VARNAME, MIN, MAX );	
 
 
-	Ranges_TypeDef ranges; randomize( &ranges );
+	Ranges_TypeDef ranges; 
+	//randomize( &ranges );
+	GENERATED;
+
+
+
 	generateSwitchRange( "i", &ranges );
 	return 0;
 };//end of main()
