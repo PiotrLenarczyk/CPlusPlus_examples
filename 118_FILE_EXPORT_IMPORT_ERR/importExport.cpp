@@ -53,7 +53,8 @@ using namespace std;
 #define	FILEREAD_BUFSIZE	0x1000	//4kiB file read - optimized for SSD's
 #define MAX_VARNAME			0x400
 #define MAX_VARIABLES		0x400
-
+#define	HEADER_OFFSET		0x0
+#define	VARIABLES_OFFSET	0x3000
 unsigned char fileReadBuf[ FILEREAD_BUFSIZE ];
 unsigned char varName[ MAX_VARNAME ];
 int varCount;
@@ -72,15 +73,18 @@ typedef struct
 {	unsigned cs;
 	long unsigned fileOffset;
 }HEADER_LUT_TypeDef;
+HEADER_LUT_TypeDef varLUT;
 typedef struct
 {	HEADER_LUT_TypeDef LUT[ MAX_VARIABLES ];
 }HEADER_TypeDef;
+HEADER_TypeDef HEADER;
 typedef struct
 {	int eov;
 	unsigned char *namePtr;
 	long unsigned size;
 	unsigned char dataPtr;
 }VARIABLE_TypeDef;
+VARIABLE_TypeDef VARIABLE;
 
 int checksumSeed;
 #define RAND_A 1103515245		//glibc
@@ -96,8 +100,8 @@ int checksumArr( register unsigned char *arrPtr )
 	return checksumSeed;
 };
 
-#define PRINT_COMMAND "hexdump -Cv -n 32 "
-void PRINT( void* fileName )
+#define PRINT_COMMAND "hexdump -Cv "
+void PRINT( void* fileName, long unsigned offset )
 {	int i;
 	unsigned char command[ 0x400 ], *namePtr;
 		for ( i = 0x0; i < sizeof(PRINT_COMMAND);i++ )
@@ -156,8 +160,12 @@ int SAVE( void* fileName, void* variableOut, long unsigned size )
 	FILE *pFile;
 	pFile = fopen( (const char*)fileName, "wb" );
 //HEADER file offset: 0x0
-//...
+		varLUT.cs = checksumArr( (unsigned char*)variableOut );
+		varLUT.fileOffset = VARIABLES_OFFSET;
+		HEADER.LUT[ 0 ] = varLUT;
+		fwrite( &HEADER, SIZE_1B, sizeof(HEADER_TypeDef), pFile );
 //VARIABLES file offset: 0x3000
+		//fseek( pFile, VARIABLES_OFFSET, );
 		fwrite( EOV, SIZE_1B, sizeof( EOV ), pFile );
 		fwrite( VARNAME(variableOut), SIZE_1B, sizeof( VARNAME(variableOut) ), pFile  );
 		fwrite( &size, SIZE_1B, sizeof( long unsigned ), pFile  );
@@ -205,7 +213,6 @@ int main( void )
 	size = 4;
 	st = SAVE( filename, &i, size );
 	LIST( filename );
-	PRINT( filename );
 	return 0;
 };//end of main()
 #endif //SELF_CONTAINED
