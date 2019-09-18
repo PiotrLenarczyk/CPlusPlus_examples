@@ -19,13 +19,24 @@ int checksumAcc( void* xorIn ) //accumulated checksum; trivial LCG-based
 	return seed = ( (RAND_A * seed) + RAND_C ) % RAND_M;
 };
 
+int checksumSeed;
+static inline
+int checksumArr( register unsigned char *arrPtr )
+{	checksumSeed = *arrPtr++;
+	while( *arrPtr )
+	{	checksumSeed ^= *arrPtr++;
+		checksumSeed = ( (RAND_A * checksumSeed) + RAND_C ) % RAND_M;
+	};
+	return checksumSeed;
+};
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 int main( void )
 {	
 	#define DATAS			0x4
 	unsigned char arr[][DATAS] = 
-	{	{ 0x11, 0x22, 0x33, 0x44 },
+	{	{ 0x11, 0x22, 0x33, 0x04 },
 		{ 0x11, 0x22, 0x33, 0x84 },
 	};
 
