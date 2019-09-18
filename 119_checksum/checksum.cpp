@@ -24,10 +24,11 @@ int checksumAcc( void* xorIn ) //accumulated checksum; trivial LCG-based
 int main( void )
 {	
 	#define DATAS			0x4
-	char arr[][DATAS] = 
+	unsigned char arr[][DATAS] = 
 	{	{ 0x11, 0x22, 0x33, 0x44 },
-		{ 0x21, 0x22, 0x33, 0x44 },
+		{ 0x11, 0x22, 0x33, 0x84 },
 	};
+
 	puts( "====" );
 	srand(0);
 	for ( int i = 0x0; i < DATAS; i++ )
@@ -37,13 +38,13 @@ int main( void )
 	puts( "====" );
 	srand(0);
 	for ( int i = 0x0; i < DATAS; i++ )
-	{	printf( "arr[][0].cs[%i]: 0x%08X\n", i, checksumAcc( &arr[i][0] ) );
+	{	printf( "arr[][0].cs[%i]: 0x%08X\n", i, checksumAcc( &arr[0][i] ) );
 	};
 	
 	puts( "====" );
 	srand(0);
 	for ( int i = 0x0; i < DATAS; i++ )
-	{	printf( "arr[][1].cs[%i]: 0x%08X\n", i, checksumAcc( &arr[i][1] ) );
+	{	printf( "arr[][1].cs[%i]: 0x%08X\n", i, checksumAcc( &arr[1][i] ) );
 	};
 
 	
