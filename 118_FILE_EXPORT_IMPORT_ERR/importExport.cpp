@@ -62,8 +62,6 @@ int varCount;
 long unsigned foundVarsFilePtrs[ MAX_VARIABLES ];
 
 
-
-
 unsigned char typeName[ 0x20 ];
 unsigned char* TYPE( unsigned char type )
 {	CLEAR( typeName );
