@@ -7,10 +7,10 @@ typedef struct{	unsigned char t[ 5 ]; }BYTES_5_TypeDef;
 #define readNB( dstPtr, srcPtr, size )											\
 		{	static int i32, i8; 												\
 			i32 = size >> 0x2; i8 = size;										\
-			while( i32-- ) 	( (unsigned*)dstPtr )[ i32 ] = 						\
-								( (unsigned*)srcPtr )[ i32 ];					\
-			while( i8-- ) 	( (unsigned char*)dstPtr )[ i8 ] = 					\
-								( (unsigned char*)srcPtr )[ i8 ];				\
+			while( i32-- ) 	( (unsigned*)(void*)dstPtr )[ i32 ] = 				\
+								( (unsigned*)(void*)srcPtr )[ i32 ];			\
+			while( i8-- ) 	( (unsigned char*)(void*)dstPtr )[ i8 ] = 			\
+								( (unsigned char*)(void*)srcPtr )[ i8 ];		\
 		};
 																
 #define printNB( srcPtr, N ) { 	static int i; i = N; 							\
