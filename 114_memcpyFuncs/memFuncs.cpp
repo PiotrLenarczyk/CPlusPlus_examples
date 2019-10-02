@@ -88,7 +88,7 @@ void* memcpy( void *destinationPtr, void *sourcePtr, unsigned int num )
 	{	memPtr_iDst--;
 		memPtr_iSrc--;
 	};
-	//byte memory move
+	//byte memory copy
 	memPtr_cSrc = (unsigned char *)memPtr_iSrc;
 	memPtr_cDst = (unsigned char *)memPtr_iDst;
 	while( num-- )
