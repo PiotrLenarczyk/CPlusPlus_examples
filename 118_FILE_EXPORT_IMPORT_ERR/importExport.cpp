@@ -13,7 +13,7 @@ using namespace std;
 //-no size limits for each variable=object=structure=instructions
 //-1024 variables allowed in single file
 //-variable stringName limited to 1kiB characters
-//-file accessed by 16kiB temporary buffer
+//-file accessed by 64kiB temporary buffer
 //-HEADER: 1024x: checksum variableName | type | flags | fileOffset
 //-VARIABLES contains: nameSize2B | stringNameXB | size8B | binaryDataXB
 //======================================================================
