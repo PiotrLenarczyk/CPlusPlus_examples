@@ -6,24 +6,42 @@ using namespace std;
 void send4B_Duff(int *dstPtr, int *srcPtr, int wordCount)
 {	static int n;
 	n = (wordCount + 7) >> 0x3; //div by 8
-	switch(wordCount % 8)
-	{	case 0:	do{	*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 7:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 6:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 5:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 4:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 3:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 2:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-		case 1:		*dstPtr = *srcPtr++;
-					printf( "0x%08X\n", *dstPtr );
-				  }while( --n > 0 );
+	switch (wordCount % 8) 
+	{	case 0: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 7: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 6: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 5: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 4: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 3: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 2: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+		case 1: *dstPtr = *srcPtr++;
+				printf( "rest: 0x%08X\n", *dstPtr );
+	};
+	puts( "unrolled:" );
+	while (--n > 0) 
+	{	*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
+		*dstPtr = *srcPtr++;
+			printf( "0x%08X\n", *dstPtr );
 	};
 };
 
