@@ -26,7 +26,7 @@ using namespace std;
 //	type1B_variable0,
 //	flags1B_variable0,
 //	fileAddres8B_variable0,	
-//	...
+//	... variable1 ...
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ VARIABLES OFFSET 0x4000 ^^^^^^^^^^^^^^^^^^^
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -34,7 +34,7 @@ using namespace std;
 //	stringNameNB_variable0\0,		//file offset 0x4002
 //	size8B_variable0,				//file offset 0x4XXX
 //	bytesNB_variable0,				//file offset 0xXXXXXXXX
-//	...
+//	... variable1 ...
 //	EOF
 //======================================================================
 //======================================================================
@@ -50,7 +50,7 @@ using namespace std;
 #define	HEADER_OFFSET					0x0
 #define	VARIABLES_OFFSET				0x4000
 #define	FSEEK_VARIABLES( filePtr )		fseek( filePtr, VARIABLES_OFFSET, SEEK_SET );
-#define	CLEAR( in ) for( int i = 0x0; i < sizeof( in ); i++ ) \
+#define	CLEAR( in ) for( int i = 0x0; i < (int)sizeof( in ); i++ ) \
 						*(unsigned char*)(void*)(&in) = 0x0;
 unsigned char fileReadBuf[ FILEREAD_BUFSIZE ];
 unsigned char varName[ MAX_VARNAME ];
@@ -155,6 +155,7 @@ fwrite( fileReadBuf, SIZE_1B, FILEREAD_BUFSIZE, pFile );
 
 int LOAD( void* fileName, void* variableIn, void* size )
 {	
+	return 0x0;
 };
 
 
@@ -162,6 +163,7 @@ char currentlyOpened[ 0x200 ];
 int OPEN( void* fileName )
 {	for ( int i = 0x0; i < sizeof( HEADER ); i+=0x4 )
 		*( unsigned* )( &HEADER ) = ( unsigned )0x0;
+	return 0x0;
 };
 #if (0)
 
