@@ -13,7 +13,7 @@ using namespace std;
 //##############################################################################
 //only uniformly distibuted Bit Fields!
 //instruction code size costly!
-#define BF8_ARR( BFName, FieldName, no, val )								\
+#define BF4_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
@@ -21,7 +21,7 @@ using namespace std;
 			case 2:		BFName.CONCATENATE( FieldName, 2 ) = (val);	break;	\
 			case 3:		BFName.CONCATENATE( FieldName, 3 ) = (val);	break;	\
 		};
-#define BF8PTR_ARR( BFPtrName, FieldName, no, val )							\
+#define BF4PTR_ARR( BFPtrName, FieldName, no, val )							\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
@@ -30,7 +30,7 @@ using namespace std;
 			case 3:		BFPtrName->CONCATENATE( FieldName, 3 ) = (val);break;	\
 		};
 
-#define BF16_ARR( BFName, FieldName, no, val )								\
+#define BF8_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
@@ -42,7 +42,7 @@ using namespace std;
 			case 6:		BFName.CONCATENATE( FieldName, 6 ) = (val);	break;	\
 			case 7:		BFName.CONCATENATE( FieldName, 7 ) = (val);	break;	\
 		};
-#define BF16PTR_ARR( BFPtrName, FieldName, no, val )						\
+#define BF8PTR_ARR( BFPtrName, FieldName, no, val )						\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
@@ -55,7 +55,7 @@ using namespace std;
 			case 7:		BFPtrName->CONCATENATE( FieldName, 7 ) = (val);break;	\
 		};
 
-#define BF32_ARR( BFName, FieldName, no, val )								\
+#define BF16_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
@@ -75,7 +75,7 @@ using namespace std;
 			case 14:	BFName.CONCATENATE( FieldName, 14 ) = (val);	break;	\
 			case 15:	BFName.CONCATENATE( FieldName, 15 ) = (val);	break;	\
 		};
-#define BF32PTR_ARR( BFPtrName, FieldName, no, val )						\
+#define BF16PTR_ARR( BFPtrName, FieldName, no, val )						\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
@@ -96,7 +96,7 @@ using namespace std;
 			case 15:	BFPtrName->CONCATENATE( FieldName, 15 ) = (val);break;\
 		};
 
-#define BF64_ARR( BFName, FieldName, no, val )								\
+#define BF32_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
@@ -132,7 +132,7 @@ using namespace std;
 			case 30:	BFName.CONCATENATE( FieldName, 30 ) = (val);	break;	\
 			case 31:	BFName.CONCATENATE( FieldName, 31 ) = (val);	break;	\
 		};
-#define BF64PTR_ARR( BFPtrName, FieldName, no, val )						\
+#define BF32PTR_ARR( BFPtrName, FieldName, no, val )						\
 		switch( no )														\
 		{	default:	break;												\
 			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
@@ -210,7 +210,7 @@ int main( void )
 				((( fieldMask << (i * fieldSize) ) & 
 					*(unsigned int*)&BF) >> (i * fieldSize)) & fieldMask 
 		  );
-		  	BF32PTR_ARR( BFPtr, Field, i, 0x3 );
+		  	BF16PTR_ARR( BFPtr, Field, i, 0x3 );
 	printf( "BFPtr->Field[%d] : %d\n",i,
 				((( fieldMask << (i * fieldSize) ) & 
 					*(unsigned int*)&BF) >> (i * fieldSize)) & fieldMask 
