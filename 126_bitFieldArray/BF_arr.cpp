@@ -1,172 +1,172 @@
 #include <cstdio> 
 using namespace std;
 //##############################################################################
-#ifndef STRINGIZE
-	#define STRINGIZE( a, b ) a##b
+#ifndef CONCATENATE
+	#define CONCATENATE( a, b ) a##b
 #endif
 //##############################################################################
 //only compile-time Bit Fields!
 #define BF_ARR( BFName, FieldName, no, val )								\
-					BFName.STRINGIZE( FieldName, no ) = (val);
+					BFName.CONCATENATE( FieldName, no ) = (val);
 #define BFPTR_ARR( BFPTRName, FieldName, no, val )							\
-					BFPTRName->STRINGIZE( FieldName, no ) = (val);
+					BFPTRName->CONCATENATE( FieldName, no ) = (val);
 //##############################################################################
 //only uniformly distibuted Bit Fields!
 //instruction code size costly!
 #define BF8_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFName.STRINGIZE( FieldName, 0 ) = (val);	break;	\
-			case 1:		BFName.STRINGIZE( FieldName, 1 ) = (val);	break;	\
-			case 2:		BFName.STRINGIZE( FieldName, 2 ) = (val);	break;	\
-			case 3:		BFName.STRINGIZE( FieldName, 3 ) = (val);	break;	\
+			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
+			case 1:		BFName.CONCATENATE( FieldName, 1 ) = (val);	break;	\
+			case 2:		BFName.CONCATENATE( FieldName, 2 ) = (val);	break;	\
+			case 3:		BFName.CONCATENATE( FieldName, 3 ) = (val);	break;	\
 		};
 #define BF8PTR_ARR( BFPtrName, FieldName, no, val )							\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFPtrName->STRINGIZE( FieldName, 0 ) = (val);break;	\
-			case 1:		BFPtrName->STRINGIZE( FieldName, 1 ) = (val);break;	\
-			case 2:		BFPtrName->STRINGIZE( FieldName, 2 ) = (val);break;	\
-			case 3:		BFPtrName->STRINGIZE( FieldName, 3 ) = (val);break;	\
+			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
+			case 1:		BFPtrName->CONCATENATE( FieldName, 1 ) = (val);break;	\
+			case 2:		BFPtrName->CONCATENATE( FieldName, 2 ) = (val);break;	\
+			case 3:		BFPtrName->CONCATENATE( FieldName, 3 ) = (val);break;	\
 		};
 
 #define BF16_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFName.STRINGIZE( FieldName, 0 ) = (val);	break;	\
-			case 1:		BFName.STRINGIZE( FieldName, 1 ) = (val);	break;	\
-			case 2:		BFName.STRINGIZE( FieldName, 2 ) = (val);	break;	\
-			case 3:		BFName.STRINGIZE( FieldName, 3 ) = (val);	break;	\
-			case 4:		BFName.STRINGIZE( FieldName, 4 ) = (val);	break;	\
-			case 5:		BFName.STRINGIZE( FieldName, 5 ) = (val);	break;	\
-			case 6:		BFName.STRINGIZE( FieldName, 6 ) = (val);	break;	\
-			case 7:		BFName.STRINGIZE( FieldName, 7 ) = (val);	break;	\
+			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
+			case 1:		BFName.CONCATENATE( FieldName, 1 ) = (val);	break;	\
+			case 2:		BFName.CONCATENATE( FieldName, 2 ) = (val);	break;	\
+			case 3:		BFName.CONCATENATE( FieldName, 3 ) = (val);	break;	\
+			case 4:		BFName.CONCATENATE( FieldName, 4 ) = (val);	break;	\
+			case 5:		BFName.CONCATENATE( FieldName, 5 ) = (val);	break;	\
+			case 6:		BFName.CONCATENATE( FieldName, 6 ) = (val);	break;	\
+			case 7:		BFName.CONCATENATE( FieldName, 7 ) = (val);	break;	\
 		};
 #define BF16PTR_ARR( BFPtrName, FieldName, no, val )						\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFPtrName->STRINGIZE( FieldName, 0 ) = (val);break;	\
-			case 1:		BFPtrName->STRINGIZE( FieldName, 1 ) = (val);break;	\
-			case 2:		BFPtrName->STRINGIZE( FieldName, 2 ) = (val);break;	\
-			case 3:		BFPtrName->STRINGIZE( FieldName, 3 ) = (val);break;	\
-			case 4:		BFPtrName->STRINGIZE( FieldName, 4 ) = (val);break;	\
-			case 5:		BFPtrName->STRINGIZE( FieldName, 5 ) = (val);break;	\
-			case 6:		BFPtrName->STRINGIZE( FieldName, 6 ) = (val);break;	\
-			case 7:		BFPtrName->STRINGIZE( FieldName, 7 ) = (val);break;	\
+			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
+			case 1:		BFPtrName->CONCATENATE( FieldName, 1 ) = (val);break;	\
+			case 2:		BFPtrName->CONCATENATE( FieldName, 2 ) = (val);break;	\
+			case 3:		BFPtrName->CONCATENATE( FieldName, 3 ) = (val);break;	\
+			case 4:		BFPtrName->CONCATENATE( FieldName, 4 ) = (val);break;	\
+			case 5:		BFPtrName->CONCATENATE( FieldName, 5 ) = (val);break;	\
+			case 6:		BFPtrName->CONCATENATE( FieldName, 6 ) = (val);break;	\
+			case 7:		BFPtrName->CONCATENATE( FieldName, 7 ) = (val);break;	\
 		};
 
 #define BF32_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFName.STRINGIZE( FieldName, 0 ) = (val);	break;	\
-			case 1:		BFName.STRINGIZE( FieldName, 1 ) = (val);	break;	\
-			case 2:		BFName.STRINGIZE( FieldName, 2 ) = (val);	break;	\
-			case 3:		BFName.STRINGIZE( FieldName, 3 ) = (val);	break;	\
-			case 4:		BFName.STRINGIZE( FieldName, 4 ) = (val);	break;	\
-			case 5:		BFName.STRINGIZE( FieldName, 5 ) = (val);	break;	\
-			case 6:		BFName.STRINGIZE( FieldName, 6 ) = (val);	break;	\
-			case 7:		BFName.STRINGIZE( FieldName, 7 ) = (val);	break;	\
-			case 8:		BFName.STRINGIZE( FieldName, 8 ) = (val);	break;	\
-			case 9:		BFName.STRINGIZE( FieldName, 9 ) = (val);	break;	\
-			case 10:	BFName.STRINGIZE( FieldName, 10 ) = (val);	break;	\
-			case 11:	BFName.STRINGIZE( FieldName, 11 ) = (val);	break;	\
-			case 12:	BFName.STRINGIZE( FieldName, 12 ) = (val);	break;	\
-			case 13:	BFName.STRINGIZE( FieldName, 13 ) = (val);	break;	\
-			case 14:	BFName.STRINGIZE( FieldName, 14 ) = (val);	break;	\
-			case 15:	BFName.STRINGIZE( FieldName, 15 ) = (val);	break;	\
+			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
+			case 1:		BFName.CONCATENATE( FieldName, 1 ) = (val);	break;	\
+			case 2:		BFName.CONCATENATE( FieldName, 2 ) = (val);	break;	\
+			case 3:		BFName.CONCATENATE( FieldName, 3 ) = (val);	break;	\
+			case 4:		BFName.CONCATENATE( FieldName, 4 ) = (val);	break;	\
+			case 5:		BFName.CONCATENATE( FieldName, 5 ) = (val);	break;	\
+			case 6:		BFName.CONCATENATE( FieldName, 6 ) = (val);	break;	\
+			case 7:		BFName.CONCATENATE( FieldName, 7 ) = (val);	break;	\
+			case 8:		BFName.CONCATENATE( FieldName, 8 ) = (val);	break;	\
+			case 9:		BFName.CONCATENATE( FieldName, 9 ) = (val);	break;	\
+			case 10:	BFName.CONCATENATE( FieldName, 10 ) = (val);	break;	\
+			case 11:	BFName.CONCATENATE( FieldName, 11 ) = (val);	break;	\
+			case 12:	BFName.CONCATENATE( FieldName, 12 ) = (val);	break;	\
+			case 13:	BFName.CONCATENATE( FieldName, 13 ) = (val);	break;	\
+			case 14:	BFName.CONCATENATE( FieldName, 14 ) = (val);	break;	\
+			case 15:	BFName.CONCATENATE( FieldName, 15 ) = (val);	break;	\
 		};
 #define BF32PTR_ARR( BFPtrName, FieldName, no, val )						\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFPtrName->STRINGIZE( FieldName, 0 ) = (val);break;	\
-			case 1:		BFPtrName->STRINGIZE( FieldName, 1 ) = (val);break;	\
-			case 2:		BFPtrName->STRINGIZE( FieldName, 2 ) = (val);break;	\
-			case 3:		BFPtrName->STRINGIZE( FieldName, 3 ) = (val);break;	\
-			case 4:		BFPtrName->STRINGIZE( FieldName, 4 ) = (val);break;	\
-			case 5:		BFPtrName->STRINGIZE( FieldName, 5 ) = (val);break;	\
-			case 6:		BFPtrName->STRINGIZE( FieldName, 6 ) = (val);break;	\
-			case 7:		BFPtrName->STRINGIZE( FieldName, 7 ) = (val);break;	\
-			case 8:		BFPtrName->STRINGIZE( FieldName, 8 ) = (val);break;	\
-			case 9:		BFPtrName->STRINGIZE( FieldName, 9 ) = (val);break;	\
-			case 10:	BFPtrName->STRINGIZE( FieldName, 10 ) = (val);break;\
-			case 11:	BFPtrName->STRINGIZE( FieldName, 11 ) = (val);break;\
-			case 12:	BFPtrName->STRINGIZE( FieldName, 12 ) = (val);break;\
-			case 13:	BFPtrName->STRINGIZE( FieldName, 13 ) = (val);break;\
-			case 14:	BFPtrName->STRINGIZE( FieldName, 14 ) = (val);break;\
-			case 15:	BFPtrName->STRINGIZE( FieldName, 15 ) = (val);break;\
+			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
+			case 1:		BFPtrName->CONCATENATE( FieldName, 1 ) = (val);break;	\
+			case 2:		BFPtrName->CONCATENATE( FieldName, 2 ) = (val);break;	\
+			case 3:		BFPtrName->CONCATENATE( FieldName, 3 ) = (val);break;	\
+			case 4:		BFPtrName->CONCATENATE( FieldName, 4 ) = (val);break;	\
+			case 5:		BFPtrName->CONCATENATE( FieldName, 5 ) = (val);break;	\
+			case 6:		BFPtrName->CONCATENATE( FieldName, 6 ) = (val);break;	\
+			case 7:		BFPtrName->CONCATENATE( FieldName, 7 ) = (val);break;	\
+			case 8:		BFPtrName->CONCATENATE( FieldName, 8 ) = (val);break;	\
+			case 9:		BFPtrName->CONCATENATE( FieldName, 9 ) = (val);break;	\
+			case 10:	BFPtrName->CONCATENATE( FieldName, 10 ) = (val);break;\
+			case 11:	BFPtrName->CONCATENATE( FieldName, 11 ) = (val);break;\
+			case 12:	BFPtrName->CONCATENATE( FieldName, 12 ) = (val);break;\
+			case 13:	BFPtrName->CONCATENATE( FieldName, 13 ) = (val);break;\
+			case 14:	BFPtrName->CONCATENATE( FieldName, 14 ) = (val);break;\
+			case 15:	BFPtrName->CONCATENATE( FieldName, 15 ) = (val);break;\
 		};
 
 #define BF64_ARR( BFName, FieldName, no, val )								\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFName.STRINGIZE( FieldName, 0 ) = (val);	break;	\
-			case 1:		BFName.STRINGIZE( FieldName, 1 ) = (val);	break;	\
-			case 2:		BFName.STRINGIZE( FieldName, 2 ) = (val);	break;	\
-			case 3:		BFName.STRINGIZE( FieldName, 3 ) = (val);	break;	\
-			case 4:		BFName.STRINGIZE( FieldName, 4 ) = (val);	break;	\
-			case 5:		BFName.STRINGIZE( FieldName, 5 ) = (val);	break;	\
-			case 6:		BFName.STRINGIZE( FieldName, 6 ) = (val);	break;	\
-			case 7:		BFName.STRINGIZE( FieldName, 7 ) = (val);	break;	\
-			case 8:		BFName.STRINGIZE( FieldName, 8 ) = (val);	break;	\
-			case 9:		BFName.STRINGIZE( FieldName, 9 ) = (val);	break;	\
-			case 10:	BFName.STRINGIZE( FieldName, 10 ) = (val);	break;	\
-			case 11:	BFName.STRINGIZE( FieldName, 11 ) = (val);	break;	\
-			case 12:	BFName.STRINGIZE( FieldName, 12 ) = (val);	break;	\
-			case 13:	BFName.STRINGIZE( FieldName, 13 ) = (val);	break;	\
-			case 14:	BFName.STRINGIZE( FieldName, 14 ) = (val);	break;	\
-			case 15:	BFName.STRINGIZE( FieldName, 15 ) = (val);	break;	\
-			case 16:	BFName.STRINGIZE( FieldName, 16 ) = (val);	break;	\
-			case 17:	BFName.STRINGIZE( FieldName, 17 ) = (val);	break;	\
-			case 18:	BFName.STRINGIZE( FieldName, 18 ) = (val);	break;	\
-			case 19:	BFName.STRINGIZE( FieldName, 19 ) = (val);	break;	\
-			case 20:	BFName.STRINGIZE( FieldName, 20 ) = (val);	break;	\
-			case 21:	BFName.STRINGIZE( FieldName, 21 ) = (val);	break;	\
-			case 22:	BFName.STRINGIZE( FieldName, 22 ) = (val);	break;	\
-			case 23:	BFName.STRINGIZE( FieldName, 23 ) = (val);	break;	\
-			case 24:	BFName.STRINGIZE( FieldName, 24 ) = (val);	break;	\
-			case 25:	BFName.STRINGIZE( FieldName, 25 ) = (val);	break;	\
-			case 26:	BFName.STRINGIZE( FieldName, 26 ) = (val);	break;	\
-			case 27:	BFName.STRINGIZE( FieldName, 27 ) = (val);	break;	\
-			case 28:	BFName.STRINGIZE( FieldName, 28 ) = (val);	break;	\
-			case 29:	BFName.STRINGIZE( FieldName, 29 ) = (val);	break;	\
-			case 30:	BFName.STRINGIZE( FieldName, 30 ) = (val);	break;	\
-			case 31:	BFName.STRINGIZE( FieldName, 31 ) = (val);	break;	\
+			case 0:		BFName.CONCATENATE( FieldName, 0 ) = (val);	break;	\
+			case 1:		BFName.CONCATENATE( FieldName, 1 ) = (val);	break;	\
+			case 2:		BFName.CONCATENATE( FieldName, 2 ) = (val);	break;	\
+			case 3:		BFName.CONCATENATE( FieldName, 3 ) = (val);	break;	\
+			case 4:		BFName.CONCATENATE( FieldName, 4 ) = (val);	break;	\
+			case 5:		BFName.CONCATENATE( FieldName, 5 ) = (val);	break;	\
+			case 6:		BFName.CONCATENATE( FieldName, 6 ) = (val);	break;	\
+			case 7:		BFName.CONCATENATE( FieldName, 7 ) = (val);	break;	\
+			case 8:		BFName.CONCATENATE( FieldName, 8 ) = (val);	break;	\
+			case 9:		BFName.CONCATENATE( FieldName, 9 ) = (val);	break;	\
+			case 10:	BFName.CONCATENATE( FieldName, 10 ) = (val);	break;	\
+			case 11:	BFName.CONCATENATE( FieldName, 11 ) = (val);	break;	\
+			case 12:	BFName.CONCATENATE( FieldName, 12 ) = (val);	break;	\
+			case 13:	BFName.CONCATENATE( FieldName, 13 ) = (val);	break;	\
+			case 14:	BFName.CONCATENATE( FieldName, 14 ) = (val);	break;	\
+			case 15:	BFName.CONCATENATE( FieldName, 15 ) = (val);	break;	\
+			case 16:	BFName.CONCATENATE( FieldName, 16 ) = (val);	break;	\
+			case 17:	BFName.CONCATENATE( FieldName, 17 ) = (val);	break;	\
+			case 18:	BFName.CONCATENATE( FieldName, 18 ) = (val);	break;	\
+			case 19:	BFName.CONCATENATE( FieldName, 19 ) = (val);	break;	\
+			case 20:	BFName.CONCATENATE( FieldName, 20 ) = (val);	break;	\
+			case 21:	BFName.CONCATENATE( FieldName, 21 ) = (val);	break;	\
+			case 22:	BFName.CONCATENATE( FieldName, 22 ) = (val);	break;	\
+			case 23:	BFName.CONCATENATE( FieldName, 23 ) = (val);	break;	\
+			case 24:	BFName.CONCATENATE( FieldName, 24 ) = (val);	break;	\
+			case 25:	BFName.CONCATENATE( FieldName, 25 ) = (val);	break;	\
+			case 26:	BFName.CONCATENATE( FieldName, 26 ) = (val);	break;	\
+			case 27:	BFName.CONCATENATE( FieldName, 27 ) = (val);	break;	\
+			case 28:	BFName.CONCATENATE( FieldName, 28 ) = (val);	break;	\
+			case 29:	BFName.CONCATENATE( FieldName, 29 ) = (val);	break;	\
+			case 30:	BFName.CONCATENATE( FieldName, 30 ) = (val);	break;	\
+			case 31:	BFName.CONCATENATE( FieldName, 31 ) = (val);	break;	\
 		};
 #define BF64PTR_ARR( BFPtrName, FieldName, no, val )						\
 		switch( no )														\
 		{	default:	break;												\
-			case 0:		BFPtrName->STRINGIZE( FieldName, 0 ) = (val);break;	\
-			case 1:		BFPtrName->STRINGIZE( FieldName, 1 ) = (val);break;	\
-			case 2:		BFPtrName->STRINGIZE( FieldName, 2 ) = (val);break;	\
-			case 3:		BFPtrName->STRINGIZE( FieldName, 3 ) = (val);break;	\
-			case 4:		BFPtrName->STRINGIZE( FieldName, 4 ) = (val);break;	\
-			case 5:		BFPtrName->STRINGIZE( FieldName, 5 ) = (val);break;	\
-			case 6:		BFPtrName->STRINGIZE( FieldName, 6 ) = (val);break;	\
-			case 7:		BFPtrName->STRINGIZE( FieldName, 7 ) = (val);break;	\
-			case 8:		BFPtrName->STRINGIZE( FieldName, 8 ) = (val);break;	\
-			case 9:		BFPtrName->STRINGIZE( FieldName, 9 ) = (val);break;	\
-			case 10:	BFPtrName->STRINGIZE( FieldName, 10 ) = (val);break;\
-			case 11:	BFPtrName->STRINGIZE( FieldName, 11 ) = (val);break;\
-			case 12:	BFPtrName->STRINGIZE( FieldName, 12 ) = (val);break;\
-			case 13:	BFPtrName->STRINGIZE( FieldName, 13 ) = (val);break;\
-			case 14:	BFPtrName->STRINGIZE( FieldName, 14 ) = (val);break;\
-			case 15:	BFPtrName->STRINGIZE( FieldName, 15 ) = (val);break;\
-			case 16:	BFPtrName->STRINGIZE( FieldName, 16 ) = (val);break;\
-			case 17:	BFPtrName->STRINGIZE( FieldName, 17 ) = (val);break;\
-			case 18:	BFPtrName->STRINGIZE( FieldName, 18 ) = (val);break;\
-			case 19:	BFPtrName->STRINGIZE( FieldName, 19 ) = (val);break;\
-			case 20:	BFPtrName->STRINGIZE( FieldName, 20 ) = (val);break;\
-			case 21:	BFPtrName->STRINGIZE( FieldName, 21 ) = (val);break;\
-			case 22:	BFPtrName->STRINGIZE( FieldName, 22 ) = (val);break;\
-			case 23:	BFPtrName->STRINGIZE( FieldName, 23 ) = (val);break;\
-			case 24:	BFPtrName->STRINGIZE( FieldName, 24 ) = (val);break;\
-			case 25:	BFPtrName->STRINGIZE( FieldName, 25 ) = (val);break;\
-			case 26:	BFPtrName->STRINGIZE( FieldName, 26 ) = (val);break;\
-			case 27:	BFPtrName->STRINGIZE( FieldName, 27 ) = (val);break;\
-			case 28:	BFPtrName->STRINGIZE( FieldName, 28 ) = (val);break;\
-			case 29:	BFPtrName->STRINGIZE( FieldName, 29 ) = (val);break;\
-			case 30:	BFPtrName->STRINGIZE( FieldName, 30 ) = (val);break;\
-			case 31:	BFPtrName->STRINGIZE( FieldName, 31 ) = (val);break;\
+			case 0:		BFPtrName->CONCATENATE( FieldName, 0 ) = (val);break;	\
+			case 1:		BFPtrName->CONCATENATE( FieldName, 1 ) = (val);break;	\
+			case 2:		BFPtrName->CONCATENATE( FieldName, 2 ) = (val);break;	\
+			case 3:		BFPtrName->CONCATENATE( FieldName, 3 ) = (val);break;	\
+			case 4:		BFPtrName->CONCATENATE( FieldName, 4 ) = (val);break;	\
+			case 5:		BFPtrName->CONCATENATE( FieldName, 5 ) = (val);break;	\
+			case 6:		BFPtrName->CONCATENATE( FieldName, 6 ) = (val);break;	\
+			case 7:		BFPtrName->CONCATENATE( FieldName, 7 ) = (val);break;	\
+			case 8:		BFPtrName->CONCATENATE( FieldName, 8 ) = (val);break;	\
+			case 9:		BFPtrName->CONCATENATE( FieldName, 9 ) = (val);break;	\
+			case 10:	BFPtrName->CONCATENATE( FieldName, 10 ) = (val);break;\
+			case 11:	BFPtrName->CONCATENATE( FieldName, 11 ) = (val);break;\
+			case 12:	BFPtrName->CONCATENATE( FieldName, 12 ) = (val);break;\
+			case 13:	BFPtrName->CONCATENATE( FieldName, 13 ) = (val);break;\
+			case 14:	BFPtrName->CONCATENATE( FieldName, 14 ) = (val);break;\
+			case 15:	BFPtrName->CONCATENATE( FieldName, 15 ) = (val);break;\
+			case 16:	BFPtrName->CONCATENATE( FieldName, 16 ) = (val);break;\
+			case 17:	BFPtrName->CONCATENATE( FieldName, 17 ) = (val);break;\
+			case 18:	BFPtrName->CONCATENATE( FieldName, 18 ) = (val);break;\
+			case 19:	BFPtrName->CONCATENATE( FieldName, 19 ) = (val);break;\
+			case 20:	BFPtrName->CONCATENATE( FieldName, 20 ) = (val);break;\
+			case 21:	BFPtrName->CONCATENATE( FieldName, 21 ) = (val);break;\
+			case 22:	BFPtrName->CONCATENATE( FieldName, 22 ) = (val);break;\
+			case 23:	BFPtrName->CONCATENATE( FieldName, 23 ) = (val);break;\
+			case 24:	BFPtrName->CONCATENATE( FieldName, 24 ) = (val);break;\
+			case 25:	BFPtrName->CONCATENATE( FieldName, 25 ) = (val);break;\
+			case 26:	BFPtrName->CONCATENATE( FieldName, 26 ) = (val);break;\
+			case 27:	BFPtrName->CONCATENATE( FieldName, 27 ) = (val);break;\
+			case 28:	BFPtrName->CONCATENATE( FieldName, 28 ) = (val);break;\
+			case 29:	BFPtrName->CONCATENATE( FieldName, 29 ) = (val);break;\
+			case 30:	BFPtrName->CONCATENATE( FieldName, 30 ) = (val);break;\
+			case 31:	BFPtrName->CONCATENATE( FieldName, 31 ) = (val);break;\
 		};
 //##############################################################################
 typedef struct
