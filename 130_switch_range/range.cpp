@@ -29,10 +29,10 @@ u32 _get_range2No( u32 val, u32* arrPtr, u32 rangesNo )
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 u32 ranges1[] = 	//range start values only - continuous area
-{	0x00000000,
-	0x00001000,
-	0x00005000,
-	0x00010000,
+{	0x00000000,// up to 0x00000FFF
+	0x00001000,// up to 0x00004FFF
+	0x00005000,// up to 0x0000FFFF
+	0x00010000,// up to 0xFFFFFFFF
 };
 
 u32 ranges2[] = 	//allowed values within split area
