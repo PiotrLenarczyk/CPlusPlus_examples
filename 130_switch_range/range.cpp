@@ -45,6 +45,7 @@ u32 ranges2[] = 	//allowed values within split area
 int main( void )
 {	
 	u32 val; val = 0x2000;
+	printf( "Program started\n" );
 	printf( "%d\n", get_range1No( val, ranges1 ) );
 	printf( "%d\n", get_range2No( val, ranges2 ) );
 				
