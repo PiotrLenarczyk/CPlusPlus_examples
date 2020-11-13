@@ -5,3 +5,5 @@ GCC_FLAGS='-fmax-errors=3'
 LIBS=''
 touch a.out && rm -f a.out && clear && g++ -o a.out $GCC_OPT $GCC_FLAGS $GCC_FLOAT empty.cpp $LIBS && ./a.out
 rm a.out
+
+echo "edited"
