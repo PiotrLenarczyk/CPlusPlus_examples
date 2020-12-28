@@ -2,12 +2,12 @@
 GCC_OPT='-mtune=native -march=native -std=c++11 -Ofast -pipe'
 GCC_FLOAT='-Wdouble-promotion -fsingle-precision-constant'
 GCC_FLAGS='-fmax-errors=3'
-LIBS=''
+LIBS='-ldl'
 
-FILE=empty.cpp
+FILE=main_dl.cpp
 
 compile()
-{	touch a.out && rm -f a.out && clear 						&& 
+{	touch a.out && rm -f a.out			 						&& 
 	g++ -o a.out $GCC_OPT $GCC_FLAGS $GCC_FLOAT $1 $LIBS 		&& 
 	./a.out														&&
 	rm a.out
@@ -22,7 +22,7 @@ compile_loop()
 		then
 			old_CS=$new_CS										&&
 			clear												&&
-			compile $1											
+			compile $1
 		fi
 		sleep 0.1
 		new_CS=( $( md5sum $1 ) )
