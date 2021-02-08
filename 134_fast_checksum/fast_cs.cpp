@@ -19,8 +19,7 @@ unsigned long long cs( 	register unsigned char *in,
 	while( cs_count8B-- )
 	{	cs_acc ^= (CS_RAND_A * 
 				*(unsigned long long*)in) + CS_RAND_C;
-		cs_acc += cs_acc << 
-			((unsigned long long)*(unsigned char*)in & 0x1F);
+		cs_acc += (unsigned long long)*(unsigned char*)in + 1;
 		in += sizeof(unsigned long long);
 	};
 	
@@ -28,8 +27,7 @@ unsigned long long cs( 	register unsigned char *in,
 	while( cs_count1B-- )
 	{	cs_acc ^= (CS_RAND_A * 
 				(unsigned long long)*(unsigned char*)in) + CS_RAND_C;
-		cs_acc += cs_acc << 
-			((unsigned long long)*(unsigned char*)in & 0x1F);
+		cs_acc += (unsigned long long)*(unsigned char*)in + 1;
 		in++;
 	};
 	
