@@ -4,20 +4,21 @@ using namespace std;
 								sizeof(x), sizeof(x)  );
 								
 
-#pragma pack(1)
+#pragma pack(push, 1)
 typedef struct
 {
 	char c1;
 	short s1;
 }SomeStruct_TypeDef;
+#pragma pop
 
-
-#pragma pack(2)
+#pragma pack(push, 2)
 typedef struct
 {
 	char c1;
 	short s1;
 }TheSameStruct_TypeDef;
+#pragma pop
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
