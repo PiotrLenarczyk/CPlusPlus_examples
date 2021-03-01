@@ -1,0 +1,30 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0400
+header_name {.h}
+code_name {.cxx}
+Function {hello_button_CB(Fl_Widget*, void* userdata)} {open
+} {
+  code {printf("Hello Button CallBack : \\"%s\\'\\n", (char*)userdata);
+
+Fl_Text_Buffer *buff = new Fl_Text_Buffer();
+disp->buffer(buff);
+buff->text("Hi!\\n\\nThere!\\n");} {}
+}
+
+Function {} {open
+} {
+  Fl_Window {} {
+    label Hello open
+    tooltip {Hello main window} xywh {3 60 800 400} type Double labelfont 4 align 80 resizable visible
+  } {
+    Fl_Button Hello {
+      label {Hello Button}
+      user_data {"001"}
+      callback hello_button_CB
+      xywh {334 15 131 30} hotspot
+    }
+    Fl_Text_Display disp {
+      xywh {45 60 695 275}
+    }
+  }
+}

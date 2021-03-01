@@ -25,7 +25,8 @@ int shortcut_handler( int e, Fl_Window *w )
 void foo( void )
 {	Fl_Window win( 600, 800, "Demo Window" ); //runs everywhere
 	win.begin();
-	Fl_Button but( 20, 20, 80, 25, "New Button" ); //layout must be designed
+	//layout must be designed
+	Fl_Button but( 20, 20, 80, 25, "New Button" ); 
 	win.end();
 	win.resizable( win );	//flexible resizing
 	win.show();
