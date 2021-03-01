@@ -1,16 +1,17 @@
 #
-# Stuff every FLTK application might need
-#
-#    If you take this for use in your own project, be sure to change
-#    the 'FLTKCONFIG' setting to point to where it's installed
-#    on your system. Common examples:
-#
-#	FLTKCONFIG = /usr/local/bin/fltk-config
-#       FLTKCONFIG = /usr/local/src/fltk-1.4.x/fltk-config
-#       FLTKCONFIG = ../build/fltk-config # if ../build == CMake build directory
-#
-#    Set .SILENT in your Makefile if you want 'quieter' builds.
-#
+#	FLTK-CONFIG based generic Makefile
+#	Windows installation of FLTK:
+#		-install Git Bash ("Git for Windows")
+#		-install minGW64 -> additionally install in GUI: 
+#			-MinGW->MinGW Autotools: "mingw32-automake"
+#			-MSYS->MSYS Base System: "msys-make-bin"
+#		-create symbolic link for git bash
+#			-cmd->run with administrative priviliges
+#			-cd C:\MinGW\bin
+#			-mklink make.exe ..\msys\1.0\bin\make.exe
+#		-run shell script in git bash
+#			#./RUN_COMMANDS.sh
+#	Unix does not require additional actions.
 
 ifeq '$(OS)' "Windows_NT"
 EXEEXT = .exe
@@ -26,6 +27,6 @@ LINKFLTK_IMG = $(shell $(FLTKCONFIG) --use-images --ldstaticflags)
 LINKFLTK_ALL = $(shell $(FLTKCONFIG) --use-images --use-gl --ldstaticflags)
 .SUFFIXES: .cxx .h .fl .o $(EXEEXT)
 
-# HOW TO COMPILE
+# COMPILATION
 .cxx:
 	$(FLTKCONFIG) --compile $<
