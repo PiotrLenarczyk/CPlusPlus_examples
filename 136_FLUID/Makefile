@@ -15,6 +15,7 @@
 ifeq '$(OS)' "Windows_NT"
 EXEEXT = .exe
 endif
+
 FLTK_PATH	 = fltk
 FLTKCONFIG   = ${FLTK_PATH}/fltk-config
 CXX          = $(shell $(FLTKCONFIG) --cxx)
@@ -26,12 +27,5 @@ LINKFLTK_ALL = $(shell $(FLTKCONFIG) --use-images --use-gl --ldstaticflags)
 .SUFFIXES: .cxx .h .fl .o $(EXEEXT)
 
 # HOW TO COMPILE
-.cxx.o:
-	@echo "*** Compile $<..."
-	$(CXX) -I.. $(CXXFLAGS) -c $< -o $@
-
-# HOW TO LINK
-.o$(EXEEXT):
-	@echo "*** Linking $@..."
-	$(CXX) $< $(LINKFLTK) $(LINKFLTK_IMG) -o $@
-
+.cxx:
+	$(FLTKCONFIG) --compile $<
