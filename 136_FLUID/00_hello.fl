@@ -23,7 +23,7 @@ Function {} {open
       callback hello_button_CB
       xywh {334 15 131 30} hotspot
     }
-    Fl_Text_Display disp {
+    Fl_Text_Display disp {selected
       xywh {45 60 695 275}
     }
   }
