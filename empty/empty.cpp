@@ -1,5 +1,4 @@
 #include <cstdio> 
-using namespace std;
 
 
 void foo( void )
