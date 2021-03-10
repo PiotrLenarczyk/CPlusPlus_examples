@@ -4,7 +4,7 @@ GCC_FLOAT='-Wdouble-promotion -fsingle-precision-constant'
 GCC_FLAGS='-fmax-errors=3'
 LIBS=''
 
-FILE=empty.cpp
+FILE=cpuid.cpp
 
 compile()
 {	touch a.out && rm -f a.out && clear 						&& 

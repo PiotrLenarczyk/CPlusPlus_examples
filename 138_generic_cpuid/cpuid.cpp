@@ -1,6 +1,8 @@
 //Internet-based program
 #include <stdio.h>
 #include <stdlib.h>
+
+int st;
 #ifdef _WIN32
 #else
 	#include <linux/hdreg.h>
@@ -41,11 +43,27 @@ void getPSN(char *PSN)
  } 
 
 #ifdef _WIN32
-void hddId( char* hdd )
-{ 
-	system("wmic path win32_physicalmedia get SerialNumber");
+void ramID( void )
+{	st = system( "wmic memorychip get devicelocator, partnumber" );
 };
-#else
+
+void hddId( char* hdd )
+{ 	st = system("wmic path win32_physicalmedia get SerialNumber");
+};
+
+void OS_Id( void )
+{	st = system ("wmic bios get serialnumber");
+};
+
+void MB_Id(void)
+{	st = system( "wmic baseboard get product,manufacturer,version,serialnumber" );
+};
+
+#elif defined __linux
+void ramID( void )
+{	st = system( "sudo dmidecode –type 17 | grep \"Part Number\"" );
+};
+
 void hddId( char* hdd )
 {	char buf[100];
 	int st;
@@ -53,23 +71,52 @@ void hddId( char* hdd )
 	printf( "====\n%s:\n", buf );
 	st = system( buf );
 };
+
+void OS_Id( void )
+{	st = system (" sudo dmidecode -t system | grep \"UUID\"");
+};
+
+void MB_Id( void )
+{	st = system ("sudo dmidecode -t 2 | grep \"Serial Number\"");
+}; 
 #endif
 
 int main()
 {
-     char PSN[30]; //24 Hex digits, 5 '-' separators, and a '\0'
-     getPSN(PSN);
-    printf("%s\n", PSN); //compare with: lshw | grep serial:
+    char PSN[30]; //24 Hex digits, 5 '-' separators, and a '\0'
+    getPSN(PSN);
+    printf("\n====\nPSN: \n====\n%s\n", PSN); //compare with: lshw | grep serial:
     
     unsigned int cpuinfo[4] = { 0, 0, 0, 0 };          
-    getCpuid( cpuinfo, 0 );  
+    getCpuid( cpuinfo, 0 ); 
+	printf("\n====\ngetCpuid:\n");
     for (int i = 0x0; i < 4; i++)
 		printf( "[%i] : 0x%08X\n", i, cpuinfo[i] );
-		
+	printf("====\n");
+	
+	printf("\n====\nhddId:\n");
+#ifdef _WIN32
+	hddId(0);
+#else
 	hddId( (char*)"/dev/sr0" );
 	hddId( (char*)"/dev/cdrom" );
 	hddId( (char*)"/dev/hda" );
 	hddId( (char*)"/dev/sda" );
-     return 0;
+#endif
+	printf("====\n");
+	
+	printf( "\n====\nramID:\n" );
+	ramID();
+	printf("\n====\n");
+	
+	printf( "\n====\nMB_Id:\n" );
+	MB_Id();
+	printf("\n====\n");
+	
+	printf( "\n====\nOS_Id:\n" );
+	OS_Id();
+	printf("\n====\n");
+	
+    return 0;
 }
 
