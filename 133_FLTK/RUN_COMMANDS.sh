@@ -13,22 +13,13 @@ then
 	cd ..
 fi
 
-
-FLTK_INC_PATH=`find . -name 'Fl.H'`
-FLTK_INC_PATH=${FLTK_INC_PATH%Fl.*}
-FLTK_LIB_PATH=`find . -name 'libfltk.a'`
-FLTK_LIB_PATH=${FLTK_LIB_PATH%lib*}
-X11_LIBS='-lX11 -lXext -lXfixes'
-INCS='-Ifltk/'
-LIBS="-L${FLTK_LIB_PATH} -lfltk -ldl ${X11_LIBS}"
-
 FILE=cross_fltk.cpp
 
 compile()
-{	touch a.out && rm -f a.out && clear 						&&
-	g++ -o a.out $GCC_OPT $GCC_FLAGS $GCC_FLOAT $1 $LIBS $INCS	&&
-	./a.out														&&
-	rm -f a.out
+{	rm -f ${1%.*} ${1%.*}.o && clear							&&
+	make ${1%.*}												&&
+	./${1%.*}													&&
+	rm -f ${1%.*} ${1%.*}.o
 };
 
 compile_loop()

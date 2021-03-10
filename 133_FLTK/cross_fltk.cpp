@@ -2,7 +2,7 @@
 //https://www.youtube.com/watch?v=U83xH1KZ_is
 //FLTK linux tutorial:
 //https://www.youtube.com/watch?v=UUsZAEEn1cw
-//FLTK Microsoft Visual Studio tutorial:
+//FLTK Microsoft Visual Studio tutorial: 
 //https://www.youtube.com/watch?v=wT-6ysL0f7c
 #include <cstdio> 
 #include <FL/Fl.H>
@@ -17,8 +17,8 @@ int shortcut_handler( int e, Fl_Window *w )
 	if( e == FL_KEYBOARD )
 	{	int keycode;
 		keycode = Fl::event_original_key();
-		printf( "keycode : 0x%08X\n", keycode );
-	}
+		printf("keycode : \"%s\" 0x%08X\n", Fl::event_text(), keycode);
+	};
 	return Fl::handle_( e, w );
 };
 
