@@ -5,7 +5,7 @@
 #include <cstdarg>
 #include "threads.h"
 
-enum: int{ POOLSIZE = 0x10 };
+enum: int{ POOLSIZE = 0x10, DATASIZE = 0x40 };
 
 typedef struct
 {	unsigned char 		i_th;
@@ -16,29 +16,36 @@ typedef struct
 CROSS_MUTEX_CREATE( m_i ); 
 int global_i;
 
-void async_printf( const char * format, ... )
-{
-  va_list args;
-  va_start (args, format);
-  vprintf (format, args);
-  va_end (args);
-}
-
+char thout[ (1 + POOLSIZE) * DATASIZE ];
 void* th_printf( void* in ) 
 {	Th_printf_DataType *th_data;
 	th_data = (Th_printf_DataType*)in;
 	
-	//threads executes randomly
-	//writes to stdout and global_i is ordered with global mutex
-	//printf might be a non-blocking function
+	//obvious implementation:
+	//	-threads executes randomly
+	//	-writes to stdout and global_i is ordered with global mutex
+	//	-printf might be a non-blocking function (terminal-depended) 
 	cross_lock( m_i ); 
 		printf( "[%i] : (size = %i)\"%s\"", 
 			th_data->i_th,  
 			th_data->datasize,
 			(char*)th_data->data );
-		printf( "global_i : %i\n", global_i++ ); 
+		printf( "global_i : %i\n", global_i ); 
 	cross_unlock( m_i );
 	
+	//non-blocking, fully async, no race conditions, memory costly
+	sprintf( &thout[ th_data->i_th * DATASIZE ], 
+		"[%i] : (size = %i)\"%s\"", 
+		th_data->i_th,  
+		th_data->datasize,
+		(char*)th_data->data );
+	sprintf( 	&thout[ (th_data->i_th * DATASIZE) + 
+				strlen(&thout[ th_data->i_th * DATASIZE ]) ], 
+					"global_i : %i\n", global_i );
+	
+	//inc global i
+	global_i++;
+
 	//terminate this thread
 	cross_exit_this_thread();
 };
@@ -88,6 +95,10 @@ int main( void )
 	CROSS_MUTEX_FREE( m_i );
 	
 	printf( "\nglobal_i: %i = %i\n", POOLSIZE+1, global_i ); 
+	
+	printf( "\n====\nthout:\n");
+	for ( int t = 0x0; t < (1 + POOLSIZE); t++ )
+		printf( "th%s", &thout[ t * DATASIZE ] );
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
