@@ -18,6 +18,7 @@
 	
 	void* cross_exit_this_thread( void )
 	{	void *th_result;
+		th_result = ( void* )NULL;
 		pthread_exit( th_result );
 		return th_result;
 	};
