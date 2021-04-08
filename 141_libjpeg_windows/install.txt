@@ -1,0 +1,12 @@
+Libjpeg procedure under Windows 10(and olders):
+-download and install Visual Studio 2015 Community
+	-open Tools->Open Visual Studio Command Prompt
+-donwload source code from "https://sourceforge.net/projects/libjpeg/"
+	-uncompress file
+	-download Windows 7.0 SDK from "https://www.microsoft.com/en-us/download/details.aspx?id=8279"
+		-install SDK at default path "C:\Program Files\Microsoft SDKs\"
+	-make hardlink for file "win32.mak" from "C:\Program Files\Microsoft SDKs\Windows\v7.1\Include"
+	-read libjpeg "install.doc"
+	-rename "makefile.vc" to "Makefile"
+	-rename "jconfig.vc" to "jconfig.h"
+	-VS Command prompt: "cd libjpegPath && nmake"
