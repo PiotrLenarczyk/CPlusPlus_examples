@@ -122,7 +122,7 @@ int main( void )
 	int inputs_capable;
 	get_func_ptr( (char*)"baz", &ptr, &inputs_capable );
 	printf( "&baz(inputs = %i) : 0x%08llX\n", inputs_capable, ptr );
-	printf( "&baz : 0x%08llX\n", (unsigned long long)&foo );
+	printf( "&baz : 0x%08llX\n", (unsigned long long)&baz );
 	return 0;
 };//end of main()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
