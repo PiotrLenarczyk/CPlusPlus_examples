@@ -75,7 +75,7 @@
 #define hexdump_data( s )		printf( "hexdump( %s ):\n", #s );	\
 								_hexdump_data( s, sizeof( s ) );
 #define hexdump_dataN( s, n )	printf( "hexdump( %s )[%u]:\n", 	\
-										#s, n );					\
+										#s, (unsigned)n );			\
 								_hexdump_data( s, n );
 #define hexdump_data_n( s, n )	hexdump_dataN( s, n );
 #define hexdump( hex_filename, size )								\
