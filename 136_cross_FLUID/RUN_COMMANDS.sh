@@ -2,6 +2,10 @@
 GCC_OPT='-mtune=native -march=native -std=c++11 -Ofast -pipe'
 GCC_FLOAT='-Wdouble-promotion -fsingle-precision-constant'
 GCC_FLAGS='-fmax-errors=3'
+
+PROG=00_hello	#fluid GUI file
+FILE=${PROG}.cxx
+
 #check whether fltk exists in the system, if not get repo
 if [[ ! -d "fltk" ]]
 then
@@ -11,13 +15,10 @@ then
 	./configure -disable-xft
 	make -j`nproc`
 	cd ..
+	sudo apt-get install -y fluid
+	fltk/fluid/fluid -c ${PROG%.*}.fl
 fi
 
-
-PROG=00_hello
-
-fltk/fluid/fluid -c ${FILE%.*}.fl
-FILE=${PROG}.cxx
 compile()
 {	rm -f ${1%.*} ${1%.*}.o && clear							&&
 	make ${1%.*}												&&
