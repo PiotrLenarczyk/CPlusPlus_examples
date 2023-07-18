@@ -2,24 +2,6 @@
 #include <cstdlib>
 #include <ctime>
 
-//#define VERBOSE
-
-#define RAND_A 1103515245		//glibc
-#define	RAND_C 12345			//glibc
-#define RAND_M 0x80000000		//glibc
-int checksumSeed;
-static inline
-int checksumArr( unsigned char *arrPtr, int size )
-{
-    checksumSeed = *arrPtr++;
-    while( size-- )
-    {
-        checksumSeed ^= *arrPtr++;
-        checksumSeed = ( (RAND_A * checksumSeed) + RAND_C ) % RAND_M;
-    };
-    return checksumSeed;
-};
-
 void sleep( int wait_ms )
 {
 	float wait_s, t, ticps;
