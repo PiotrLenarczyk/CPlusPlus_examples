@@ -51,9 +51,6 @@ int main(int argc, char *argv[])
     size_t i;
     for (i = 0; i < (len >> 2); ++i)
     {
-                printf( "\t\t[%i] : \n", i );
-                printf( "\t\toffset + (i << 2) : 0x%08X\n", offset + (i << 2) );
-                printf( "\t\tpage_offset + (i << 2) : 0x%08X\n", page_offset + (i << 2) );
         printf( "@0x%08X :\t", offset + (i << 2) );
         printf("%08x\n", (int)mem[page_offset + (i << 2)]);
     };
