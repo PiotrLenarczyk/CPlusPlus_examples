@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     for (i = 0; i < (len >> 2); ++i)
     {
         printf( "@0x%08X :\t", offset + (i << 2) );
-        printf("%08x\n", (int)mem[page_offset + (i << 2)]);
+        printf("%08x\n", (int)mem[page_offset + i ]);
     };
 
     munmap( (void*)mem, page_offset + len );
