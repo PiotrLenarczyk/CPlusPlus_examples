@@ -49,13 +49,18 @@ int main(int argc, char *argv[])
     };
 
     size_t i;
-    printf( "@0x%08X:\n", offset );
     for (i = 0; i < (len >> 2); ++i)
-        printf("%08x ", (int)mem[(page_offset + i) >> 2]);
-    puts( "" );
+    {
+                printf( "\t\t[%i] : \n", i );
+                printf( "\t\toffset + (i << 2) : 0x%08X\n", offset + (i << 2) );
+                printf( "\t\tpage_offset + (i << 2) : 0x%08X\n", page_offset + (i << 2) );
+        printf( "@0x%08X :\t", offset + (i << 2) );
+        printf("%08x\n", (int)mem[page_offset + (i << 2)]);
+    };
 
     munmap( (void*)mem, page_offset + len );
     close( fd );
 
     return 0;
 };
+
