@@ -1,0 +1,4 @@
+Program presents way of accessing directly physical memory (including registers) from userspace. 
+For some peripherals Linux Power Magament should be disabled with kernel recompilation 
+(optionally sleep modes source code should be disabled).
+
