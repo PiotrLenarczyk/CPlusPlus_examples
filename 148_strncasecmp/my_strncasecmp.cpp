@@ -8,9 +8,16 @@ int my_strncasecmp( const char *in1, const char *in2, size_t size )
 	int st = -1;
 	char *s1 = (char*)malloc(size);
 	char *s2 = (char*)malloc(size);
-		strncpy(s1, in1, size);
-		strncpy(s2, in2, size);
-		for( int i=0; i<size; i++ )
+		for( int i=0; i<(int)size; i++ )
+		{
+			if ((in1 == 0) || (in2 == 0))
+				goto terminate; //input pointer is null, non-comparable
+			if ((in1[i] == 0) || (in2[i] == 0))
+				goto terminate; //string character is termination-empty within size, non-comparable
+			s1[i] = in1[i];
+			s2[i] = in2[i];
+		};
+		for( int i=0; i<(int)size; i++ )
 		{
 			if( (s1[i] > 0x40) && (s1[i] < 0x5B) )
 				s1[i] += 0x20;
@@ -18,6 +25,7 @@ int my_strncasecmp( const char *in1, const char *in2, size_t size )
 				s2[i] += 0x20;
 		};
 		st = strncmp( s1, s2, size );
+terminate:
 	free(s1);
 	free(s2);
 	return st;
