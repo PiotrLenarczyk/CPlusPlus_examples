@@ -11,7 +11,7 @@ int my_strncasecmp( const char *in1, const char *in2, size_t size )
 		for( int i=0; i<(int)size; i++ )
 		{
 			if ((in1 == 0) || (in2 == 0))
-				goto terminate; //input pointer is null, non-comparable
+				goto terminate; //input pointer is null, non-comparable 
 			if ((in1[i] == 0) || (in2[i] == 0))
 				goto terminate; //string character is termination-empty within size, non-comparable
 			s1[i] = in1[i];
