@@ -30,4 +30,6 @@ compile_loop()
 	done
 };
 
+xterm -geometry 83x31+0+850 -hold -e "watch -n 0 cat /tmp/systemt_stdout.txt" &	
+xterm -geometry 83x31+510+850 -hold -e "watch -n 0 cat /tmp/systemt_stderr.txt" &
 compile_loop $FILE
