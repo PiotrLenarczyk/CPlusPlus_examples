@@ -6,10 +6,13 @@
 #include <stdio.h>
 #include <errno.h>
 #include <stdarg.h>
+#include <time.h>
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <pthread.h>
+#define FUNC_CAST(s)	(void*(*)(void*))&s
 
 //Function executes system command with timeout and provides STDERR/OUT
 int systemt(int timeout_ms, const char *cmd_in, 
@@ -36,7 +39,7 @@ int systemt(int timeout_ms, const char *cmd_in,
 		if (!outfd) return EXIT_FAILURE;
 		if (!errfd) return EXIT_FAILURE;
 		//duplicate program file descriptor and redirect stdout/stderr to file
-		dup2(outfd, 1); 
+		dup2(outfd, 1);
 		dup2(errfd, 2);
 		close(outfd);
 		close(errfd);
@@ -70,7 +73,7 @@ int systemt(int timeout_ms, const char *cmd_in,
 					f_out_size = ftell(f_out);
 					rewind(f_out);
 					if ( f_out_size > stdout_size )
-						f_out_size = stdout_size;
+						f_out_size = stdout_size - 1;
 					st = fread( stdout, 1, f_out_size, f_out );
 					stdout[f_out_size] = 0; 
 					fclose(f_out);
@@ -86,7 +89,7 @@ int systemt(int timeout_ms, const char *cmd_in,
 					f_out_size = ftell(f_out);
 					rewind(f_out);
 					if ( f_out_size > stderr_size )
-						f_out_size = stderr_size;
+						f_out_size = stderr_size - 1;
 					st = fread( stderr, 1, f_out_size, f_out );
 					stderr[f_out_size] = 0; 
 					fclose(f_out);
@@ -99,10 +102,83 @@ int systemt(int timeout_ms, const char *cmd_in,
 
     //printf("Timedout kill(%i)\n", slave_pid);
     stdout[0] = 0;
-    sprintf( stderr, "ERROR : command \"%s\" timeout'ed after %.0f[ms]", cmd_in, (double)timeout_ms );
+    sprintf( stderr, "ERROR : command \"%s\"\ttimeout'ed after %.0f[ms]", cmd_in, (double)timeout_ms );
     kill( slave_pid, SIGTERM );
     return (ETIMEDOUT);
 }
+
+struct Def_systemt
+{
+	//function pointer
+	int(*systemt_ptr)(int, const char*, char*, int, char*, int);
+	//function arguments
+	int timeout_ms;
+	const char *cmd_in;
+	char *stdout; 	int stdout_size;
+	char *stderr; 	int stderr_size;
+	//initializer list
+	Def_systemt(
+		int(*init_systemt_ptr)(int, const char*, char*, int, char*, int),
+		int init_timeout_ms,
+		const char *init_cmd_in,
+		char *init_stdout, 	int init_stdout_size,
+		char *init_stderr, 	int init_stderr_size
+	):
+		systemt_ptr(init_systemt_ptr),
+		timeout_ms(init_timeout_ms),
+		cmd_in(init_cmd_in),
+		stdout(init_stdout),	stdout_size(init_stdout_size),
+		stderr(init_stderr),	stderr_size(init_stderr_size)
+	{
+	};
+};
+
+bool async_systemt_completed = false;
+int async_systemt_ret_val = 0;
+void async_systemt_caller( Def_systemt *s_in )
+{
+	async_systemt_completed = false;
+		async_systemt_ret_val = s_in->systemt_ptr(
+					s_in->timeout_ms,
+					s_in->cmd_in,
+					s_in->stdout, s_in->stdout_size,
+					s_in->stderr, s_in->stderr_size
+		);
+	async_systemt_completed = true;
+};
+
+//function implements background system() with timeout and STD OUT/ERR
+//provides tool for periodic procedure execution
+int async_systemt(	int timeout_ms, const char *cmd_in, 
+					char *stdout, int stdout_size, 
+					char *stderr, int stderr_size )
+{
+	int st;
+	pthread_t t_async;
+	Def_systemt *systemt_data = 
+		new Def_systemt(
+			systemt,
+			timeout_ms,
+			cmd_in, 
+			stdout, stdout_size,
+			stderr, stderr_size
+		);
+		st = pthread_create(
+				&t_async, NULL,
+				FUNC_CAST( async_systemt_caller ),
+				systemt_data
+			);
+		while(async_systemt_completed != true)
+		{
+			usleep( 100 * 1000 ); //[ms]
+			//periodic procedure
+			printf( "systemt() executes in background...\n" );
+		};
+		async_systemt_completed = false;
+		pthread_join( t_async, NULL );
+	delete(systemt_data);
+	return async_systemt_ret_val;
+};
 
 int main (void)
 {
@@ -112,17 +188,26 @@ int main (void)
 	const char cmd_in[] = "echo a && sleep 2 && echoerr b";   
 
     
-    
-    st = systemt(t, cmd_in, stdout, sizeof(stdout), stderr, sizeof(stderr));
-    
-    
-    
-    printf( "\"%s\" STDOUT: \n%s\n\n", cmd_in, stdout );
-    printf( "\"%s\" STDERR: \n%s\n\n", cmd_in, stderr );
+	printf("SYNCHRONOUS EXECUTION:\ncmd : \"%s\"\n\n", cmd_in);
+    st = systemt(t, cmd_in, stdout, sizeof(stdout), stderr, sizeof(stderr));  
+    printf( "STDOUT: \n\"%s\"\n\n", stdout );
+    printf( "STDERR: \n\"%s\"c\n\n", stderr );
     if ( st == ETIMEDOUT )
 		printf( "Program timeout'ed after %i[s]\n", t );
 	else
 		printf( "Program executed with status: %i\n", st );
+	
+	
+	printf("\n\n\n\n\n");
 		
+		
+	printf("ASYNCHRONOUS EXECUTION:\ncmd : \"%s\"\n\n", cmd_in);
+    st = async_systemt(t, cmd_in, stdout, sizeof(stdout), stderr, sizeof(stderr));  
+    printf( "STDOUT: \n\"%s\"\n\n", stdout );
+    printf( "STDERR: \n\"%s\"c\n\n", stderr );
+    if ( st == ETIMEDOUT )
+		printf( "Program timeout'ed after %i[s]\n", t );
+	else
+		printf( "Program executed with status: %i\n", st );
     return st;
 }
